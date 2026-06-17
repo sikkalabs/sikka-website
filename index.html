@@ -1700,7 +1700,7 @@
           </div>
           <pre
             class="font-mono text-sm md:text-base text-gray-700 overflow-x-auto"
-          ><code>docker run -d  -p 64552:64552 besoeasy/sikka</code></pre>
+          ><code>docker run -d  -p 64552:64552 ghcr.io/sikkalabs/sikka</code></pre>
         </div>
 
         <p class="mt-8 text-gray-500 font-medium">
@@ -1736,7 +1736,7 @@
 
     <script>
       function copyDocker() {
-        const cmd = "docker run -d --restart unless-stopped \\\n  -p 64552:64552 \\\n  -v sikka-data:/home/sikka/data \\\n  besoeasy/sikka:latest";
+        const cmd = "docker run -d --restart unless-stopped \\\n  -p 64552:64552 \\\n  -v sikka-data:/home/sikka/data \\\n  ghcr.io/sikkalabs/sikka:latest";
         navigator.clipboard.writeText(cmd);
         const btn = document.getElementById("copy-btn");
         const orig = btn.innerHTML;
