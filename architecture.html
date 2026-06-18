@@ -1,173 +1,338 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Architecture — SIKKA</title>
-    <meta name="description" content="How SIKKA's blockless DAG architecture works: parallel graph growth, per-UTXO conflict resolution, and technical comparisons to traditional blockchains." />
-    <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://sikkalabs.com/architecture.html" />
-    <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="SIKKA architecture — blockless DAG, transaction lifecycle, probabilistic finality, and tokenomics of 19,960,907 fixed supply."/>
+  <title>Architecture — SIKKA</title>
+  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
 
-    <div class="page-hero">
-      <a href="index.html" class="page-back"><i class="fa-solid fa-arrow-left"></i> Back to SIKKA</a>
-      <span class="section-eyebrow">Architecture</span>
-      <h1>How the DAG works</h1>
-      <p>SIKKA replaces the linear blockchain with a directed acyclic graph. Every transaction becomes a node — no blocks, no miners, no global ordering.</p>
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="sikka.svg" alt="SIKKA"/>
+    <span>SIKKA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="features.html">Features</a></li>
+    <li><a href="architecture.html" class="active">Architecture</a></li>
+    <li><a href="run-node.html">Run a Node</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="https://discord.gg/sikka" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-brands fa-discord"></i> Discord</a>
+    <a href="https://node.sikka.click" target="_blank" class="btn btn-primary btn-sm">Web Wallet</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="features.html">Features</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="run-node.html">Run a Node</a>
+  <a href="https://discord.gg/sikka" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+  <a href="https://node.sikka.click" target="_blank" class="btn btn-primary">Web Wallet</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="label">Under the Hood</span>
+    <h1>How <span class="gradient-text">SIKKA</span> Works</h1>
+    <p>A deep dive into the blockless DAG ledger, transaction model, conflict resolution, and economic design.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TRADITIONAL vs SIKKA COMPARISON
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Comparison</span>
+      <h2>Blockchain vs. <span class="gradient-text">SIKKA DAG</span></h2>
+      <p>Most cryptocurrencies serialize all transactions into a global block chain. SIKKA removes the chain entirely.</p>
     </div>
 
-    <section class="section">
-      <div class="section-header">
-        <span class="section-eyebrow">Architecture Comparison</span>
-        <h2 class="section-title">Traditional Chains vs Sikka</h2>
+    <div class="compare-grid reveal">
+      <div class="compare-col">
+        <div class="compare-head">
+          <i class="fa-solid fa-link"></i>
+          Traditional Blockchain
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Transactions serialized into blocks</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Global ordering required</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Block size / gas limits throughput</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Fees required to include transactions</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Classical ECDSA (quantum-vulnerable)</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Privacy is optional / bolt-on</div>
+          <div class="compare-row"><i class="fa-solid fa-minus"></i> Complex multisig via scripts</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Throughput decreases under load</div>
+        </div>
       </div>
-      <div class="dash-card" style="overflow:hidden;padding:0">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Traditional Blockchains</th>
-              <th style="color:var(--text)">Sikka DAG</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><i class="fa-solid fa-hourglass-half" style="color:var(--text-muted);margin-right:0.5rem"></i> Wait for next block</td><td><i class="fa-solid fa-bolt" style="color:var(--blue);margin-right:0.5rem"></i> Attach instantly to DAG tips</td></tr>
-            <tr><td><i class="fa-solid fa-link" style="color:var(--text-muted);margin-right:0.5rem"></i> Sequential chain growth</td><td><i class="fa-solid fa-diagram-project" style="color:var(--blue);margin-right:0.5rem"></i> Parallel graph growth</td></tr>
-            <tr><td><i class="fa-solid fa-gavel" style="color:var(--text-muted);margin-right:0.5rem"></i> Miners or validators decide ordering</td><td><i class="fa-solid fa-sitemap" style="color:var(--blue);margin-right:0.5rem"></i> Transactions extend graph directly</td></tr>
-            <tr><td><i class="fa-solid fa-coins" style="color:var(--text-muted);margin-right:0.5rem"></i> Transaction fees &amp; gas</td><td><i class="fa-solid fa-check" style="color:var(--green);margin-right:0.5rem"></i> Exact-value feeless transfers</td></tr>
-            <tr><td><i class="fa-solid fa-lock" style="color:var(--text-muted);margin-right:0.5rem"></i> Classical signatures</td><td><i class="fa-solid fa-shield-halved" style="color:var(--blue);margin-right:0.5rem"></i> ML-DSA-87 post-quantum</td></tr>
-            <tr><td><i class="fa-solid fa-globe" style="color:var(--text-muted);margin-right:0.5rem"></i> Global block race</td><td><i class="fa-solid fa-hammer" style="color:var(--blue);margin-right:0.5rem"></i> Per-transaction work</td></tr>
-          </tbody>
-        </table>
+      <div class="compare-col highlight">
+        <div class="compare-head" style="color:var(--blue-2);">
+          <i class="fa-solid fa-code-branch"></i>
+          SIKKA DAG
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Every TX is a graph vertex</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Parallel confirmation, no serialization</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Scales horizontally with network size</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Zero fees — protocol enforced</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> ML-DSA-87 post-quantum signatures</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Tor-native — private by default</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Native m-of-n multisig (up to 16)</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Throughput increases under load</div>
+        </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header">
-          <span class="section-eyebrow">Transaction Lifecycle</span>
-          <h2 class="section-title">How a transaction enters the DAG</h2>
-        </div>
-        <div class="flow-steps">
-          <div class="flow-step">
-            <div class="flow-step-num">1</div>
-            <div><h3>Select two DAG tips</h3><p>The sender queries the network for current DAG tips — the most recent unconfirmed transactions. Two are selected as parents.</p></div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-num">2</div>
-            <div><h3>Build the transaction</h3><p>Inputs, outputs, and the two parent references are assembled. Inputs must exactly equal outputs — no change, no fee.</p></div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-num">3</div>
-            <div><h3>Solve the PoW puzzle</h3><p>A SHA3-256 nonce is found such that the pow_hash has the required leading zero bits. Difficulty is adaptive to network load.</p></div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-num">4</div>
-            <div><h3>Sign with ML-DSA-87</h3><p>The transaction is signed with post-quantum ML-DSA-87. For multisig wallets, multiple signers collaborate before broadcasting.</p></div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-num done">5</div>
-            <div><h3>Broadcast &amp; propagate</h3><p>The transaction is gossiped to peers. Each node validates and extends the DAG. The sender's transaction is now a tip.</p></div>
-          </div>
+<!-- ═══════════════════════════════════════════════════
+     TRANSACTION LIFECYCLE
+═══════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Transaction Lifecycle</span>
+      <h2>From wallet to <span class="gradient-text">DAG</span></h2>
+      <p>Every SIKKA transaction follows a deterministic 5-step lifecycle before joining the DAG.</p>
+    </div>
+
+    <div class="flow reveal">
+      <div class="flow-step">
+        <div class="flow-step-num">Step 01</div>
+        <div class="flow-step-title">Build TX</div>
+        <div class="flow-step-desc">Wallet selects inputs, outputs, and two parent tips from the current DAG frontier.</div>
+      </div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="flow-step">
+        <div class="flow-step-num">Step 02</div>
+        <div class="flow-step-title">Mine PoW</div>
+        <div class="flow-step-desc">SHA3-256 nonce found to satisfy current difficulty bits. Prevents spam.</div>
+      </div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="flow-step">
+        <div class="flow-step-num">Step 03</div>
+        <div class="flow-step-title">Sign (ML-DSA-87)</div>
+        <div class="flow-step-desc">All signers apply ML-DSA-87 signatures. Multisig: up to 16 parties sign collaboratively.</div>
+      </div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="flow-step">
+        <div class="flow-step-num">Step 04</div>
+        <div class="flow-step-title">Broadcast</div>
+        <div class="flow-step-desc">Submitted to any node via HTTP API over Tor. Node validates and gossips to peers.</div>
+      </div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="flow-step">
+        <div class="flow-step-num">Step 05</div>
+        <div class="flow-step-title">DAG Entry</div>
+        <div class="flow-step-desc">Valid TX appended to DAG. Referenced by future transactions — confirmation probability grows.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem;">
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;" class="reveal">
+        <div style="font-size:0.8rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Finality confidence — references by later transactions</div>
+        <div class="chart-wrap lg">
+          <canvas id="chart-finality"></canvas>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="section">
-      <div class="section-header">
-        <span class="section-eyebrow">Conflict Resolution</span>
-        <h2 class="section-title">Probabilistic finality</h2>
-        <p class="section-lead">Double-spends are not instantly rejected. Competing transactions race until accumulated work picks a winner — per UTXO, without blocks or miners.</p>
-      </div>
+<!-- ═══════════════════════════════════════════════════
+     CONFLICT RESOLUTION / FINALITY
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Consensus</span>
+      <h2>Probabilistic <span class="gradient-text">Finality</span></h2>
+      <p>SIKKA uses DAG-based probabilistic finality. As a transaction accumulates references from later transactions, the probability that it belongs to a valid ledger state approaches 1.</p>
+    </div>
 
-      <div class="dashboard-grid" style="margin-bottom:2rem">
-        <div class="dash-card col-4">
-          <div class="dash-card-metric yellow" style="font-size:2.5rem">1</div>
-          <h3 style="font-size:1rem;font-weight:600;margin:0.5rem 0">Both accepted</h3>
-          <p class="dash-card-desc" style="font-size:0.8125rem">If two transactions spend the same UTXO, both are gossiped and stored. No mempool gatekeeper.</p>
-        </div>
-        <div class="dash-card col-4">
-          <div class="dash-card-metric blue" style="font-size:2.5rem">2</div>
-          <h3 style="font-size:1rem;font-weight:600;margin:0.5rem 0">Work accumulates</h3>
-          <p class="dash-card-desc" style="font-size:0.8125rem">Each descendant adds weight: 2<sup>pow_bits</sup> per transaction. The branch with more cumulative work wins.</p>
-        </div>
-        <div class="dash-card col-4">
-          <div class="dash-card-metric green" style="font-size:2.5rem">3</div>
-          <h3 style="font-size:1rem;font-weight:600;margin:0.5rem 0">One survives</h3>
-          <p class="dash-card-desc" style="font-size:0.8125rem">Once weight crosses the confirmation threshold, the canonical spend is settled. The loser is pruned.</p>
-        </div>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="dash-card col-6">
-          <div class="chart-container lg">
-            <canvas id="chart-finality"></canvas>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;" class="reveal">
+      <div>
+        <div class="finality-steps">
+          <div class="finality-step">
+            <div class="finality-step-label">1 reference</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:20%"></div></div>
+            <div class="finality-step-pct">~20%</div>
           </div>
-          <p class="dash-card-desc" style="margin-top:0.75rem;font-size:0.8125rem">Cumulative weight accumulation toward confirmation threshold (200).</p>
+          <div class="finality-step">
+            <div class="finality-step-label">2 references</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:40%"></div></div>
+            <div class="finality-step-pct">~40%</div>
+          </div>
+          <div class="finality-step">
+            <div class="finality-step-label">5 references</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:70%"></div></div>
+            <div class="finality-step-pct">~70%</div>
+          </div>
+          <div class="finality-step">
+            <div class="finality-step-label">10 references</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:90%"></div></div>
+            <div class="finality-step-pct">~90%</div>
+          </div>
+          <div class="finality-step">
+            <div class="finality-step-label">20+ references</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:99%"></div></div>
+            <div class="finality-step-pct">&gt;99%</div>
+          </div>
         </div>
-        <div class="dash-card col-6">
-          <div class="code-block">
-            <div style="color:var(--text-muted);margin-bottom:1rem;font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Winner Selection</div>
-            <div><span class="code-kw">canonical_spend</span> = argmax cumulative_weight(tx)</div>
-            <div class="code-dim" style="padding-left:1rem;border-left:2px solid var(--blue);margin:0.5rem 0">cumulative_weight(tx) = Σ 2<sup>pow_bits</sup> over all descendants</div>
-            <div class="code-dim"><strong style="color:var(--text)">Tie-break:</strong> lower tx_id (lexicographic) wins</div>
-            <div style="padding-top:0.75rem;border-top:1px solid var(--border);margin-top:0.75rem">
-              <span style="color:var(--green);font-weight:600">Confirmed</span> when cumulative_weight ≥ <span class="mono">200</span>
+        <p style="font-size:0.83rem;color:var(--text-3);margin-top:1rem;line-height:1.6;">In a conflict (double-spend attempt), honest nodes apply a deterministic conflict resolution rule: the conflicting transaction with greater cumulative DAG weight wins. Attackers must outpace the entire honest network's transaction graph.</p>
+      </div>
+
+      <div>
+        <div class="card reveal reveal-delay-1" style="margin-bottom:1rem;">
+          <div class="bento-icon cyan" style="margin-bottom:1rem;"><i class="fa-solid fa-shuffle"></i></div>
+          <div style="font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Conflict Resolution</div>
+          <p style="font-size:0.875rem;">When two transactions attempt to spend the same output, the one that accumulates more DAG weight — determined by the total PoW embedded in all descendent transactions — is accepted. The other is orphaned. All honest nodes converge on the same outcome deterministically.</p>
+        </div>
+        <div class="card reveal reveal-delay-2">
+          <div class="bento-icon green" style="margin-bottom:1rem;"><i class="fa-solid fa-circle-check"></i></div>
+          <div style="font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Deterministic Convergence</div>
+          <p style="font-size:0.875rem;">Every honest node independently applies the same deterministic rules to the same DAG. There is no leader, no voting round, no BFT committee. The state emerges from the graph structure alone.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TOKENOMICS
+═══════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Tokenomics</span>
+      <h2>Fixed Supply — <span class="gradient-text">No Inflation</span></h2>
+      <p>19,960,907 SIKKA were pre-issued in the genesis transaction. No mining rewards. No premine. 100% goes to node operators.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;" class="reveal">
+      <div>
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div class="card-glow">
+            <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;">Total Supply</div>
+            <div style="font-size:2.8rem;font-weight:900;letter-spacing:-0.05em;" class="gradient-text">19,960,907</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.25rem;">SIKKA — fixed forever</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="card">
+              <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Inflation</div>
+              <div style="font-size:1.5rem;font-weight:800;color:var(--green);">0%</div>
+              <div style="font-size:0.8rem;color:var(--text-3);">Protocol enforced</div>
+            </div>
+            <div class="card">
+              <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Premine</div>
+              <div style="font-size:1.5rem;font-weight:800;color:var(--green);">None</div>
+              <div style="font-size:0.8rem;color:var(--text-3);">100% to operators</div>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:1rem;margin-top:1rem">
-            <div class="feature-card" style="padding:1.25rem">
-              <h3 style="font-size:0.9375rem;margin:0 0 0.25rem"><i class="fa-solid fa-sitemap" style="color:var(--blue);margin-right:0.5rem"></i> No global lock</h3>
-              <p style="font-size:0.8125rem;color:var(--text-secondary);margin:0">Concurrent double-spends resolve by accumulated work at per-UTXO granularity.</p>
+
+          <div class="card">
+            <div style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">The genesis transaction issued the entire fixed supply to the first node operators. There are no block rewards, no staking emissions, no VC allocations. The number 19,960,907 references the date of a significant cryptographic event — a nod to the math behind post-quantum security.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;">
+          <div style="font-size:0.8rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Supply distribution</div>
+          <div class="chart-wrap" style="height:220px;">
+            <canvas id="chart-supply"></canvas>
+          </div>
+          <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.6rem;font-size:0.875rem;color:var(--text-2);">
+            <div style="display:flex;justify-content:space-between;padding-bottom:0.6rem;border-bottom:1px solid var(--border);">
+              <span style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--blue);flex-shrink:0;"></span>Node Operators</span>
+              <strong style="color:var(--text);">100%</strong>
             </div>
-            <div class="feature-card" style="padding:1.25rem">
-              <h3 style="font-size:0.9375rem;margin:0 0 0.25rem"><i class="fa-solid fa-bolt" style="color:var(--blue);margin-right:0.5rem"></i> Fast in practice</h3>
-              <p style="font-size:0.8125rem;color:var(--text-secondary);margin:0">At base difficulty, finality settles in seconds under normal load.</p>
+            <div style="display:flex;justify-content:space-between;">
+              <span style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,0.06);flex-shrink:0;border:1px solid var(--border);"></span>Team / VC / Foundation</span>
+              <strong style="color:var(--green);">0%</strong>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header">
-          <span class="section-eyebrow">Tokenomics</span>
-          <h2 class="section-title">Fixed supply. No inflation.</h2>
-          <p class="section-lead"><strong style="color:var(--text)">100% of all SIKKA is distributed to node operators</strong> who keep the DAG alive. No VC slice, no foundation treasury.</p>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="dash-card col-4" style="text-align:center">
-            <div style="font-size:1.75rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem">19,960,907</div>
-            <div class="dash-card-metric-label">Fixed Max Supply</div>
-            <p class="dash-card-desc" style="font-size:0.8125rem;margin-top:1rem">Pre-issued entirely in genesis. The cap encodes <span class="mono">19960907</span>.</p>
-          </div>
-          <div class="dash-card col-4" style="text-align:center">
-            <div class="chart-container sm">
-              <canvas id="chart-supply"></canvas>
-            </div>
-            <div class="dash-card-metric blue" style="font-size:2rem;margin-top:0.5rem">100%</div>
-            <div class="dash-card-metric-label">To Operators</div>
-          </div>
-          <div class="dash-card col-4">
-            <div class="feature-icon" style="margin:0 auto 1rem"><i class="fa-solid fa-coins"></i></div>
-            <h3 style="text-align:center;font-size:0.9375rem;margin:0 0 1rem">Units</h3>
-            <ul style="list-style:none;margin:0;padding:0;font-size:0.875rem;color:var(--text-secondary);line-height:1.9">
-              <li><strong style="color:var(--text)">SIKKA</strong> — singular coin</li>
-              <li><strong style="color:var(--text)">SIKKE</strong> — plural</li>
-              <li><strong style="color:var(--text)">CHILLAR</strong> — 10<sup>10</sup> per SIKKA</li>
-            </ul>
-          </div>
-        </div>
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="label" style="display:block;margin-bottom:1rem;">Start Now</span>
+      <h2>Run a <span class="gradient-text">SIKKA</span> node today</h2>
+      <p>One Docker command. Zero dependencies. Full node in seconds.</p>
+      <div class="cta-actions">
+        <a href="run-node.html" class="btn btn-primary btn-lg"><i class="fa-solid fa-server"></i> Run a Node</a>
+        <a href="features.html" class="btn btn-ghost btn-lg"><i class="fa-solid fa-list-check"></i> All Features</a>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <script src="js/charts.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><img src="sikka.svg" alt="SIKKA"/><span>SIKKA</span></a>
+        <p>Blockless DAG digital currency for humans, AI agents, and machines.</p>
+      </div>
+      <div class="footer-col"><h4>Protocol</h4><ul>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="run-node.html">Run a Node</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul>
+        <li><a href="https://node.sikka.click" target="_blank">Web Wallet</a></li>
+        <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Community</h4><ul>
+        <li><a href="https://discord.gg/sikka" target="_blank">Discord</a></li>
+        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
+      <div class="footer-social">
+        <a href="https://discord.gg/sikka" target="_blank" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('hamburger');
+  const mob = document.getElementById('nav-mobile');
+  ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
 </html>

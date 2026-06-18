@@ -1,219 +1,340 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Features — SIKKA</title>
-    <meta name="description" content="Core protocol features of SIKKA: Zero fees, quantum-safe cryptography, per-transaction PoW, probabilistic finality, native multisig, and Tor-native networking." />
-    <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://sikkalabs.com/features.html" />
-    <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="SIKKA features — Zero fees, blockless DAG, ML-DSA-87 post-quantum cryptography, native multisig, Tor-native privacy, per-transaction PoW."/>
+  <title>Features — SIKKA</title>
+  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
 
-    <div class="page-hero">
-      <a href="index.html" class="page-back"><i class="fa-solid fa-arrow-left"></i> Back to SIKKA</a>
-      <span class="section-eyebrow">Core Protocol</span>
-      <h1>Elegantly simple invariants</h1>
-      <p>SIKKA is built on a small set of elegant, composable rules. No complicated smart contracts, no global coordinator — just math.</p>
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="sikka.svg" alt="SIKKA"/>
+    <span>SIKKA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="features.html" class="active">Features</a></li>
+    <li><a href="architecture.html">Architecture</a></li>
+    <li><a href="run-node.html">Run a Node</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="https://discord.gg/sikka" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-brands fa-discord"></i> Discord</a>
+    <a href="https://node.sikka.click" target="_blank" class="btn btn-primary btn-sm">Web Wallet</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="features.html">Features</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="run-node.html">Run a Node</a>
+  <a href="https://discord.gg/sikka" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+  <a href="https://node.sikka.click" target="_blank" class="btn btn-primary">Web Wallet</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="label">Protocol Features</span>
+    <h1>Everything <span class="gradient-text">Different</span></h1>
+    <p>SIKKA rethinks every layer of a digital currency — from the ledger structure to the cryptography to the network transport.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CORE FEATURES BENTO
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="bento">
+
+      <!-- Zero Fees — wide -->
+      <div class="bento-card bento-6 reveal">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
+          <div class="bento-icon"><i class="fa-solid fa-bolt"></i></div>
+          <span class="tag green"><i class="fa-solid fa-check"></i> Always</span>
+        </div>
+        <div class="bento-title">Zero Fees — Forever</div>
+        <div class="bento-desc">When you send SIKKA, the exact amount arrives in full. There are no gas fees, no priority fees, no miner tips, no protocol cuts. Zero. The recipient receives exactly what you sent — always.</div>
+        <div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--border);">
+          <div style="font-size:2.5rem;font-weight:900;letter-spacing:-0.05em;" class="gradient-text">$0.00</div>
+          <div style="font-size:0.8rem;color:var(--text-3);">Per transaction, any amount, forever</div>
+        </div>
+      </div>
+
+      <!-- Blockless DAG -->
+      <div class="bento-card bento-6 reveal reveal-delay-1">
+        <div class="bento-icon purple"><i class="fa-solid fa-code-branch"></i></div>
+        <div class="bento-title">Blockless DAG Architecture</div>
+        <div class="bento-desc">SIKKA has no blocks and no chain. Every transaction is a vertex in a directed acyclic graph. Transactions are confirmed in parallel — not serialized into blocks — delivering true horizontal scalability.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.5rem;">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.75rem;text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--purple-2);">∞</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">Parallel TXs</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.75rem;text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:var(--blue-2);">0</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">Block Delays</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Parents -->
+      <div class="bento-card bento-4 reveal">
+        <div class="bento-icon cyan"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="bento-title">Exactly Two Parents</div>
+        <div class="bento-desc">Every non-genesis transaction references exactly two prior transactions as parents. This invariant is what makes SIKKA a true DAG — not a list, not a tree.</div>
+      </div>
+
+      <!-- Exact Balance -->
+      <div class="bento-card bento-4 reveal reveal-delay-1">
+        <div class="bento-icon green"><i class="fa-solid fa-scale-balanced"></i></div>
+        <div class="bento-title">Exact Balance Model</div>
+        <div class="bento-desc">Outputs must sum exactly to inputs. No change outputs, no rounding. The protocol enforces arithmetic precision at the consensus layer — not the wallet layer.</div>
+      </div>
+
+      <!-- Parallel Scale -->
+      <div class="bento-card bento-4 reveal reveal-delay-2">
+        <div class="bento-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+        <div class="bento-title">Parallel Scaling</div>
+        <div class="bento-desc">As more nodes join, throughput increases. No global sequencer. No leader. Every honest node processes transactions in parallel with full deterministic convergence.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PROOF OF WORK SECTION
+═══════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Spam Resistance</span>
+      <h2>Per-Transaction <span class="gradient-text">Proof of Work</span></h2>
+      <p>SIKKA requires every transaction to include a SHA3-256 nonce solution. Difficulty scales dynamically with network load — spam gets expensive, normal use stays free.</p>
     </div>
 
-    <section class="section">
-      <div class="section-header">
-        <span class="section-eyebrow">Why SIKKA?</span>
-        <h2 class="section-title">A scalable smart ledger. Not a blockchain.</h2>
-      </div>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
-          <h3>Zero Fees</h3>
-          <p>SIKKA has strictly <strong style="color:var(--text)">0 fees</strong>. When you send SIKKA, the exact amount arrives. No gas, no priority fees, no hidden costs.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon" style="background:var(--red-dim);color:var(--red)"><i class="fa-solid fa-ban"></i></div>
-          <h3>Blockless Architecture</h3>
-          <p>SIKKA uses <strong style="color:var(--text)">no Proof of Stake</strong> and <strong style="color:var(--text)">no global Proof of Work</strong> race. Every transaction is its own accepted unit.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon" style="background:var(--green-dim);color:var(--green)"><i class="fa-solid fa-arrow-trend-up"></i></div>
-          <h3>Parallel Scalable</h3>
-          <p>Unlike blockchains that congest, SIKKA is parallel scalable. The more users interact, <strong style="color:var(--text)">the faster it gets</strong>.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header">
-          <span class="section-eyebrow">Core Protocol</span>
-          <h2 class="section-title">Three core invariants</h2>
-        </div>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-code-branch"></i></div>
-            <h3>Exactly Two Parents</h3>
-            <p>Every non-genesis transaction references precisely two earlier transactions. A true directed acyclic graph, not a blockchain.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-            <h3>Exact Balance Only</h3>
-            <p>Inputs must exactly equal outputs. There is no fee field. The sender transmits the full amount with cryptographic certainty.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-hammer"></i></div>
-            <h3>Per-Transaction PoW</h3>
-            <p>Each transaction mines its own SHA3-256 nonce, providing <strong style="color:var(--text)">built-in spam resistance</strong>. Difficulty scales with network congestion.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-header">
-        <span class="section-eyebrow">Proof of Work</span>
-        <h2 class="section-title">Spam resistance without fees</h2>
-        <p class="section-lead">Every transaction solves a SHA3-256 puzzle whose difficulty rises automatically when the network is busy.</p>
-      </div>
-
-      <div class="dashboard-grid" style="margin-bottom:2rem">
-        <div class="dash-card col-6">
-          <div class="code-block">
-            <div style="color:var(--text-muted);margin-bottom:1rem;font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Difficulty Formula</div>
-            <div><span class="code-kw">required_bits</span> = BaseBits + floor(recent_count / 60) × 2</div>
-            <div class="code-dim" style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)">BaseBits = 2 &nbsp;•&nbsp; BucketSize = 60 txs &nbsp;•&nbsp; BucketBits = 2</div>
-          </div>
-        </div>
-        <div class="dash-card col-6">
-          <div class="chart-container lg">
-            <canvas id="chart-congestion"></canvas>
-          </div>
-          <p class="dash-card-desc" style="margin-top:0.75rem;font-size:0.8125rem">Expected hashing work per transaction at different load levels.</p>
-        </div>
-      </div>
-
-      <div class="dash-card" style="overflow:hidden">
-        <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle)">
-          <h3 style="font-weight:600;margin:0;font-size:0.9375rem">Congestion scaling</h3>
-          <p style="font-size:0.8125rem;color:var(--text-muted);margin:0.25rem 0 0">Expected hashing work per transaction at different load levels</p>
-        </div>
-        <div style="overflow-x:auto">
-          <table class="data-table">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;" class="reveal">
+      <div>
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+          <table class="pow-table">
             <thead>
               <tr>
-                <th>Txs in last 60 s</th>
-                <th>Required bits</th>
-                <th>Expected hashes</th>
+                <th>Time Window</th>
+                <th>Difficulty Bits</th>
+                <th>Expected Hashes</th>
+                <th>Load</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>0 – 59 <span style="color:var(--green);font-size:0.75rem">normal</span></td><td class="mono">2</td><td class="mono">~4</td></tr>
-              <tr><td>60 – 119</td><td class="mono">4</td><td class="mono">~16</td></tr>
-              <tr><td>120 – 179</td><td class="mono">6</td><td class="mono">~64</td></tr>
-              <tr><td>180 – 239</td><td class="mono">8</td><td class="mono">~256</td></tr>
-              <tr><td>240 – 299</td><td class="mono">10</td><td class="mono">~1,024</td></tr>
+              <tr>
+                <td>0–59s</td>
+                <td class="mono">2 bits</td>
+                <td class="mono">4</td>
+                <td><span class="badge badge-green">Low</span></td>
+              </tr>
+              <tr>
+                <td>60–119s</td>
+                <td class="mono">4 bits</td>
+                <td class="mono">16</td>
+                <td><span class="badge badge-green">Normal</span></td>
+              </tr>
+              <tr>
+                <td>120–179s</td>
+                <td class="mono">6 bits</td>
+                <td class="mono">64</td>
+                <td><span class="badge badge-yellow">Moderate</span></td>
+              </tr>
+              <tr>
+                <td>180–239s</td>
+                <td class="mono">8 bits</td>
+                <td class="mono">256</td>
+                <td><span class="badge badge-yellow">High</span></td>
+              </tr>
+              <tr>
+                <td>240–299s</td>
+                <td class="mono">10 bits</td>
+                <td class="mono">1,024</td>
+                <td><span class="badge badge-red">Extreme</span></td>
+              </tr>
             </tbody>
           </table>
         </div>
+        <p style="font-size:0.8rem;color:var(--text-3);margin-top:0.75rem;">Difficulty resets to baseline after the congestion window clears.</p>
       </div>
 
-      <div class="dashboard-grid" style="margin-top:1.5rem">
-        <div class="dash-card col-6">
-          <span class="badge badge-blue" style="margin-bottom:1rem"><span class="badge-dot"></span> Anti-selfish-mining</span>
-          <h3 style="font-size:1.25rem;font-weight:700;margin:0 0 0.75rem">Tip commitment</h3>
-          <p class="dash-card-desc">PoW is bound to the <strong>live state of both parent tips</strong> at mining time. You cannot pre-mine a stockpile — if the DAG moves while you hash, your work is instantly stale.</p>
-        </div>
-        <div class="dash-card col-6">
-          <div class="code-block">
-            <div style="color:var(--text-muted);margin-bottom:0.75rem;font-size:0.625rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">PoW Input</div>
-            <div><span class="code-kw">pow_input</span> = txID</div>
-            <div class="code-dim" style="padding-left:1rem">|| parent[0].pow_hash</div>
-            <div class="code-dim" style="padding-left:1rem">|| parent[1].pow_hash</div>
-            <div class="code-dim" style="padding-left:1rem">|| nonce</div>
-            <div style="padding-top:0.75rem;border-top:1px solid var(--border);margin-top:0.75rem"><span class="code-kw">pow_hash</span> = SHA3-256(pow_input)</div>
+      <div>
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;">
+          <div style="font-size:0.8rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Expected hashes vs. congestion (log scale)</div>
+          <div class="chart-wrap lg">
+            <canvas id="chart-congestion"></canvas>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="two-col">
+<!-- ═══════════════════════════════════════════════════
+     CRYPTOGRAPHY & SECURITY BENTO
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Security</span>
+      <h2>Post-Quantum by <span class="gradient-text">Design</span></h2>
+      <p>No classical elliptic curve fallbacks. Every key, every signature, every hash uses algorithms hardened against quantum computers.</p>
+    </div>
+
+    <div class="bento">
+
+      <!-- ML-DSA-87 large card -->
+      <div class="bento-card bento-8 reveal" style="background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.06));border-color:rgba(59,130,246,0.25);">
+        <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
           <div>
-            <span class="section-eyebrow">Cryptography</span>
-            <h2 class="section-title" style="text-align:left;font-size:clamp(1.5rem,3vw,2rem)">Post-quantum ready</h2>
-            <p class="dash-card-desc" style="margin-bottom:1.5rem">Sikka relies entirely on the <strong>ML-DSA-87 (Dilithium)</strong> signature scheme. No classical elliptic curves.</p>
-            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1rem">
-              <li style="display:flex;gap:0.75rem;align-items:flex-start">
-                <i class="fa-solid fa-check" style="color:var(--blue);margin-top:0.2rem"></i>
-                <div><strong style="display:block">No classical fallbacks</strong><span style="color:var(--text-secondary);font-size:0.9rem">Pure post-quantum cryptography throughout.</span></div>
-              </li>
-              <li style="display:flex;gap:0.75rem;align-items:flex-start">
-                <i class="fa-solid fa-check" style="color:var(--blue);margin-top:0.2rem"></i>
-                <div><strong style="display:block">Deterministic sync</strong><span style="color:var(--text-secondary);font-size:0.9rem">State verification is fully deterministic.</span></div>
-              </li>
-            </ul>
+            <div class="bento-icon purple" style="width:52px;height:52px;font-size:1.3rem;"><i class="fa-solid fa-shield-halved"></i></div>
           </div>
-          <div class="dash-card">
-            <div class="chart-container sm" style="margin-bottom:1rem">
-              <canvas id="chart-crypto"></canvas>
+          <div style="flex:1;min-width:200px;">
+            <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.75rem;">
+              <div class="bento-title" style="font-size:1.3rem;">ML-DSA-87</div>
+              <span class="tag purple">NIST FIPS 204</span>
+              <span class="tag green">Post-Quantum</span>
             </div>
-            <div class="code-block" style="margin-top:1rem;border:none;background:transparent;padding:0">
-              <div><span class="code-kw">txid</span> = SHA3-256(version || parents || inputs || outputs || ts)</div>
-              <div><span class="code-kw">pow_hash</span> = SHA3-256(txid || pow_nonce)</div>
-              <div><span class="code-kw">witness</span> = ML-DSA-87 signature(s)</div>
-            </div>
+            <div class="bento-desc">SIKKA uses Module-Lattice-Based Digital Signature Algorithm at the highest security level (87 = NIST Level 5). This is the strongest post-quantum signature standard published by NIST. There are no classical ECDSA or Ed25519 fallbacks — every signature in SIKKA is quantum-resistant by default.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:1rem;">
+          <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--blue-2);">Level 5</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">NIST Security</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--purple-2);">4,595B</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">Signature size</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-size:1.1rem;font-weight:800;color:var(--green);">0</div>
+            <div style="font-size:0.72rem;color:var(--text-3);">Classical fallbacks</div>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="section">
-      <div class="two-col">
-        <div class="dash-card">
-          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
-            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">1</div>
-            <div style="height:3px;width:1.5rem;background:var(--border);border-radius:2px"></div>
-            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">2</div>
-            <div style="height:3px;width:1.5rem;background:var(--border);border-radius:2px"></div>
-            <span style="color:var(--blue);font-weight:700">...</span>
-            <div style="height:3px;width:1.5rem;background:var(--border);border-radius:2px"></div>
-            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">16</div>
-          </div>
-          <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin:0 0 0.375rem">Up to 16 wallets</p>
-          <h3 style="font-size:1.25rem;font-weight:700;margin:0">Collaborative Tx Building</h3>
+      <!-- Crypto pie chart -->
+      <div class="bento-card bento-4 reveal reveal-delay-1">
+        <div class="bento-icon yellow"><i class="fa-solid fa-key"></i></div>
+        <div class="bento-title">Cryptography Stack</div>
+        <div class="chart-wrap" style="height:160px;">
+          <canvas id="chart-crypto"></canvas>
         </div>
-        <div>
-          <span class="section-eyebrow">Smart Wallets</span>
-          <h2 class="section-title" style="text-align:left;font-size:clamp(1.5rem,3vw,2rem)">Native n-of-n multisig</h2>
-          <p class="dash-card-desc" style="margin-bottom:1rem">Standard wallets are inherently <strong>n-of-n</strong>, and multisig is elegantly abstracted as an <strong>m-of-n</strong> wallet. No complicated smart contracts required.</p>
-          <p class="dash-card-desc">Any single transaction can be collaboratively built and signed by up to <strong style="color:var(--blue)">16 different wallets</strong> together.</p>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:0.78rem;color:var(--text-2);">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--blue);flex-shrink:0;"></span>ML-DSA-87 — Signatures</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--yellow);flex-shrink:0;"></span>SHA3-256 — PoW &amp; Hashing</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);flex-shrink:0;"></span>Tor — Transport Privacy</div>
         </div>
       </div>
-    </section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header">
-          <span class="section-eyebrow">Networking</span>
-          <h2 class="section-title">Privacy and interoperability</h2>
-        </div>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <h3 style="display:flex;align-items:center;gap:0.75rem"><i class="fa-solid fa-shield-halved" style="color:var(--blue)"></i> Tor-Native</h3>
-            <p>Privacy is built into networking from the start. Nodes seamlessly advertise onion addresses and support managed Tor integration.</p>
-          </div>
-          <div class="feature-card">
-            <h3 style="display:flex;align-items:center;gap:0.75rem"><i class="fa-solid fa-globe" style="color:var(--blue)"></i> HTTP Federation</h3>
-            <p>Sikka nodes expose a clean HTTP API with CORS support. Federate networks, build lightweight web clients, and integrate with web apps.</p>
-          </div>
+      <!-- Tor Privacy -->
+      <div class="bento-card bento-4 reveal">
+        <div class="bento-icon"><i class="fa-solid fa-eye-slash"></i></div>
+        <div class="bento-title">Tor-Native Networking</div>
+        <div class="bento-desc">SIKKA nodes advertise .onion addresses. All peer-to-peer communication happens through Tor by default. Managed integration means zero manual configuration — Tor is bundled and started automatically.</div>
+        <div style="margin-top:auto;"><span class="tag"><i class="fa-solid fa-circle-check"></i> Zero config</span></div>
+      </div>
+
+      <!-- Multisig -->
+      <div class="bento-card bento-4 reveal reveal-delay-1">
+        <div class="bento-icon purple"><i class="fa-solid fa-users"></i></div>
+        <div class="bento-title">Native Multisig</div>
+        <div class="bento-desc">Up to 16 co-signers can collaboratively build and sign a single transaction. True m-of-n multisig at the protocol layer — no smart contracts, no bytecode, no extra attack surface.</div>
+        <div style="margin-top:auto;">
+          <div style="font-size:2rem;font-weight:900;color:var(--purple-2);">16-of-16</div>
+          <div style="font-size:0.78rem;color:var(--text-3);">Maximum co-signers</div>
         </div>
       </div>
-    </section>
 
-    <script src="js/charts.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+      <!-- HTTP Federation -->
+      <div class="bento-card bento-4 reveal reveal-delay-2">
+        <div class="bento-icon green"><i class="fa-solid fa-globe"></i></div>
+        <div class="bento-title">HTTP Federation</div>
+        <div class="bento-desc">Nodes federate over a clean HTTP API. Light clients, wallets, and explorers can query any node. The same API powers the built-in web wallet and block explorer.</div>
+        <div style="margin-top:auto;"><span class="tag blue">REST API</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="label" style="display:block;margin-bottom:1rem;">Go Deeper</span>
+      <h2>See how it all <span class="gradient-text">fits together</span></h2>
+      <p>Explore the architecture — DAG structure, transaction lifecycle, conflict resolution, and tokenomics.</p>
+      <div class="cta-actions">
+        <a href="architecture.html" class="btn btn-primary btn-lg"><i class="fa-solid fa-sitemap"></i> View Architecture</a>
+        <a href="run-node.html" class="btn btn-ghost btn-lg"><i class="fa-solid fa-server"></i> Run a Node</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><img src="sikka.svg" alt="SIKKA"/><span>SIKKA</span></a>
+        <p>Blockless DAG digital currency for humans, AI agents, and machines.</p>
+      </div>
+      <div class="footer-col"><h4>Protocol</h4><ul>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="run-node.html">Run a Node</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul>
+        <li><a href="https://node.sikka.click" target="_blank">Web Wallet</a></li>
+        <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Community</h4><ul>
+        <li><a href="https://discord.gg/sikka" target="_blank">Discord</a></li>
+        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
+      <div class="footer-social">
+        <a href="https://discord.gg/sikka" target="_blank" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('hamburger');
+  const mob = document.getElementById('nav-mobile');
+  ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
 </html>

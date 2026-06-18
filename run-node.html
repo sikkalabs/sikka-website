@@ -1,176 +1,309 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Run a Node — SIKKA</title>
-    <meta name="description" content="Run a Sikka node with Docker. A tiny ~17 MB static binary containing the wallet, explorer, full DAG engine, and managed Tor. Zero configuration required." />
-    <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://sikkalabs.com/run-node.html" />
-    <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Run a SIKKA node — 17 MB static binary, one Docker command, zero configuration. Full wallet, explorer, DAG engine, and managed Tor."/>
+  <title>Run a Node — SIKKA</title>
+  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
 
-    <div class="page-hero">
-      <a href="index.html" class="page-back"><i class="fa-solid fa-arrow-left"></i> Back to SIKKA</a>
-      <span class="section-eyebrow">Operator Guide</span>
-      <h1>Run a Sikka Node</h1>
-      <p>A tiny ~17 MB static binary containing the wallet, explorer, full DAG engine, and managed Tor. Everything you need, zero configuration required.</p>
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="sikka.svg" alt="SIKKA"/>
+    <span>SIKKA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="features.html">Features</a></li>
+    <li><a href="architecture.html">Architecture</a></li>
+    <li><a href="run-node.html" class="active">Run a Node</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="https://discord.gg/sikka" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-brands fa-discord"></i> Discord</a>
+    <a href="https://node.sikka.click" target="_blank" class="btn btn-primary btn-sm">Web Wallet</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="features.html">Features</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="run-node.html">Run a Node</a>
+  <a href="https://discord.gg/sikka" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+  <a href="https://node.sikka.click" target="_blank" class="btn btn-primary">Web Wallet</a>
+</div>
 
-      <div class="stats-strip">
-        <div class="stat-item"><div class="stat-value">~17 MB</div><div class="stat-label">Binary size</div></div>
-        <div class="stat-divider"></div>
-        <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">Config required</div></div>
-        <div class="stat-divider"></div>
-        <div class="stat-item"><div class="stat-value">1</div><div class="stat-label">Command to start</div></div>
-        <div class="stat-divider"></div>
-        <div class="stat-item"><div class="stat-value">64552</div><div class="stat-label">Default port</div></div>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <span class="label">Self-Sovereign Infrastructure</span>
+    <h1>Run a <span class="gradient-text">SIKKA</span> Node</h1>
+    <p>A single static binary. No dependencies. No configuration. Full DAG node, wallet, explorer, and Tor — online in seconds.</p>
+
+    <!-- Stats strip -->
+    <div class="stats-strip" style="margin-top:3rem;">
+      <div class="stat-item">
+        <div class="stat-item-value">~17 MB</div>
+        <div class="stat-item-label">Binary size</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-item-value">0</div>
+        <div class="stat-item-label">Config files</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-item-value">1</div>
+        <div class="stat-item-label">Command</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-item-value">64552</div>
+        <div class="stat-item-label">Default port</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     DOCKER COMMAND
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container" style="max-width:860px;">
+    <div class="section-header reveal">
+      <span class="label">Installation</span>
+      <h2>One command to <span class="gradient-text">rule them all</span></h2>
+      <p>No dependencies. No compilation. No configuration files. Copy, paste, done.</p>
+    </div>
+
+    <div class="terminal reveal reveal-delay-1">
+      <div class="terminal-bar">
+        <div class="terminal-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="terminal-title">bash — docker run</span>
+        <button class="copy-btn" id="copy-btn" onclick="copyDocker()">
+          <i class="fa-regular fa-copy"></i> Copy
+        </button>
+      </div>
+      <div class="terminal-body">
+        <pre><span class="kw">docker</span> <span class="str">run</span> <span class="flag">-d</span> <span class="flag">--restart</span> <span class="val">unless-stopped</span> \
+  <span class="flag">-p</span> <span class="val">64552:64552</span> \
+  <span class="flag">-v</span> <span class="val">sikka-data:/home/sikka/data</span> \
+  <span class="str">ghcr.io/sikkalabs/sikka:latest</span></pre>
       </div>
     </div>
 
-    <section class="section" style="padding-top:0">
-      <div class="terminal">
-        <div class="terminal-header">
-          <div class="terminal-dots">
-            <div class="terminal-dot" style="background:#FF5F57"></div>
-            <div class="terminal-dot" style="background:#FFBD2E"></div>
-            <div class="terminal-dot" style="background:#28C940"></div>
-          </div>
-          <span class="terminal-title">bash — Docker Quick Start</span>
-          <button class="btn btn-ghost" style="padding:0.375rem 0.875rem;font-size:0.75rem" onclick="copyDocker()" id="copy-btn">
-            <i class="fa-regular fa-copy"></i> Copy
-          </button>
-        </div>
-        <div class="terminal-body">
-          <div class="terminal-line">
-            <span class="terminal-prompt">$</span>
-            <span>
-              docker run
-              <span class="terminal-flag"> -d</span>
-              <span class="terminal-flag"> --restart</span>
-              <span class="terminal-arg"> unless-stopped</span>
-              <span class="terminal-flag"> -p</span>
-              <span class="terminal-arg"> 64552:64552</span>
-              <span class="terminal-flag"> -v</span>
-              <span class="terminal-arg"> sikka-data:/home/sikka/data</span>
-              <span class="terminal-arg"> ghcr.io/sikkalabs/sikka:latest</span>
-            </span>
-          </div>
-        </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-top:1.5rem;" class="reveal reveal-delay-2">
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:0.82rem;">
+        <div style="color:var(--blue-2);font-weight:700;margin-bottom:0.35rem;"><i class="fa-solid fa-flag"></i> -d</div>
+        <div style="color:var(--text-2);">Detached mode — runs in background</div>
       </div>
-      <p style="text-align:center;margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem">
-        Then open <a href="http://localhost:64552" target="_blank" style="color:var(--blue);font-family:var(--mono)">http://localhost:64552</a> in your browser.
-      </p>
-    </section>
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:0.82rem;">
+        <div style="color:var(--purple-2);font-weight:700;margin-bottom:0.35rem;"><i class="fa-solid fa-rotate"></i> --restart</div>
+        <div style="color:var(--text-2);">Auto-restarts unless you stop it manually</div>
+      </div>
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:0.82rem;">
+        <div style="color:var(--green);font-weight:700;margin-bottom:0.35rem;"><i class="fa-solid fa-hard-drive"></i> -v</div>
+        <div style="color:var(--text-2);">Persistent volume for DAG data</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header">
-          <span class="section-eyebrow">Batteries Included</span>
-          <h2 class="section-title">Everything in one binary</h2>
-        </div>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
-            <h3>Web Wallet</h3>
-            <p>Full-featured browser wallet served locally. Create keys, send, receive, and manage multisig — without trusting any third party.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <h3>DAG Explorer</h3>
-            <p>Real-time transaction explorer with live DAG visualization. Browse the graph, inspect any transaction, and monitor network health.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-diagram-project"></i></div>
-            <h3>Full DAG Engine</h3>
-            <p>Complete validation, consensus, and propagation engine. Syncs with peers, validates all transactions, and participates in the network.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon" style="background:rgba(168,85,247,0.15);color:#c084fc"><i class="fa-solid fa-user-secret"></i></div>
-            <h3>Managed Tor</h3>
-            <p>Built-in Tor integration auto-configures a .onion address for your node. No separate Tor setup needed — privacy is on by default.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon" style="background:var(--green-dim);color:var(--green)"><i class="fa-solid fa-code"></i></div>
-            <h3>HTTP API</h3>
-            <p>Clean REST API with CORS support. Build custom applications, integrate with existing services, or federate with other nodes.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- ═══════════════════════════════════════════════════
+     WHAT'S INCLUDED
+═══════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">What's Included</span>
+      <h2>Everything in <span class="gradient-text">17 MB</span></h2>
+      <p>The SIKKA binary is a self-contained node. No runtime dependencies, no sidecar processes, no package managers.</p>
+    </div>
 
-    <section class="section">
-      <div class="section-header">
-        <span class="section-eyebrow">Quick Setup</span>
-        <h2 class="section-title">Up in three steps</h2>
+    <div class="node-features-grid">
+      <div class="node-feature-card reveal">
+        <div class="node-feature-icon"><i class="fa-solid fa-wallet"></i></div>
+        <div class="node-feature-title">Full Web Wallet</div>
+        <div class="node-feature-desc">Create and manage ML-DSA-87 keypairs, send and receive SIKKA, and build multisig transactions — all from your browser, locally.</div>
+        <a href="https://node.sikka.click" target="_blank" style="font-size:0.8rem;color:var(--blue-2);font-weight:600;margin-top:auto;padding-top:0.75rem;display:inline-flex;align-items:center;gap:4px;">Open wallet <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
       </div>
-      <div class="flow-steps">
-        <div class="flow-step">
-          <div class="flow-step-num">1</div>
-          <div>
-            <h3>Install Docker</h3>
-            <p>If you don't have Docker, install it from <a href="https://docs.docker.com/get-docker/" target="_blank" style="color:var(--blue)">docs.docker.com/get-docker</a>. Available for Windows, macOS, and Linux.</p>
+
+      <div class="node-feature-card reveal reveal-delay-1">
+        <div class="node-feature-icon" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.2);color:var(--purple-2);"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="node-feature-title">Built-in Explorer</div>
+        <div class="node-feature-desc">Real-time DAG visualization powered by D3. Browse every transaction, inspect parent links, monitor tips, and track network health live.</div>
+      </div>
+
+      <div class="node-feature-card reveal reveal-delay-2">
+        <div class="node-feature-icon" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:var(--green);"><i class="fa-solid fa-code-branch"></i></div>
+        <div class="node-feature-title">Full DAG Engine</div>
+        <div class="node-feature-desc">Complete consensus implementation. Validates transactions, resolves conflicts, syncs with peers, and maintains the full SIKKA ledger state.</div>
+      </div>
+
+      <div class="node-feature-card reveal">
+        <div class="node-feature-icon" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2);color:var(--yellow);"><i class="fa-solid fa-eye-slash"></i></div>
+        <div class="node-feature-title">Managed Tor</div>
+        <div class="node-feature-desc">Tor is bundled inside the binary. Your node automatically generates a .onion address and routes all traffic over Tor. Zero configuration required.</div>
+      </div>
+
+      <div class="node-feature-card reveal reveal-delay-1">
+        <div class="node-feature-icon" style="background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.2);color:var(--cyan);"><i class="fa-solid fa-plug"></i></div>
+        <div class="node-feature-title">HTTP REST API</div>
+        <div class="node-feature-desc">Full JSON API for submitting transactions, querying DAG state, fetching transaction details, and monitoring network status on port 64552.</div>
+      </div>
+
+      <div class="node-feature-card reveal reveal-delay-2">
+        <div class="node-feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="node-feature-title">Peer Federation</div>
+        <div class="node-feature-desc">Gossips with other SIKKA nodes to stay in sync. Discovers peers over the SIKKA network automatically — no boot node list to configure.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     3-STEP SETUP
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div class="section-header reveal">
+      <span class="label">Setup Guide</span>
+      <h2>Up in <span class="gradient-text">3 steps</span></h2>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Install Docker</h3>
+          <p>Docker Desktop (Mac/Windows) or Docker Engine (Linux). Any recent version works. That's the only prerequisite.</p>
+          <div style="margin-top:0.75rem;">
+            <a href="https://docs.docker.com/get-docker/" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-brands fa-docker"></i> Get Docker</a>
           </div>
         </div>
-        <div class="flow-step">
-          <div class="flow-step-num">2</div>
-          <div>
-            <h3>Run the container</h3>
-            <p style="margin-bottom:0.75rem">Copy and run the command below. The image is ~17 MB and will start syncing immediately.</p>
-            <div class="code-block" style="font-size:0.8125rem">
-              docker run -d --restart unless-stopped \<br>
-              &nbsp;&nbsp;-p 64552:64552 \<br>
-              &nbsp;&nbsp;-v sikka-data:/home/sikka/data \<br>
-              &nbsp;&nbsp;ghcr.io/sikkalabs/sikka:latest
-            </div>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-step-num done">3</div>
-          <div>
-            <h3>Open your browser</h3>
-            <p>Navigate to <a href="http://localhost:64552" target="_blank" style="color:var(--blue);font-family:var(--mono)">http://localhost:64552</a>. You'll see the wallet and DAG explorer running locally. You're a node operator!</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Run the command</h3>
+          <p>Copy the Docker command above and paste it into your terminal. The image pulls automatically from the GitHub container registry.</p>
+          <div style="margin-top:0.75rem;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.75rem 1rem;font-family:'ui-monospace',monospace;font-size:0.82rem;color:var(--blue-2);">
+            docker run -d --restart unless-stopped -p 64552:64552 …
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header">
-          <span class="section-eyebrow">Node Details</span>
-          <h2 class="section-title">What you get</h2>
-        </div>
-        <div class="dash-card" style="overflow:hidden;padding:0">
-          <table class="data-table">
-            <tbody>
-              <tr><td style="color:var(--text-muted);width:40%">Docker image</td><td class="mono">ghcr.io/sikkalabs/sikka:latest</td></tr>
-              <tr><td style="color:var(--text-muted)">Binary size</td><td class="mono">~17 MB (static)</td></tr>
-              <tr><td style="color:var(--text-muted)">Default port</td><td class="mono">64552</td></tr>
-              <tr><td style="color:var(--text-muted)">Web interface</td><td class="mono">http://localhost:64552</td></tr>
-              <tr><td style="color:var(--text-muted)">Data volume</td><td class="mono">sikka-data:/home/sikka/data</td></tr>
-              <tr><td style="color:var(--text-muted)">Tor integration</td><td class="mono">Automatic (managed)</td></tr>
-              <tr><td style="color:var(--text-muted)">API</td><td class="mono">HTTP REST with CORS</td></tr>
-              <tr><td style="color:var(--text-muted)">Config required</td><td class="mono">None</td></tr>
-            </tbody>
-          </table>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Open the wallet</h3>
+          <p>Navigate to <code style="font-family:monospace;color:var(--blue-2);background:var(--surface);padding:2px 6px;border-radius:4px;">http://localhost:64552</code> in your browser. The web wallet and DAG explorer are live. Your node is syncing and your .onion address is active.</p>
+          <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <span class="tag green"><i class="fa-solid fa-circle-dot"></i> Node live</span>
+            <span class="tag blue"><i class="fa-solid fa-eye-slash"></i> Tor active</span>
+            <span class="tag purple"><i class="fa-solid fa-rotate"></i> Syncing DAG</span>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="section" style="text-align:center">
-      <span class="section-eyebrow">Community</span>
-      <h2 class="section-title">Need help or want to contribute?</h2>
-      <p class="section-lead" style="margin-bottom:2rem">Join our Discord to get help, claim test SIKKA from the faucet, or contribute to the open-source codebase.</p>
-      <div class="hero-actions">
-        <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="btn btn-blue"><i class="fa-brands fa-discord"></i> Join Discord</a>
-        <a href="https://github.com/sikkalabs/sikka" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-github"></i> View on GitHub</a>
-        <a href="https://node.sikka.click/" target="_blank" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i> Explorer</a>
+<!-- ═══════════════════════════════════════════════════
+     COMMUNITY CTA
+═══════════════════════════════════════════════════ -->
+<section class="cta-section" style="background:var(--bg-1);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="reveal">
+      <span class="label" style="display:block;margin-bottom:1rem;">Community</span>
+      <h2>Join the <span class="gradient-text">SIKKA</span> network</h2>
+      <p>Every node strengthens the network. Join Discord to connect with other operators, get support, and shape the future of SIKKA.</p>
+      <div class="cta-actions">
+        <a href="https://discord.gg/sikka" target="_blank" class="btn btn-primary btn-lg">
+          <i class="fa-brands fa-discord"></i> Join Discord
+        </a>
+        <a href="https://github.com/sikkalabs" target="_blank" class="btn btn-ghost btn-lg">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
       </div>
-    </section>
 
-    <script src="js/main.js"></script>
-  </body>
+      <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:3rem;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;letter-spacing:-0.04em;" class="gradient-text">17 MB</div>
+          <div style="font-size:0.8rem;color:var(--text-3);">Full node binary</div>
+        </div>
+        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;letter-spacing:-0.04em;color:var(--green);">Zero</div>
+          <div style="font-size:0.8rem;color:var(--text-3);">Dependencies</div>
+        </div>
+        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;letter-spacing:-0.04em;color:var(--purple-2);">64552</div>
+          <div style="font-size:0.8rem;color:var(--text-3);">Default port</div>
+        </div>
+        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div style="text-align:center;">
+          <div style="font-size:2rem;font-weight:900;letter-spacing:-0.04em;color:var(--blue-2);">ML-DSA</div>
+          <div style="font-size:0.8rem;color:var(--text-3);">Post-quantum keys</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><img src="sikka.svg" alt="SIKKA"/><span>SIKKA</span></a>
+        <p>Blockless DAG digital currency for humans, AI agents, and machines.</p>
+      </div>
+      <div class="footer-col"><h4>Protocol</h4><ul>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="run-node.html">Run a Node</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul>
+        <li><a href="https://node.sikka.click" target="_blank">Web Wallet</a></li>
+        <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Community</h4><ul>
+        <li><a href="https://discord.gg/sikka" target="_blank">Discord</a></li>
+        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
+      <div class="footer-social">
+        <a href="https://discord.gg/sikka" target="_blank" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+  const ham = document.getElementById('hamburger');
+  const mob = document.getElementById('nav-mobile');
+  ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
 </html>

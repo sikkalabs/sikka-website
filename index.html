@@ -1,288 +1,411 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIKKA • The blockless smart ledger</title>
-    <meta name="description" content="A radically simple, parallel-scalable currency for humans, autonomous agents, and machines. 0 Fees, Quantum-Safe, Tor-Native, and Native Multisig." />
-    <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://sikkalabs.com/" />
-    <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="SIKKA • The blockless smart ledger" />
-    <meta property="og:description" content="A radically simple, parallel-scalable currency for humans, autonomous agents, and machines. 0 Fees, Quantum-Safe, Tor-Native, and Native Multisig." />
-    <meta property="og:image" content="https://sikkalabs.com/og.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="SIKKA — Blockless DAG digital currency. Zero fees, post-quantum ML-DSA-87 cryptography, Tor-native, fixed supply 19,960,907 coins. Live on mainnet."/>
+  <meta property="og:title" content="SIKKA — The Blockless DAG Currency"/>
+  <meta property="og:description" content="Zero fees · ML-DSA-87 quantum-safe · Tor-native · Fixed supply 19,960,907"/>
+  <meta property="og:image" content="og.jpg"/>
+  <title>SIKKA — Blockless DAG Currency</title>
+  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
 
-    <section class="hero">
-      <div class="hero-grid"></div>
-      <div class="hero-glow"></div>
-      <div class="hero-content">
-        <div class="hero-eyebrow" style="display:flex;align-items:center;justify-content:center;gap:0.75rem;flex-wrap:wrap">
-          <span class="trust-badge"><i class="fa-solid fa-circle-check" style="color:#22c55e"></i> SIKKA — Live on Mainnet</span>
-          <span class="live-badge"><span class="live-dot"></span> Live Network</span>
-        </div>
-        <h1>SIKKA:<br />The blockless smart ledger</h1>
-        <p class="hero-lead">
-          SIKKA is a radically simple, parallel-scalable currency for humans, autonomous agents, and machines — zero fees, quantum-safe cryptography, and native multisig.
-        </p>
-        <div class="hero-actions">
-          <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="btn btn-primary">
-            <i class="fa-brands fa-discord"></i> Join Discord
-          </a>
-          <a href="https://node.sikka.click/wallet.html" target="_blank" class="btn btn-ghost">
-            <i class="fa-solid fa-wallet"></i> Web Wallet
-          </a>
-          <a href="https://github.com/sikkalabs/sikka" target="_blank" class="btn btn-ghost" id="hero-github-btn">
-            <i class="fa-brands fa-github"></i> Source
-          </a>
-        </div>
+<!-- ═══════════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════════ -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="sikka.svg" alt="SIKKA"/>
+    <span>SIKKA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="features.html">Features</a></li>
+    <li><a href="architecture.html">Architecture</a></li>
+    <li><a href="run-node.html">Run a Node</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="https://discord.gg/sikka" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-brands fa-discord"></i> Discord</a>
+    <a href="https://node.sikka.click" target="_blank" class="btn btn-primary btn-sm">Web Wallet</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="features.html">Features</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="run-node.html">Run a Node</a>
+  <a href="https://discord.gg/sikka" target="_blank"><i class="fa-brands fa-discord"></i> Discord</a>
+  <a href="https://node.sikka.click" target="_blank" class="btn btn-primary">Web Wallet</a>
+</div>
 
-        <div class="nav-cards">
-          <a href="features.html" class="nav-card"><i class="fa-solid fa-layer-group"></i> Features</a>
-          <a href="architecture.html" class="nav-card"><i class="fa-solid fa-diagram-project"></i> Architecture</a>
-          <a href="#use-cases" class="nav-card"><i class="fa-solid fa-rocket"></i> Use Cases</a>
-          <a href="run-node.html" class="nav-card"><i class="fa-solid fa-server"></i> Run a Node</a>
-        </div>
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-mesh"></div>
+    <div class="hero-grid-lines"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Live on Mainnet
+    </div>
+    <h1 class="hero-title">
+      <span class="big gradient-text">SIKKA</span>
+      <span style="display:block;font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.03em;color:var(--text-2);margin-top:0.5rem;">The Blockless DAG Ledger</span>
+    </h1>
+    <p class="hero-sub">
+      Zero fees. Quantum-safe ML-DSA-87 cryptography. Tor-native privacy.
+      Built for humans, AI agents, and machines alike.
+    </p>
+    <div class="hero-actions">
+      <a href="https://discord.gg/sikka" target="_blank" class="btn btn-ghost btn-lg">
+        <i class="fa-brands fa-discord"></i> Join Discord
+      </a>
+      <a href="https://node.sikka.click" target="_blank" class="btn btn-primary btn-lg">
+        <i class="fa-solid fa-wallet"></i> Web Wallet
+      </a>
+      <a href="https://github.com/sikkalabs" target="_blank" class="btn btn-ghost btn-lg">
+        <i class="fa-brands fa-github"></i> GitHub
+      </a>
+    </div>
+  </div>
+
+  <!-- DAG Visualization Panel -->
+  <div class="hero-viz">
+    <div class="hero-viz-inner">
+      <div class="hero-viz-bar">
+        <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+        <span class="hero-viz-title">sikka — live dag visualization</span>
       </div>
-
-      <div class="visual-panel">
-        <div class="visual-panel-inner">
-          <div class="globe-overlay" aria-hidden="true">
-            <svg class="globe-svg" viewBox="0 0 200 200" fill="none">
-              <circle cx="100" cy="100" r="90" stroke="rgba(59,130,246,0.15)" stroke-width="1" fill="rgba(59,130,246,0.03)" />
-              <ellipse cx="100" cy="100" rx="90" ry="35" stroke="rgba(59,130,246,0.1)" stroke-width="0.5" fill="none" />
-              <ellipse cx="100" cy="100" rx="35" ry="90" stroke="rgba(59,130,246,0.1)" stroke-width="0.5" fill="none" />
-              <circle cx="140" cy="70" r="3" fill="#fbbf24" opacity="0.8" />
-              <circle cx="60" cy="120" r="2" fill="#22c55e" opacity="0.8" />
-              <circle cx="120" cy="140" r="2" fill="#ef4444" opacity="0.8" />
-            </svg>
-          </div>
-
-          <div class="floating-badge tl"><span class="badge badge-red"><span class="badge-dot"></span> Zero Fees</span></div>
-          <div class="floating-badge tr"><span class="badge badge-green"><span class="badge-dot"></span> Quantum-Safe</span></div>
-          <div class="floating-badge bl"><span class="badge badge-yellow"><span class="badge-dot"></span> Real-Time DAG</span></div>
-
-          <div class="chart-float">
-            <div class="chart-float-title">Network Activity</div>
-            <canvas id="hero-tx-chart"></canvas>
-          </div>
-
-          <div id="hero-dag"></div>
-
-          <div class="dag-stats-bar">
-            <span class="dag-status" id="hero-dag-stats">Connecting to node.sikka.click…</span>
-            <div style="display:flex;gap:1.5rem">
-              <div class="dag-stat">
-                <span class="dag-stat-label">DAG</span>
-                <span class="dag-stat-value" id="stat-dag-size">—</span>
-              </div>
-              <div class="dag-stat">
-                <span class="dag-stat-label">Tips</span>
-                <span class="dag-stat-value" id="stat-tip-count">—</span>
-              </div>
-              <div class="dag-stat">
-                <span class="dag-stat-label">PoW</span>
-                <span class="dag-stat-value" id="stat-pow">—</span>
-              </div>
+      <div class="hero-viz-body">
+        <div id="hero-dag"></div>
+        <div class="hero-viz-sidebar">
+          <div class="hero-stat-row">
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="stat-dag-size">—</div>
+              <div class="hero-stat-label">DAG Size</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="stat-tip-count">—</div>
+              <div class="hero-stat-label">Tips</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="stat-pow">—</div>
+              <div class="hero-stat-label">PoW Bits</div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="architecture">
-      <div class="section-header">
-        <span class="section-eyebrow">Why SIKKA</span>
-        <h2 class="section-title">SIKKA network monitoring in real time</h2>
-        <p class="section-lead">SIKKA continuously tracks the DAG across the network, detecting activity and scaling proof-of-work instantly.</p>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="dash-card col-4">
-          <div class="dash-card-header">
-            <div>
-              <div class="dash-card-label">Network Health</div>
-              <div class="dash-card-title" id="dash-dag-label">DAG Block —</div>
-            </div>
-            <span class="gauge-pill">+56%</span>
-          </div>
-          <div class="gauge-container">
-            <canvas id="gauge-network"></canvas>
-          </div>
-        </div>
-
-        <div class="dash-card col-4" style="display:flex;flex-direction:column;justify-content:center">
-          <h3 style="font-size:1.25rem;font-weight:700;margin:0 0 0.75rem">SIKKA: parallel-scalable smart ledger</h3>
-          <p class="dash-card-desc">Unlike blockchains that congest, SIKKA processes transactions asynchronously — <strong>the more users interact, the faster SIKKA gets</strong>.</p>
-          <div style="margin-top:1.5rem">
-            <div class="dash-card-metric-label" style="color:var(--red)">Active Tips</div>
-            <div class="dash-card-metric" id="dash-tip-count">—</div>
-          </div>
-        </div>
-
-        <div class="dash-card col-4">
-          <div class="abstract-graphic">
-            <svg viewBox="0 0 80 80" fill="none">
-              <path d="M40 10 C60 30, 60 50, 40 70 C20 50, 20 30, 40 10Z" fill="url(#shield-grad)" />
-              <defs>
-                <linearGradient id="shield-grad" x1="20" y1="10" x2="60" y2="70">
-                  <stop offset="0%" stop-color="#fbbf24" />
-                  <stop offset="100%" stop-color="#f97316" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
-            <i class="fa-solid fa-shield-halved" style="color:var(--yellow)"></i>
-            <span style="font-weight:600;font-size:0.875rem">Tor-Native Privacy</span>
-          </div>
-          <p class="dash-card-desc" style="font-size:0.8125rem">SIKKA nodes advertise onion addresses and communicate privately with managed Tor integration.</p>
-          <div style="margin-top:1rem;display:flex;align-items:center;gap:0.5rem">
-            <i class="fa-solid fa-lock" style="color:var(--blue)"></i>
-            <span style="font-weight:600;font-size:0.875rem">ML-DSA-87 Signatures</span>
-          </div>
-        </div>
-
-        <div class="dash-card col-4">
-          <div class="chart-container">
-            <canvas id="chart-activity"></canvas>
-          </div>
-          <h3 style="font-size:0.9375rem;font-weight:700;margin:1rem 0 0.375rem">SIKKA DAG Throughput</h3>
-          <p class="dash-card-desc" style="font-size:0.8125rem">SIKKA transaction volume across the network throughout the day.</p>
-        </div>
-
-        <div class="dash-card col-4">
-          <div class="dash-card-header">
-            <div class="dash-card-label">Network Status</div>
-          </div>
-          <div class="chart-container sm" style="position:relative">
-            <canvas id="chart-status"></canvas>
-            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none">
-              <span style="font-size:1.75rem;font-weight:800" id="dash-dag-size">—</span>
-              <span style="font-size:0.625rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em">Total Txs</span>
+          <div style="flex:1;display:flex;flex-direction:column;gap:0.5rem;">
+            <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;">Activity (24h)</div>
+            <div class="hero-chart-wrap" style="flex:1;min-height:120px;">
+              <canvas id="hero-tx-chart"></canvas>
             </div>
           </div>
-          <div class="chart-legend">
-            <span class="legend-item"><span class="legend-dot" style="background:var(--red)"></span> Pending</span>
-            <span class="legend-item"><span class="legend-dot" style="background:var(--yellow)"></span> Tips</span>
-            <span class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span> Confirmed</span>
-          </div>
-        </div>
-
-        <div class="dash-card col-4" style="display:flex;flex-direction:column;justify-content:center">
-          <h3 style="font-size:1rem;font-weight:700;margin:0 0 0.75rem">SIKKA live PoW difficulty</h3>
-          <p class="dash-card-desc" style="font-size:0.8125rem;margin-bottom:1rem">SIKKA's adaptive spam resistance scales automatically when the network is busy — no fees, just CPU throttling.</p>
-          <div class="chart-container sm">
-            <canvas id="chart-pow"></canvas>
-          </div>
-          <div style="margin-top:1rem">
-            <span class="dash-card-metric-label" style="color:var(--blue)">Resolved Today</span>
-            <div class="dash-card-metric blue" style="font-size:2rem">12+</div>
-          </div>
+          <div id="hero-dag-stats">● Connecting to node…</div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="section" id="use-cases">
-      <div class="section-header">
-        <span class="section-eyebrow">Use Cases</span>
-        <h2 class="section-title">Built for the real economy</h2>
-        <p class="section-lead">SIKKA is designed for humans, machines, and autonomous AI agents — enabling applications impractical on legacy blockchains.</p>
+<!-- ═══════════════════════════════════════════════════
+     MARQUEE
+═══════════════════════════════════════════════════ -->
+<div class="marquee-section">
+  <div class="marquee-track" aria-hidden="true">
+    <!-- First copy -->
+    <div class="marquee-item"><i class="fa-solid fa-bolt"></i> Zero Fees</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-lock"></i> ML-DSA-87</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-shield-halved"></i> Tor-Native</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-gem"></i> 19,960,907 Fixed Supply</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-code-branch"></i> Blockless DAG</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-users"></i> Native Multisig</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-robot"></i> AI Agent Payments</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-hammer"></i> Per-TX Proof of Work</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-box"></i> 17 MB Static Binary</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-network-wired"></i> Deterministic Sync</div>
+    <div class="marquee-sep">·</div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><i class="fa-solid fa-bolt"></i> Zero Fees</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-lock"></i> ML-DSA-87</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-shield-halved"></i> Tor-Native</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-gem"></i> 19,960,907 Fixed Supply</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-code-branch"></i> Blockless DAG</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-users"></i> Native Multisig</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-robot"></i> AI Agent Payments</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-hammer"></i> Per-TX Proof of Work</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><i class="fa-solid fa-box"></i> 17 MB Static Binary</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-network-wired"></i> Deterministic Sync</div>
+    <div class="marquee-sep">·</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     WHY SIKKA — LIVE STATS DASHBOARD
+═══════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Live Network</span>
+      <h2>Why <span class="gradient-text">SIKKA</span></h2>
+      <p>Real-time data from the SIKKA mainnet. No blocks, no fees, no compromise.</p>
+    </div>
+
+    <div class="dash-grid">
+      <!-- DAG Size -->
+      <div class="dash-card reveal reveal-delay-1">
+        <div class="dash-label">DAG Size</div>
+        <div class="dash-value blue" id="dash-dag-size">—</div>
+        <div class="dash-sub" id="dash-dag-label">Total transactions</div>
       </div>
 
-      <div class="dashboard-grid" style="margin-bottom:3rem">
-        <div class="dash-card col-8">
-          <div class="chart-container lg">
-            <canvas id="chart-usecases"></canvas>
-          </div>
-          <p class="dash-card-desc" style="margin-top:0.75rem;font-size:0.8125rem">Feasibility score across primary SIKKA use case categories.</p>
-        </div>
-        <div class="dash-card col-4" style="display:flex;flex-direction:column;justify-content:center">
-          <div class="dash-card-metric-label" style="color:var(--yellow)">SIKKA Use Cases</div>
-          <div class="dash-card-metric yellow" style="font-size:3rem">11+</div>
-          <p class="dash-card-desc" style="margin-top:1rem">From AI agent micropayments to decentralized marketplaces — SIKKA powers the machine economy.</p>
-        </div>
+      <!-- Tips -->
+      <div class="dash-card reveal reveal-delay-2">
+        <div class="dash-label">Open Tips</div>
+        <div class="dash-value purple" id="dash-tip-count">—</div>
+        <div class="dash-sub">Unconfirmed tips</div>
       </div>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
-          <h3>AI Agent Payments</h3>
-          <p>Instant micropayments between autonomous AI agents — LLMs buying data, bots paying for API calls, research agents purchasing premium information.</p>
-          <div class="pill-row"><span class="pill">No fees</span><span class="pill">Instant settlement</span><span class="pill">Machine economy</span></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
-          <h3>Micropayment Infrastructure</h3>
-          <p>Payments worth fractions of a cent. Pay-per-article, pay-per-second streaming, pay-per-query search engines, or API billing per request.</p>
-          <div class="pill-row"><span class="pill">New business models</span><span class="pill">Global access</span></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-handshake"></i></div>
-          <h3>Trustless Escrow</h3>
-          <p>Native multisignature enables decentralized escrow for freelance payments, digital asset trading, P2P commerce, and service agreements.</p>
-          <div class="pill-row"><span class="pill">Multisig</span><span class="pill">No intermediaries</span></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-id-card"></i></div>
-          <h3>Decentralized Identity</h3>
-          <p>SIKKA wallets become portable digital identities — wallet-based login, cryptographic signatures, reputation systems, and human verification.</p>
-          <div class="pill-row"><span class="pill">Self-sovereign</span><span class="pill">Cryptographic proofs</span></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-earth-americas"></i></div>
-          <h3>Global P2P Payments</h3>
-          <p>Instant global transfers with no banking restrictions, no fees, and no borders. Immediate settlement for anyone, anywhere.</p>
-          <div class="pill-row"><span class="pill">Borderless</span><span class="pill">Zero fees</span></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-list-check"></i></div>
-          <h3>AI Agent Registry</h3>
-          <p>A decentralized registry for discovering trustworthy AI services — agent discovery, reputation tracking, and stake-backed listings.</p>
-          <div class="pill-row"><span class="pill">Agent discovery</span><span class="pill">Reputation</span></div>
-        </div>
-      </div>
-
-      <div class="use-cases-more">
-        <div class="feature-card use-case-compact">
-          <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0"><i class="fa-solid fa-store"></i></div>
-          <div><h3>Decentralized Marketplace</h3><p>P2P commerce with built-in multisig escrow and instant settlement.</p></div>
-        </div>
-        <div class="feature-card use-case-compact">
-          <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0"><i class="fa-solid fa-microchip"></i></div>
-          <div><h3>Internet of Things</h3><p>Machine-to-machine payments for EV charging, smart parking, and sensor marketplaces.</p></div>
-        </div>
-        <div class="feature-card use-case-compact">
-          <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0"><i class="fa-solid fa-paintbrush"></i></div>
-          <div><h3>Creator Monetization</h3><p>Direct tips, premium content, memberships, and digital collectibles — no middlemen.</p></div>
+      <!-- Network Health Gauge -->
+      <div class="dash-card reveal reveal-delay-3">
+        <div class="dash-label">Network Health</div>
+        <div class="dash-chart sm" style="height:100px;">
+          <canvas id="gauge-network"></canvas>
         </div>
       </div>
 
-    </section>
-
-    <section class="accent-band" id="features">
-      <div class="section section--last">
-        <div class="section-header">
-          <span class="section-eyebrow">SIKKA Protocol</span>
-          <h2 class="section-title">What makes SIKKA different</h2>
-          <p class="section-lead">Core protocol features that set SIKKA apart — rotating highlights with the details that matter.</p>
-        </div>
-        <div class="feature-ticker feature-ticker--explained" aria-label="SIKKA protocol highlights">
-          <div class="feature-ticker-row" id="ticker-row-1"></div>
-          <div class="feature-ticker-row" id="ticker-row-2"></div>
+      <!-- Activity Chart -->
+      <div class="dash-card span-2 reveal reveal-delay-4">
+        <div class="dash-label">Network Activity</div>
+        <div class="dash-chart">
+          <canvas id="chart-activity"></canvas>
         </div>
       </div>
-    </section>
 
-    <script src="js/charts.js"></script>
-    <script src="js/dag.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+      <!-- Status Doughnut -->
+      <div class="dash-card reveal reveal-delay-1">
+        <div class="dash-label">TX Status</div>
+        <div class="dash-chart">
+          <canvas id="chart-status"></canvas>
+        </div>
+      </div>
+
+      <!-- PoW Difficulty -->
+      <div class="dash-card span-2 reveal reveal-delay-2">
+        <div class="dash-label">PoW Difficulty (last 5 min)</div>
+        <div class="dash-chart">
+          <canvas id="chart-pow"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     USE CASES BENTO
+═══════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Use Cases</span>
+      <h2>Built for <span class="gradient-text">Everyone</span></h2>
+      <p>Whether you're a human, an AI agent, or a microcontroller — SIKKA handles the transaction.</p>
+    </div>
+
+    <div class="usecase-bento">
+      <div class="usecase-card featured reveal reveal-delay-1">
+        <div class="usecase-emoji">🤖</div>
+        <div class="usecase-title">AI Agent Payments</div>
+        <div class="usecase-desc">Autonomous agents can pay for APIs, data feeds, compute resources and services instantly with zero fees. No wallet friction, no gas estimation — just value transfer at machine speed.</div>
+        <div style="margin-top:1rem;"><span class="tag blue"><i class="fa-solid fa-bolt"></i> Zero fees</span> <span class="tag purple"><i class="fa-solid fa-lock"></i> ML-DSA-87</span></div>
+      </div>
+
+      <div class="usecase-card reveal reveal-delay-2">
+        <div class="usecase-emoji">🌍</div>
+        <div class="usecase-title">Global Micropayments</div>
+        <div class="usecase-desc">Send fractions of SIKKA globally. Every satoshi arrives intact — no fee deductions, no minimum amounts.</div>
+      </div>
+
+      <div class="usecase-card reveal reveal-delay-3">
+        <div class="usecase-emoji">🔐</div>
+        <div class="usecase-title">Multisig Escrow</div>
+        <div class="usecase-desc">Up to 16-of-16 native multisig. Perfect for trustless escrow, DAOs, and collaborative custody without smart contracts.</div>
+      </div>
+
+      <div class="usecase-card reveal reveal-delay-1">
+        <div class="usecase-emoji">🕵️</div>
+        <div class="usecase-title">Private Transfers</div>
+        <div class="usecase-desc">Every node communicates over Tor. Your financial activity stays private by default — no opt-in required.</div>
+      </div>
+
+      <div class="usecase-card reveal reveal-delay-2">
+        <div class="usecase-emoji">💻</div>
+        <div class="usecase-title">IoT & Edge Devices</div>
+        <div class="usecase-desc">17 MB static binary. Runs on minimal hardware. Machine-to-machine payments for sensor networks and edge compute.</div>
+      </div>
+
+      <div class="usecase-card reveal reveal-delay-3">
+        <div class="usecase-emoji">🔮</div>
+        <div class="usecase-title">Quantum-Safe Store of Value</div>
+        <div class="usecase-desc">Fixed supply of 19,960,907 coins secured by ML-DSA-87 post-quantum cryptography. Ready for the post-quantum era.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FEATURE TICKER
+═══════════════════════════════════════════════════ -->
+<section class="section ticker-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">Feature Spotlight</span>
+      <h2>Every Detail <span class="gradient-text">Considered</span></h2>
+    </div>
+
+    <div class="ticker-row-wrap reveal reveal-delay-1">
+      <div class="ticker-row-label">Core Protocol</div>
+      <div id="ticker-row-1"></div>
+    </div>
+
+    <div class="ticker-row-wrap reveal reveal-delay-2" style="margin-top:1.5rem;">
+      <div class="ticker-row-label">Infrastructure</div>
+      <div id="ticker-row-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="label" style="display:block;margin-bottom:1rem;">Get Started</span>
+      <h2>Ready to run a <span class="gradient-text">SIKKA</span> node?</h2>
+      <p>One Docker command. Zero configuration. Full DAG engine, wallet, explorer, and Tor — all in 17 MB.</p>
+      <div class="cta-actions">
+        <a href="run-node.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-server"></i> Run a Node
+        </a>
+        <a href="features.html" class="btn btn-ghost btn-lg">
+          <i class="fa-solid fa-book"></i> Read the Docs
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <img src="sikka.svg" alt="SIKKA"/>
+          <span>SIKKA</span>
+        </a>
+        <p>Blockless DAG digital currency for humans, AI agents, and machines.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Protocol</h4>
+        <ul>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="run-node.html">Run a Node</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://node.sikka.click" target="_blank">Web Wallet</a></li>
+          <li><a href="https://node.sikka.click/explorer" target="_blank">Explorer</a></li>
+          <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="https://discord.gg/sikka" target="_blank">Discord</a></li>
+          <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
+      <div class="footer-social">
+        <a href="https://discord.gg/sikka" target="_blank" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════ -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/dag.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  /* Nav scroll glass */
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  /* Hamburger */
+  const ham = document.getElementById('hamburger');
+  const mob = document.getElementById('nav-mobile');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+  });
+
+  /* Scroll reveal */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
 </html>
