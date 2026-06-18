@@ -8,376 +8,158 @@
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://sikkalabs.com/use-cases.html" />
     <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
-
-      * { box-sizing: border-box; }
-
-      html, body {
-        margin: 0; padding: 0;
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        background: #ffffff;
-        color: #202124;
-        overflow-x: hidden;
-      }
-
-      .display-text { font-family: "Google Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
-
-      .back-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.625rem 1.25rem;
-        border-radius: 9999px;
-        background: #f1f3f4;
-        border: 1px solid #dadce0;
-        color: #3c4043;
-        font-size: 0.875rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.2s;
-      }
-      .back-btn:hover { background: #e8eaed; border-color: #bdc1c6; transform: translateX(-2px); }
-
-      .page-header {
-        padding: 1.5rem 2rem;
-        border-bottom: 1px solid #e8eaed;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        background: #fff;
-        position: sticky;
-        top: 0;
-        z-index: 50;
-      }
-      .page-header-title { font-family: "Google Sans", sans-serif; font-size: 1rem; font-weight: 600; color: #5f6368; }
-      .page-header-title strong { color: #202124; }
-
-      .section-eyebrow { color: #5f6368; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
-
-      .g-card {
-        background: #ffffff;
-        border: 1px solid #dadce0;
-        border-radius: 24px;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .g-card:hover { border-color: transparent; box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15); transform: translateY(-2px); }
-
-      .g-pill {
-        background: #f1f3f4;
-        color: #3c4043;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        padding: 0.25rem 0.75rem;
-        display: inline-block;
-      }
-
-      .subpage-hero {
-        background: linear-gradient(135deg, #030712 0%, #0f172a 40%, #1a1040 100%);
-        color: #f8fafc;
-        padding: 5rem 2rem 4rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-      .subpage-hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(rgba(26,115,232,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(26,115,232,0.06) 1px, transparent 1px);
-        background-size: 48px 48px;
-      }
-      .subpage-hero-glow { position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(ellipse, rgba(99,102,241,0.25) 0%, rgba(26,115,232,0.15) 30%, transparent 70%); pointer-events: none; }
-      .subpage-hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-      .subpage-h1 { font-family: "Google Sans", sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 1rem; color: #f8fafc; }
-      .subpage-lead { font-size: 1.125rem; color: #94a3b8; line-height: 1.65; margin: 0; }
-
-      /* Tokenomics band */
-      .tokenomics-band {
-        background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
-        border-radius: 24px;
-        color: #ffffff;
-        position: relative;
-        overflow: hidden;
-      }
-      .tokenomics-band::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
-        pointer-events: none;
-      }
-
-      .page-footer-band { background: #030712; color: #475569; padding: 3rem 2rem; text-align: center; margin-top: 0; }
-      .page-footer-links { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; }
-      .page-footer-links a { color: #64748b; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
-      .page-footer-links a:hover { color: #60a5fa; }
-
-      /* Agent trio */
-      .agent-box {
-        background: #fff;
-        border-radius: 16px;
-        padding: 1.5rem 1rem;
-        border: 1px solid #BFDBFE;
-        text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
 
-    <div class="page-header">
-      <a href="index.html" class="back-btn" id="back-home-btn">
-        <i class="fa-solid fa-arrow-left"></i> Back
-      </a>
-      <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:0.625rem;">
-        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="20" fill="#1A73E8" />
-          <path d="M50 20L80 70H20L50 20Z" fill="white" />
-        </svg>
-      </a>
-      <span class="page-header-title"><strong>Sikka</strong> — Use Cases</span>
+    <div class="page-hero">
+      <a href="index.html" class="page-back"><i class="fa-solid fa-arrow-left"></i> Back to SIKKA</a>
+      <span class="section-eyebrow">Use Cases</span>
+      <h1>Built for the real economy</h1>
+      <p>SIKKA is designed for humans, machines, and autonomous AI agents — enabling entirely new categories of applications impractical on legacy blockchains.</p>
     </div>
 
-    <div class="subpage-hero">
-      <div class="subpage-hero-glow"></div>
-      <div class="subpage-hero-content">
-        <div class="section-eyebrow" style="color:#a5b4fc; margin-bottom:1rem;">Use Cases</div>
-        <h1 class="subpage-h1">Built for the real economy.</h1>
-        <p class="subpage-lead">
-          SIKKA is designed for humans, machines, and autonomous AI agents — enabling entirely new categories of applications that are impractical on traditional payment networks and legacy blockchains.
-        </p>
-      </div>
-    </div>
-
-    <!-- Primary Use Cases Grid -->
-    <div style="max-width:72rem; margin:0 auto; padding:5rem 1.5rem 3rem;">
-      <div style="margin-bottom:3rem; text-align:center;">
-        <div class="section-eyebrow">Primary Use Cases</div>
-        <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0;">Six ways SIKKA changes money.</h2>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
-
-        <div class="g-card" style="padding:2rem;" id="usecase-ai-payments">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;"><i class="fa-solid fa-robot"></i></div>
-          <h3 class="display-text" style="font-size:1.0625rem; font-weight:600; margin:0 0 0.75rem;">AI Agent Payments</h3>
-          <p style="color:#5f6368; font-size:0.9rem; line-height:1.65; margin:0 0 1rem;">Instant micropayments between autonomous AI agents — LLMs buying data, bots paying for API calls, research agents purchasing premium information.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <span class="g-pill">No fees</span>
-            <span class="g-pill">Instant settlement</span>
-            <span class="g-pill">Machine economy</span>
+    <section class="section">
+      <div class="dashboard-grid" style="margin-bottom:3rem">
+        <div class="dash-card col-8">
+          <div class="chart-container lg">
+            <canvas id="chart-usecases"></canvas>
           </div>
+          <p class="dash-card-desc" style="margin-top:0.75rem;font-size:0.8125rem">Feasibility score across primary use case categories.</p>
         </div>
-
-        <div class="g-card" style="padding:2rem;" id="usecase-micropayments">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;"><i class="fa-solid fa-coins"></i></div>
-          <h3 class="display-text" style="font-size:1.0625rem; font-weight:600; margin:0 0 0.75rem;">Micropayment Infrastructure</h3>
-          <p style="color:#5f6368; font-size:0.9rem; line-height:1.65; margin:0 0 1rem;">Payments worth fractions of a cent. Pay-per-article, pay-per-second streaming, pay-per-query search engines, or API billing per request.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <span class="g-pill">New business models</span>
-            <span class="g-pill">Global access</span>
-          </div>
-        </div>
-
-        <div class="g-card" style="padding:2rem;" id="usecase-escrow">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;"><i class="fa-solid fa-handshake"></i></div>
-          <h3 class="display-text" style="font-size:1.0625rem; font-weight:600; margin:0 0 0.75rem;">Trustless Escrow</h3>
-          <p style="color:#5f6368; font-size:0.9rem; line-height:1.65; margin:0 0 1rem;">Native multisignature enables decentralized escrow for freelance payments, digital asset trading, P2P commerce, and service agreements — no intermediaries needed.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <span class="g-pill">Buyer + Seller + Arbitrator</span>
-            <span class="g-pill">Multisig</span>
-          </div>
-        </div>
-
-        <div class="g-card" style="padding:2rem;" id="usecase-identity">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;"><i class="fa-solid fa-id-card"></i></div>
-          <h3 class="display-text" style="font-size:1.0625rem; font-weight:600; margin:0 0 0.75rem;">Decentralized Identity</h3>
-          <p style="color:#5f6368; font-size:0.9rem; line-height:1.65; margin:0 0 1rem;">SIKKA wallets become portable digital identities — wallet-based login, cryptographic signatures, reputation systems, and human verification layers for marketplaces.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <span class="g-pill">Self-sovereign</span>
-            <span class="g-pill">Cryptographic proofs</span>
-          </div>
-        </div>
-
-        <div class="g-card" style="padding:2rem;" id="usecase-global">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;"><i class="fa-solid fa-earth-americas"></i></div>
-          <h3 class="display-text" style="font-size:1.0625rem; font-weight:600; margin:0 0 0.75rem;">Global Peer-to-Peer Payments</h3>
-          <p style="color:#5f6368; font-size:0.9rem; line-height:1.65; margin:0 0 1rem;">Instant global transfers with no banking restrictions, no fees, and no borders. Immediate settlement for anyone, anywhere.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <span class="g-pill">Borderless</span>
-            <span class="g-pill">Zero fees</span>
-            <span class="g-pill">Instant</span>
-          </div>
-        </div>
-
-        <div class="g-card" style="padding:2rem;" id="usecase-registry">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;"><i class="fa-solid fa-list-check"></i></div>
-          <h3 class="display-text" style="font-size:1.0625rem; font-weight:600; margin:0 0 0.75rem;">AI Agent Registry</h3>
-          <p style="color:#5f6368; font-size:0.9rem; line-height:1.65; margin:0 0 1rem;">A decentralized registry for discovering trustworthy AI services — agent discovery, reputation tracking, and stake-backed listings.</p>
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <span class="g-pill">Agent discovery</span>
-            <span class="g-pill">Reputation tracking</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Secondary Use Cases -->
-    <div style="background:#f8f9fa; border-top:1px solid #e8eaed; border-bottom:1px solid #e8eaed; padding:4rem 0;">
-      <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem;">
-        <div style="margin-bottom:2rem; text-align:center;">
-          <div class="section-eyebrow">More Use Cases</div>
-          <h2 class="display-text" style="font-size:clamp(1.5rem, 3vw, 2rem); font-weight:700; color:#202124; margin:0;">Even more possibilities.</h2>
-        </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1rem;">
-
-          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;" id="usecase-marketplace">
-            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-store"></i></div>
-            <div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.375rem; font-size:0.9375rem;">Decentralized Marketplace</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">P2P commerce platforms with built-in multisig escrow, no payment processors, and instant settlement.</p>
-            </div>
-          </div>
-
-          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;" id="usecase-node-economy">
-            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-server"></i></div>
-            <div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.375rem; font-size:0.9375rem;">Node Economy</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Paid public nodes, gateway services, data indexing, analytics APIs, and managed hosting — sustainable incentives for network operators.</p>
-            </div>
-          </div>
-
-          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;" id="usecase-messaging">
-            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-message"></i></div>
-            <div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.375rem; font-size:0.9375rem;">Decentralized Messaging</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Wallet-linked messaging with network-level anti-spam. Wallet-to-wallet comms, business notifications, and agent communication.</p>
-            </div>
-          </div>
-
-          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;" id="usecase-iot">
-            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-microchip"></i></div>
-            <div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.375rem; font-size:0.9375rem;">Internet of Things</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Machine-to-machine payments for EV charging, smart parking, sensor marketplaces, bandwidth sharing, and device leasing.</p>
-            </div>
-          </div>
-
-          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;" id="usecase-creator">
-            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-paintbrush"></i></div>
-            <div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.375rem; font-size:0.9375rem;">Creator Monetization</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Direct payment channels for tips, premium content, memberships, and digital collectibles — without surrendering revenue to intermediaries.</p>
-            </div>
-          </div>
-
+        <div class="dash-card col-4" style="display:flex;flex-direction:column;justify-content:center">
+          <div class="dash-card-metric-label" style="color:var(--red)">Use Cases</div>
+          <div class="dash-card-metric" style="font-size:3rem">11+</div>
+          <p class="dash-card-desc" style="margin-top:1rem">From AI agent micropayments to decentralized marketplaces — SIKKA powers the machine economy.</p>
         </div>
       </div>
-    </div>
 
-    <!-- Long-term vision -->
-    <div style="max-width:72rem; margin:0 auto; padding:5rem 1.5rem;">
-      <div class="g-card" style="padding:2.5rem; border-color:#BFDBFE; background:#f0f7ff; overflow:hidden; position:relative;">
-        <div style="position:absolute; top:0; right:0; width:16rem; height:16rem; background:rgba(219,234,254,0.3); border-radius:50%; filter:blur(3rem); transform:translate(25%,-25%); pointer-events:none;"></div>
-        <div style="position:relative; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2.5rem; align-items:center;">
+      <div class="section-header">
+        <span class="section-eyebrow">Primary Use Cases</span>
+        <h2 class="section-title">Six ways SIKKA changes money</h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3>AI Agent Payments</h3>
+          <p>Instant micropayments between autonomous AI agents — LLMs buying data, bots paying for API calls, research agents purchasing premium information.</p>
+          <div class="pill-row"><span class="pill">No fees</span><span class="pill">Instant settlement</span><span class="pill">Machine economy</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
+          <h3>Micropayment Infrastructure</h3>
+          <p>Payments worth fractions of a cent. Pay-per-article, pay-per-second streaming, pay-per-query search engines, or API billing per request.</p>
+          <div class="pill-row"><span class="pill">New business models</span><span class="pill">Global access</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-handshake"></i></div>
+          <h3>Trustless Escrow</h3>
+          <p>Native multisignature enables decentralized escrow for freelance payments, digital asset trading, P2P commerce, and service agreements.</p>
+          <div class="pill-row"><span class="pill">Buyer + Seller + Arbitrator</span><span class="pill">Multisig</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-id-card"></i></div>
+          <h3>Decentralized Identity</h3>
+          <p>SIKKA wallets become portable digital identities — wallet-based login, cryptographic signatures, reputation systems, and human verification.</p>
+          <div class="pill-row"><span class="pill">Self-sovereign</span><span class="pill">Cryptographic proofs</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-earth-americas"></i></div>
+          <h3>Global Peer-to-Peer Payments</h3>
+          <p>Instant global transfers with no banking restrictions, no fees, and no borders. Immediate settlement for anyone, anywhere.</p>
+          <div class="pill-row"><span class="pill">Borderless</span><span class="pill">Zero fees</span><span class="pill">Instant</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-list-check"></i></div>
+          <h3>AI Agent Registry</h3>
+          <p>A decentralized registry for discovering trustworthy AI services — agent discovery, reputation tracking, and stake-backed listings.</p>
+          <div class="pill-row"><span class="pill">Agent discovery</span><span class="pill">Reputation tracking</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="accent-band">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-eyebrow">More Use Cases</span>
+          <h2 class="section-title">Even more possibilities</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:flex-start">
+            <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0;flex-shrink:0"><i class="fa-solid fa-store"></i></div>
+            <div><h3 style="font-size:0.9375rem;margin:0 0 0.375rem">Decentralized Marketplace</h3><p style="font-size:0.8125rem;margin:0">P2P commerce with built-in multisig escrow, no payment processors, and instant settlement.</p></div>
+          </div>
+          <div class="feature-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:flex-start">
+            <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0;flex-shrink:0"><i class="fa-solid fa-server"></i></div>
+            <div><h3 style="font-size:0.9375rem;margin:0 0 0.375rem">Node Economy</h3><p style="font-size:0.8125rem;margin:0">Paid public nodes, gateway services, data indexing, analytics APIs, and managed hosting.</p></div>
+          </div>
+          <div class="feature-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:flex-start">
+            <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0;flex-shrink:0"><i class="fa-solid fa-message"></i></div>
+            <div><h3 style="font-size:0.9375rem;margin:0 0 0.375rem">Decentralized Messaging</h3><p style="font-size:0.8125rem;margin:0">Wallet-linked messaging with network-level anti-spam and agent communication.</p></div>
+          </div>
+          <div class="feature-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:flex-start">
+            <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0;flex-shrink:0"><i class="fa-solid fa-microchip"></i></div>
+            <div><h3 style="font-size:0.9375rem;margin:0 0 0.375rem">Internet of Things</h3><p style="font-size:0.8125rem;margin:0">Machine-to-machine payments for EV charging, smart parking, sensor marketplaces, and device leasing.</p></div>
+          </div>
+          <div class="feature-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:flex-start">
+            <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0;flex-shrink:0"><i class="fa-solid fa-paintbrush"></i></div>
+            <div><h3 style="font-size:0.9375rem;margin:0 0 0.375rem">Creator Monetization</h3><p style="font-size:0.8125rem;margin:0">Direct payment channels for tips, premium content, memberships, and digital collectibles.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="dash-card" style="padding:2.5rem">
+        <div class="two-col">
           <div>
-            <div style="display:inline-flex; align-items:center; gap:0.5rem; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#1a73e8; margin-bottom:0.75rem;">
-              <i class="fa-solid fa-rocket"></i> Long-term vision
-            </div>
-            <h3 class="display-text" style="font-size:1.5rem; font-weight:700; color:#202124; margin:0 0 0.75rem;">The native economic layer for the future internet.</h3>
-            <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">
-              The future economy will not only be human-to-human. It will increasingly be machine-to-machine, agent-to-agent, and human-to-agent. SIKKA is designed to power that economy.
-            </p>
+            <span class="badge badge-blue" style="margin-bottom:1rem"><span class="badge-dot"></span> Long-term vision</span>
+            <h3 style="font-size:1.5rem;font-weight:700;margin:0 0 0.75rem">The native economic layer for the future internet</h3>
+            <p class="dash-card-desc">The future economy will increasingly be machine-to-machine, agent-to-agent, and human-to-agent. SIKKA is designed to power that economy.</p>
           </div>
-          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.75rem; text-align:center;">
-            <div class="agent-box">
-              <i class="fa-solid fa-user" style="color:#1a73e8; font-size:1.25rem; margin-bottom:0.5rem; display:block;"></i>
-              <div style="font-size:0.75rem; font-weight:600; color:#3c4043;">Humans</div>
-            </div>
-            <div class="agent-box">
-              <i class="fa-solid fa-robot" style="color:#1a73e8; font-size:1.25rem; margin-bottom:0.5rem; display:block;"></i>
-              <div style="font-size:0.75rem; font-weight:600; color:#3c4043;">AI Agents</div>
-            </div>
-            <div class="agent-box">
-              <i class="fa-solid fa-microchip" style="color:#1a73e8; font-size:1.25rem; margin-bottom:0.5rem; display:block;"></i>
-              <div style="font-size:0.75rem; font-weight:600; color:#3c4043;">Machines</div>
-            </div>
-            <div class="agent-box">
-              <i class="fa-solid fa-code" style="color:#1a73e8; font-size:1.25rem; margin-bottom:0.5rem; display:block;"></i>
-              <div style="font-size:0.75rem; font-weight:600; color:#3c4043;">Autonomous Software</div>
-            </div>
-            <div class="agent-box" style="grid-column:span 2;">
-              <i class="fa-solid fa-globe" style="color:#1a73e8; font-size:1.25rem; margin-bottom:0.5rem; display:block;"></i>
-              <div style="font-size:0.75rem; font-weight:600; color:#3c4043;">Internet Services</div>
-            </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;text-align:center">
+            <div class="feature-card" style="padding:1.25rem 0.75rem"><i class="fa-solid fa-user" style="color:var(--blue);font-size:1.25rem;display:block;margin-bottom:0.5rem"></i><span style="font-size:0.75rem;font-weight:600">Humans</span></div>
+            <div class="feature-card" style="padding:1.25rem 0.75rem"><i class="fa-solid fa-robot" style="color:var(--blue);font-size:1.25rem;display:block;margin-bottom:0.5rem"></i><span style="font-size:0.75rem;font-weight:600">AI Agents</span></div>
+            <div class="feature-card" style="padding:1.25rem 0.75rem"><i class="fa-solid fa-microchip" style="color:var(--blue);font-size:1.25rem;display:block;margin-bottom:0.5rem"></i><span style="font-size:0.75rem;font-weight:600">Machines</span></div>
+            <div class="feature-card" style="padding:1.25rem 0.75rem"><i class="fa-solid fa-code" style="color:var(--blue);font-size:1.25rem;display:block;margin-bottom:0.5rem"></i><span style="font-size:0.75rem;font-weight:600">Autonomous Software</span></div>
+            <div class="feature-card" style="padding:1.25rem 0.75rem;grid-column:span 2"><i class="fa-solid fa-globe" style="color:var(--blue);font-size:1.25rem;display:block;margin-bottom:0.5rem"></i><span style="font-size:0.75rem;font-weight:600">Internet Services</span></div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Tokenomics CTA -->
-    <div style="background:#030712; padding:5rem 0 0;">
-      <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem 5rem;">
-        <div style="text-align:center; margin-bottom:3rem;">
-          <div class="section-eyebrow" style="color:#475569;">Tokenomics</div>
-          <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#f8fafc; margin:0 0 1rem;">Every SIKKA goes to the network.</h2>
-          <p style="font-size:1.0625rem; color:#94a3b8; line-height:1.65; margin:0 auto; max-width:40rem;">
-            A fixed genesis supply with no inflation, no premine, and no team allocation. <strong style="color:#f1f5f9;">100% of all SIKKA is distributed to node operators</strong> who keep the DAG alive.
-          </p>
+    <section class="accent-band">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-eyebrow">Tokenomics</span>
+          <h2 class="section-title">Every SIKKA goes to the network</h2>
+          <p class="section-lead">A fixed genesis supply with no inflation. <strong style="color:var(--text)">100% distributed to node operators</strong> who keep the DAG alive.</p>
         </div>
-
-        <div class="tokenomics-band" style="padding:2.5rem 3rem;">
-          <div style="position:relative; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2.5rem; align-items:center;">
+        <div class="dash-card" style="padding:2.5rem;background:linear-gradient(135deg,rgba(59,130,246,0.12) 0%,rgba(59,130,246,0.04) 100%);border-color:rgba(59,130,246,0.2)">
+          <div class="two-col">
             <div>
-              <div style="display:inline-flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.15); border-radius:9999px; padding:0.25rem 0.75rem; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">
-                <i class="fa-solid fa-flask"></i> Try before you run
-              </div>
-              <h3 class="display-text" style="font-size:1.5rem; font-weight:700; margin:0 0 1rem;">Get SIKKA and test the network</h3>
-              <p style="color:rgba(219,234,254,0.85); line-height:1.65; margin:0 0 0.75rem; font-size:0.9375rem;">
-                A few of our volunteers operate community faucets so anyone can receive a small amount of SIKKA, create a wallet, and send a real transaction across the DAG — no node required.
-              </p>
-              <p style="color:rgba(255,255,255,0.85); line-height:1.65; margin:0; font-size:0.9375rem;">
-                <strong>Join our Discord</strong> to claim a few SIKKAs every <strong>6 hours</strong> and experience feeless, parallel transfers firsthand.
-              </p>
+              <span class="badge badge-blue" style="margin-bottom:1rem"><span class="badge-dot"></span> Try before you run</span>
+              <h3 style="font-size:1.5rem;font-weight:700;margin:0 0 1rem">Get SIKKA and test the network</h3>
+              <p class="dash-card-desc" style="margin-bottom:0.75rem">Community faucets let anyone receive a small amount of SIKKA, create a wallet, and send a real transaction — no node required.</p>
+              <p class="dash-card-desc"><strong>Join our Discord</strong> to claim SIKKAs every <strong>6 hours</strong> and experience feeless transfers firsthand.</p>
             </div>
-            <div style="display:flex; flex-direction:column; gap:1rem;">
-              <a href="https://discord.gg/HxsRdB2zjb" target="_blank" id="tokenomics-discord-btn"
-                style="display:flex; align-items:center; justify-content:center; gap:0.75rem; background:#fff; color:#1557b0; font-weight:700; padding:1rem 2rem; border-radius:16px; text-decoration:none; transition:all 0.2s; font-size:0.9375rem; box-shadow:0 4px 16px rgba(0,0,0,0.2);">
-                <i class="fa-brands fa-discord" style="font-size:1.125rem;"></i>
-                Join Discord &amp; Claim SIKKA
+            <div style="display:flex;flex-direction:column;gap:1rem">
+              <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="btn btn-primary" style="justify-content:center">
+                <i class="fa-brands fa-discord"></i> Join Discord &amp; Claim SIKKA
               </a>
-              <a href="https://node.sikka.click/wallet.html" target="_blank" id="tokenomics-wallet-btn"
-                style="display:flex; align-items:center; justify-content:center; gap:0.75rem; background:rgba(255,255,255,0.1); color:#fff; font-weight:500; padding:1rem 2rem; border-radius:16px; border:1px solid rgba(255,255,255,0.25); text-decoration:none; transition:all 0.2s; font-size:0.9375rem;">
-                <i class="fa-solid fa-wallet"></i>
-                Open Web Wallet
+              <a href="https://node.sikka.click/wallet.html" target="_blank" class="btn btn-ghost" style="justify-content:center">
+                <i class="fa-solid fa-wallet"></i> Open Web Wallet
               </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="page-footer-band">
-      <a href="index.html" class="back-btn" style="display:inline-flex; margin-bottom:1.5rem; background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.1); color:#64748b;">
-        <i class="fa-solid fa-arrow-left"></i> Back to Home
-      </a>
-      <p style="margin:0 0 0.5rem; font-size:0.875rem; color:#334155; font-weight:600;">Sikka Protocol</p>
-      <div class="page-footer-links">
-        <a href="https://github.com/sikkalabs/sikka" target="_blank">Source Code</a>
-        <a href="https://discord.gg/HxsRdB2zjb" target="_blank">Discord</a>
-        <a href="https://node.sikka.click/" target="_blank">Explorer</a>
-        <a href="features.html">Features</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="run-node.html">Run a Node</a>
-      </div>
-    </div>
-
+    <script src="js/charts.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

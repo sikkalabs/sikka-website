@@ -8,514 +8,169 @@
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://sikkalabs.com/run-node.html" />
     <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
-
-      * { box-sizing: border-box; }
-
-      html, body {
-        margin: 0; padding: 0;
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        background: #030712;
-        color: #f8fafc;
-        overflow-x: hidden;
-      }
-
-      .display-text { font-family: "Google Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
-
-      .back-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.625rem 1.25rem;
-        border-radius: 9999px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        color: #94a3b8;
-        font-size: 0.875rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.2s;
-      }
-      .back-btn:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.2);
-        color: #f1f5f9;
-        transform: translateX(-2px);
-      }
-
-      .page-header {
-        padding: 1.25rem 2rem;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        background: rgba(3,7,18,0.8);
-        backdrop-filter: blur(12px);
-        position: sticky;
-        top: 0;
-        z-index: 50;
-      }
-      .page-header-title { font-family: "Google Sans", sans-serif; font-size: 1rem; font-weight: 600; color: #64748b; }
-      .page-header-title strong { color: #e2e8f0; }
-
-      .section-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; color: #3b82f6; }
-
-      /* Hero */
-      .hero-section {
-        position: relative;
-        padding: 6rem 2rem 5rem;
-        text-align: center;
-        overflow: hidden;
-      }
-
-      .hero-bg-grid {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(rgba(26,115,232,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(26,115,232,0.06) 1px, transparent 1px);
-        background-size: 48px 48px;
-      }
-      .hero-glow {
-        position: absolute;
-        top: -20%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 700px;
-        height: 500px;
-        background: radial-gradient(ellipse, rgba(26,115,232,0.2) 0%, rgba(34,197,94,0.08) 40%, transparent 70%);
-        pointer-events: none;
-        animation: glow 8s ease-in-out infinite;
-      }
-      @keyframes glow {
-        0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-        50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
-      }
-
-      .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-      .hero-h1 { font-family: "Google Sans", sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 1.25rem; color: #f8fafc; }
-      .hero-lead { font-size: 1.125rem; color: #94a3b8; line-height: 1.65; margin: 0 auto 3rem; max-width: 38rem; }
-
-      /* Stats strip */
-      .stats-strip {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
-        margin-bottom: 4rem;
-      }
-      .stat-item { text-align: center; }
-      .stat-value { font-family: "Google Sans", sans-serif; font-size: 1.75rem; font-weight: 700; color: #60a5fa; letter-spacing: -0.02em; }
-      .stat-label { font-size: 0.75rem; font-weight: 500; color: #64748b; margin-top: 0.125rem; }
-
-      /* Terminal card */
-      .terminal-card {
-        background: #0f172a;
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 20px;
-        overflow: hidden;
-        max-width: 48rem;
-        margin: 0 auto;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      }
-      .terminal-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.875rem 1.25rem;
-        background: rgba(255,255,255,0.03);
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-      }
-      .terminal-dots { display: flex; gap: 0.375rem; }
-      .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-      .terminal-title { font-size: 0.8rem; font-weight: 500; color: #475569; font-family: ui-monospace, monospace; }
-
-      .terminal-body { padding: 1.5rem 1.5rem; }
-      .terminal-line { display: flex; align-items: flex-start; gap: 0.75rem; font-family: ui-monospace, monospace; font-size: 0.9rem; line-height: 1.7; }
-      .terminal-prompt { color: #22c55e; flex-shrink: 0; margin-top: 0.05rem; }
-      .terminal-cmd { color: #e2e8f0; word-break: break-all; }
-      .terminal-flag { color: #60a5fa; }
-      .terminal-arg { color: #fbbf24; }
-
-      .copy-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.375rem 0.875rem;
-        border-radius: 9999px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.1);
-        color: #94a3b8;
-        font-size: 0.75rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: inherit;
-      }
-      .copy-btn:hover { background: rgba(255,255,255,0.1); color: #f1f5f9; }
-
-      /* Feature cards */
-      .feature-card {
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.07);
-        border-radius: 20px;
-        padding: 1.75rem;
-        transition: all 0.2s;
-      }
-      .feature-card:hover {
-        background: rgba(26,115,232,0.07);
-        border-color: rgba(26,115,232,0.25);
-        transform: translateY(-2px);
-      }
-
-      /* Steps */
-      .step-num {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.875rem;
-        font-weight: 700;
-        flex-shrink: 0;
-        background: rgba(26,115,232,0.15);
-        color: #60a5fa;
-        border: 1px solid rgba(26,115,232,0.3);
-      }
-
-      /* CTA */
-      .cta-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.625rem;
-        padding: 0.875rem 2rem;
-        border-radius: 9999px;
-        font-weight: 600;
-        font-size: 0.9375rem;
-        text-decoration: none;
-        transition: all 0.2s;
-        cursor: pointer;
-        border: none;
-      }
-      .cta-primary {
-        background: #1a73e8;
-        color: #fff;
-      }
-      .cta-primary:hover {
-        background: #1b66c9;
-        box-shadow: 0 4px 20px rgba(26,115,232,0.4);
-        transform: translateY(-1px);
-      }
-      .cta-ghost {
-        background: rgba(255,255,255,0.06);
-        color: #cbd5e1;
-        border: 1px solid rgba(255,255,255,0.12);
-      }
-      .cta-ghost:hover {
-        background: rgba(255,255,255,0.1);
-        color: #f1f5f9;
-        transform: translateY(-1px);
-      }
-
-      /* Info table */
-      .info-table { width: 100%; border-collapse: collapse; }
-      .info-table tr { border-bottom: 1px solid rgba(255,255,255,0.06); }
-      .info-table tr:last-child { border-bottom: none; }
-      .info-table td { padding: 0.875rem 1.25rem; font-size: 0.9rem; }
-      .info-table .td-label { color: #64748b; font-weight: 500; width: 40%; }
-      .info-table .td-value { color: #e2e8f0; font-family: ui-monospace, monospace; }
-
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
 
-    <!-- Header -->
-    <div class="page-header">
-      <a href="index.html" class="back-btn" id="back-home-btn">
-        <i class="fa-solid fa-arrow-left"></i> Back
-      </a>
-      <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:0.625rem;">
-        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="20" fill="#1A73E8" />
-          <path d="M50 20L80 70H20L50 20Z" fill="white" />
-        </svg>
-      </a>
-      <span class="page-header-title"><strong>Sikka</strong> — Run a Node</span>
-    </div>
+    <div class="page-hero">
+      <a href="index.html" class="page-back"><i class="fa-solid fa-arrow-left"></i> Back to SIKKA</a>
+      <span class="section-eyebrow">Operator Guide</span>
+      <h1>Run a Sikka Node</h1>
+      <p>A tiny ~17 MB static binary containing the wallet, explorer, full DAG engine, and managed Tor. Everything you need, zero configuration required.</p>
 
-    <!-- Hero -->
-    <div class="hero-section">
-      <div class="hero-bg-grid"></div>
-      <div class="hero-glow"></div>
-      <div class="hero-content">
-        <div class="section-eyebrow">Operator Guide</div>
-        <h1 class="hero-h1">Run a Sikka Node.</h1>
-        <p class="hero-lead">
-          A tiny ~17 MB static binary containing the wallet, explorer, full DAG engine, and managed Tor. Everything you need, zero configuration required.
-        </p>
-
-        <!-- Stats -->
-        <div class="stats-strip">
-          <div class="stat-item">
-            <div class="stat-value">~17 MB</div>
-            <div class="stat-label">Binary size</div>
-          </div>
-          <div style="width:1px; height:2.5rem; background:rgba(255,255,255,0.1);"></div>
-          <div class="stat-item">
-            <div class="stat-value">0</div>
-            <div class="stat-label">Config required</div>
-          </div>
-          <div style="width:1px; height:2.5rem; background:rgba(255,255,255,0.1);"></div>
-          <div class="stat-item">
-            <div class="stat-value">1</div>
-            <div class="stat-label">Command to start</div>
-          </div>
-          <div style="width:1px; height:2.5rem; background:rgba(255,255,255,0.1);"></div>
-          <div class="stat-item">
-            <div class="stat-value">64552</div>
-            <div class="stat-label">Default port</div>
-          </div>
-        </div>
-
-        <!-- Terminal card: Docker -->
-        <div class="terminal-card" id="docker-terminal">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <div class="terminal-dot" style="background:#FF5F57;"></div>
-              <div class="terminal-dot" style="background:#FFBD2E;"></div>
-              <div class="terminal-dot" style="background:#28C940;"></div>
-            </div>
-            <span class="terminal-title">bash — Docker Quick Start</span>
-            <button class="copy-btn" onclick="copyDocker()" id="copy-btn">
-              <i class="fa-regular fa-copy"></i> Copy
-            </button>
-          </div>
-          <div class="terminal-body">
-            <div class="terminal-line">
-              <span class="terminal-prompt">$</span>
-              <span class="terminal-cmd">
-                docker run
-                <span class="terminal-flag"> -d</span>
-                <span class="terminal-flag"> --restart</span>
-                <span class="terminal-arg"> unless-stopped</span>
-                <span class="terminal-flag"> \<br>&nbsp;&nbsp;-p</span>
-                <span class="terminal-arg"> 64552:64552</span>
-                <span class="terminal-flag"> \<br>&nbsp;&nbsp;-v</span>
-                <span class="terminal-arg"> sikka-data:/home/sikka/data</span>
-                <span class="terminal-flag"> \<br>&nbsp;&nbsp;</span>
-                <span class="terminal-arg">ghcr.io/sikkalabs/sikka:latest</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <p style="margin-top:1.5rem; color:#64748b; font-size:0.9rem;">
-          Then open
-          <a href="http://localhost:64552" target="_blank" style="color:#60a5fa; font-family:ui-monospace,monospace; text-decoration:none; hover:color:#93c5fd;">http://localhost:64552</a>
-          in your browser.
-        </p>
+      <div class="stats-strip">
+        <div class="stat-item"><div class="stat-value">~17 MB</div><div class="stat-label">Binary size</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">Config required</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value">1</div><div class="stat-label">Command to start</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value">64552</div><div class="stat-label">Default port</div></div>
       </div>
     </div>
 
-    <!-- What's included -->
-    <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem 5rem;">
-      <div style="text-align:center; margin-bottom:3rem;">
-        <div class="section-eyebrow">Batteries Included</div>
-        <h2 class="display-text" style="font-size:clamp(1.5rem, 3vw, 2.25rem); font-weight:700; color:#f8fafc; margin:0;">Everything in one binary.</h2>
+    <section class="section" style="padding-top:0">
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <div class="terminal-dot" style="background:#FF5F57"></div>
+            <div class="terminal-dot" style="background:#FFBD2E"></div>
+            <div class="terminal-dot" style="background:#28C940"></div>
+          </div>
+          <span class="terminal-title">bash — Docker Quick Start</span>
+          <button class="btn btn-ghost" style="padding:0.375rem 0.875rem;font-size:0.75rem" onclick="copyDocker()" id="copy-btn">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span>
+              docker run
+              <span class="terminal-flag"> -d</span>
+              <span class="terminal-flag"> --restart</span>
+              <span class="terminal-arg"> unless-stopped</span>
+              <span class="terminal-flag"> -p</span>
+              <span class="terminal-arg"> 64552:64552</span>
+              <span class="terminal-flag"> -v</span>
+              <span class="terminal-arg"> sikka-data:/home/sikka/data</span>
+              <span class="terminal-arg"> ghcr.io/sikkalabs/sikka:latest</span>
+            </span>
+          </div>
+        </div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem;">
+      <p style="text-align:center;margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem">
+        Then open <a href="http://localhost:64552" target="_blank" style="color:var(--blue);font-family:var(--mono)">http://localhost:64552</a> in your browser.
+      </p>
+    </section>
 
-        <div class="feature-card" id="feature-wallet">
-          <div style="width:2.75rem; height:2.75rem; border-radius:14px; background:rgba(26,115,232,0.15); color:#60a5fa; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:1rem; border:1px solid rgba(26,115,232,0.2);">
-            <i class="fa-solid fa-wallet"></i>
-          </div>
-          <h3 style="font-size:0.9375rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">Web Wallet</h3>
-          <p style="font-size:0.875rem; color:#64748b; line-height:1.6; margin:0;">Full-featured browser wallet served locally. Create keys, send, receive, and manage multisig — without trusting any third party.</p>
+    <section class="accent-band">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-eyebrow">Batteries Included</span>
+          <h2 class="section-title">Everything in one binary</h2>
         </div>
-
-        <div class="feature-card" id="feature-explorer">
-          <div style="width:2.75rem; height:2.75rem; border-radius:14px; background:rgba(26,115,232,0.15); color:#60a5fa; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:1rem; border:1px solid rgba(26,115,232,0.2);">
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+            <h3>Web Wallet</h3>
+            <p>Full-featured browser wallet served locally. Create keys, send, receive, and manage multisig — without trusting any third party.</p>
           </div>
-          <h3 style="font-size:0.9375rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">DAG Explorer</h3>
-          <p style="font-size:0.875rem; color:#64748b; line-height:1.6; margin:0;">Real-time transaction explorer with live DAG visualization. Browse the graph, inspect any transaction, and monitor network health.</p>
-        </div>
-
-        <div class="feature-card" id="feature-dag">
-          <div style="width:2.75rem; height:2.75rem; border-radius:14px; background:rgba(26,115,232,0.15); color:#60a5fa; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:1rem; border:1px solid rgba(26,115,232,0.2);">
-            <i class="fa-solid fa-diagram-project"></i>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <h3>DAG Explorer</h3>
+            <p>Real-time transaction explorer with live DAG visualization. Browse the graph, inspect any transaction, and monitor network health.</p>
           </div>
-          <h3 style="font-size:0.9375rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">Full DAG Engine</h3>
-          <p style="font-size:0.875rem; color:#64748b; line-height:1.6; margin:0;">Complete validation, consensus, and propagation engine. Syncs with peers, validates all transactions, and participates in the network.</p>
-        </div>
-
-        <div class="feature-card" id="feature-tor">
-          <div style="width:2.75rem; height:2.75rem; border-radius:14px; background:rgba(168,85,247,0.15); color:#c084fc; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:1rem; border:1px solid rgba(168,85,247,0.2);">
-            <i class="fa-solid fa-user-secret"></i>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-diagram-project"></i></div>
+            <h3>Full DAG Engine</h3>
+            <p>Complete validation, consensus, and propagation engine. Syncs with peers, validates all transactions, and participates in the network.</p>
           </div>
-          <h3 style="font-size:0.9375rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">Managed Tor</h3>
-          <p style="font-size:0.875rem; color:#64748b; line-height:1.6; margin:0;">Built-in Tor integration auto-configures a .onion address for your node. No separate Tor setup needed — privacy is on by default.</p>
-        </div>
-
-        <div class="feature-card" id="feature-api">
-          <div style="width:2.75rem; height:2.75rem; border-radius:14px; background:rgba(34,197,94,0.12); color:#4ade80; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:1rem; border:1px solid rgba(34,197,94,0.2);">
-            <i class="fa-solid fa-code"></i>
+          <div class="feature-card">
+            <div class="feature-icon" style="background:rgba(168,85,247,0.15);color:#c084fc"><i class="fa-solid fa-user-secret"></i></div>
+            <h3>Managed Tor</h3>
+            <p>Built-in Tor integration auto-configures a .onion address for your node. No separate Tor setup needed — privacy is on by default.</p>
           </div>
-          <h3 style="font-size:0.9375rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">HTTP API</h3>
-          <p style="font-size:0.875rem; color:#64748b; line-height:1.6; margin:0;">Clean REST API with CORS support. Build custom applications, integrate with existing services, or federate with other nodes.</p>
+          <div class="feature-card">
+            <div class="feature-icon" style="background:var(--green-dim);color:var(--green)"><i class="fa-solid fa-code"></i></div>
+            <h3>HTTP API</h3>
+            <p>Clean REST API with CORS support. Build custom applications, integrate with existing services, or federate with other nodes.</p>
+          </div>
         </div>
-
       </div>
-    </div>
+    </section>
 
-    <!-- Setup steps -->
-    <div style="background:rgba(255,255,255,0.02); border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); padding:5rem 0;">
-      <div style="max-width:56rem; margin:0 auto; padding:0 1.5rem;">
-        <div style="margin-bottom:3rem;">
-          <div class="section-eyebrow">Quick Setup</div>
-          <h2 class="display-text" style="font-size:clamp(1.5rem, 3vw, 2.25rem); font-weight:700; color:#f8fafc; margin:0;">Up in three steps.</h2>
+    <section class="section">
+      <div class="section-header">
+        <span class="section-eyebrow">Quick Setup</span>
+        <h2 class="section-title">Up in three steps</h2>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div>
+            <h3>Install Docker</h3>
+            <p>If you don't have Docker, install it from <a href="https://docs.docker.com/get-docker/" target="_blank" style="color:var(--blue)">docs.docker.com/get-docker</a>. Available for Windows, macOS, and Linux.</p>
+          </div>
         </div>
-        <div style="display:flex; flex-direction:column; gap:2rem;">
-
-          <div style="display:flex; gap:1.25rem; align-items:flex-start;">
-            <div class="step-num">1</div>
-            <div>
-              <h3 style="font-size:1rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">Install Docker</h3>
-              <p style="color:#64748b; line-height:1.65; margin:0 0 0.75rem; font-size:0.9rem;">If you don't have Docker, install it from <a href="https://docs.docker.com/get-docker/" target="_blank" style="color:#60a5fa; text-decoration:none;">docs.docker.com/get-docker</a>. Available for Windows, macOS, and Linux.</p>
-            </div>
-          </div>
-
-          <div style="display:flex; gap:1.25rem; align-items:flex-start;">
-            <div class="step-num">2</div>
-            <div style="flex:1;">
-              <h3 style="font-size:1rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">Run the container</h3>
-              <p style="color:#64748b; line-height:1.65; margin:0 0 0.75rem; font-size:0.9rem;">Copy and run the command below. The image is ~17 MB and will start syncing immediately.</p>
-              <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:1rem 1.25rem; font-family:ui-monospace,monospace; font-size:0.85rem; color:#e2e8f0; overflow-x:auto; position:relative;">
-                <code>docker run -d --restart unless-stopped \<br>&nbsp;&nbsp;-p 64552:64552 \<br>&nbsp;&nbsp;-v sikka-data:/home/sikka/data \<br>&nbsp;&nbsp;ghcr.io/sikkalabs/sikka:latest</code>
-              </div>
-            </div>
-          </div>
-
-          <div style="display:flex; gap:1.25rem; align-items:flex-start;">
-            <div class="step-num" style="background:rgba(34,197,94,0.12); color:#4ade80; border-color:rgba(34,197,94,0.25);">3</div>
-            <div>
-              <h3 style="font-size:1rem; font-weight:600; color:#e2e8f0; margin:0 0 0.5rem;">Open your browser</h3>
-              <p style="color:#64748b; line-height:1.65; margin:0 0 0.75rem; font-size:0.9rem;">Navigate to <a href="http://localhost:64552" target="_blank" style="color:#60a5fa; font-family:ui-monospace,monospace; text-decoration:none;">http://localhost:64552</a>. You'll see the wallet and DAG explorer running locally. That's it — you're a node operator!</p>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div>
+            <h3>Run the container</h3>
+            <p style="margin-bottom:0.75rem">Copy and run the command below. The image is ~17 MB and will start syncing immediately.</p>
+            <div class="code-block" style="font-size:0.8125rem">
+              docker run -d --restart unless-stopped \<br>
+              &nbsp;&nbsp;-p 64552:64552 \<br>
+              &nbsp;&nbsp;-v sikka-data:/home/sikka/data \<br>
+              &nbsp;&nbsp;ghcr.io/sikkalabs/sikka:latest
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Node info table -->
-    <div style="max-width:56rem; margin:0 auto; padding:5rem 1.5rem;">
-      <div style="margin-bottom:2rem;">
-        <div class="section-eyebrow">Node Details</div>
-        <h2 class="display-text" style="font-size:clamp(1.5rem, 3vw, 2rem); font-weight:700; color:#f8fafc; margin:0;">What you get.</h2>
-      </div>
-      <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.07); border-radius:20px; overflow:hidden;">
-        <table class="info-table">
-          <tbody>
-            <tr>
-              <td class="td-label">Docker image</td>
-              <td class="td-value">ghcr.io/sikkalabs/sikka:latest</td>
-            </tr>
-            <tr>
-              <td class="td-label">Binary size</td>
-              <td class="td-value">~17 MB (static)</td>
-            </tr>
-            <tr>
-              <td class="td-label">Default port</td>
-              <td class="td-value">64552</td>
-            </tr>
-            <tr>
-              <td class="td-label">Web interface</td>
-              <td class="td-value">http://localhost:64552</td>
-            </tr>
-            <tr>
-              <td class="td-label">Data volume</td>
-              <td class="td-value">sikka-data:/home/sikka/data</td>
-            </tr>
-            <tr>
-              <td class="td-label">Tor integration</td>
-              <td class="td-value">Automatic (managed)</td>
-            </tr>
-            <tr>
-              <td class="td-label">API</td>
-              <td class="td-value">HTTP REST with CORS</td>
-            </tr>
-            <tr>
-              <td class="td-label">Config required</td>
-              <td class="td-value">None</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- CTA section -->
-    <div style="background:linear-gradient(135deg, rgba(26,115,232,0.12) 0%, rgba(99,102,241,0.08) 100%); border-top:1px solid rgba(255,255,255,0.06); padding:5rem 0;">
-      <div style="max-width:44rem; margin:0 auto; padding:0 1.5rem; text-align:center;">
-        <div class="section-eyebrow">Community</div>
-        <h2 class="display-text" style="font-size:clamp(1.5rem, 3vw, 2.25rem); font-weight:700; color:#f8fafc; margin:0 0 1rem;">Need help or want to contribute?</h2>
-        <p style="font-size:1rem; color:#94a3b8; line-height:1.65; margin:0 0 2.5rem;">
-          Join our Discord to get help from the community, claim test SIKKA from the faucet, or contribute to the open-source codebase on GitHub.
-        </p>
-        <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
-          <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="cta-btn cta-primary" id="runnode-discord-btn">
-            <i class="fa-brands fa-discord"></i> Join Discord
-          </a>
-          <a href="https://github.com/sikkalabs/sikka" target="_blank" class="cta-btn cta-ghost" id="runnode-github-btn">
-            <i class="fa-brands fa-github"></i> View on GitHub
-          </a>
-          <a href="https://node.sikka.click/" target="_blank" class="cta-btn cta-ghost" id="runnode-explorer-btn">
-            <i class="fa-solid fa-magnifying-glass"></i> Explorer
-          </a>
+        <div class="flow-step">
+          <div class="flow-step-num done">3</div>
+          <div>
+            <h3>Open your browser</h3>
+            <p>Navigate to <a href="http://localhost:64552" target="_blank" style="color:var(--blue);font-family:var(--mono)">http://localhost:64552</a>. You'll see the wallet and DAG explorer running locally. You're a node operator!</p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Footer -->
-    <div style="padding:3rem 2rem; text-align:center; border-top:1px solid rgba(255,255,255,0.05);">
-      <a href="index.html" class="back-btn" style="margin-bottom:1.5rem; display:inline-flex;">
-        <i class="fa-solid fa-arrow-left"></i> Back to Home
-      </a>
-      <p style="margin:1rem 0 0.5rem; font-size:0.875rem; color:#334155; font-weight:600;">Sikka Protocol</p>
-      <div style="display:flex; align-items:center; justify-content:center; gap:2rem; flex-wrap:wrap; margin-top:0.75rem;">
-        <a href="https://github.com/sikkalabs/sikka" target="_blank" style="color:#64748b; text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;">Source Code</a>
-        <a href="https://discord.gg/HxsRdB2zjb" target="_blank" style="color:#64748b; text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;">Discord</a>
-        <a href="https://node.sikka.click/" target="_blank" style="color:#64748b; text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;">Explorer</a>
-        <a href="features.html" style="color:#64748b; text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;">Features</a>
-        <a href="architecture.html" style="color:#64748b; text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;">Architecture</a>
-        <a href="use-cases.html" style="color:#64748b; text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;">Use Cases</a>
+    <section class="accent-band">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-eyebrow">Node Details</span>
+          <h2 class="section-title">What you get</h2>
+        </div>
+        <div class="dash-card" style="overflow:hidden;padding:0">
+          <table class="data-table">
+            <tbody>
+              <tr><td style="color:var(--text-muted);width:40%">Docker image</td><td class="mono">ghcr.io/sikkalabs/sikka:latest</td></tr>
+              <tr><td style="color:var(--text-muted)">Binary size</td><td class="mono">~17 MB (static)</td></tr>
+              <tr><td style="color:var(--text-muted)">Default port</td><td class="mono">64552</td></tr>
+              <tr><td style="color:var(--text-muted)">Web interface</td><td class="mono">http://localhost:64552</td></tr>
+              <tr><td style="color:var(--text-muted)">Data volume</td><td class="mono">sikka-data:/home/sikka/data</td></tr>
+              <tr><td style="color:var(--text-muted)">Tor integration</td><td class="mono">Automatic (managed)</td></tr>
+              <tr><td style="color:var(--text-muted)">API</td><td class="mono">HTTP REST with CORS</td></tr>
+              <tr><td style="color:var(--text-muted)">Config required</td><td class="mono">None</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <script>
-      function copyDocker() {
-        const cmd = "docker run -d --restart unless-stopped \\\n  -p 64552:64552 \\\n  -v sikka-data:/home/sikka/data \\\n  ghcr.io/sikkalabs/sikka:latest";
-        navigator.clipboard.writeText(cmd).catch(() => {
-          // Fallback
-          const ta = document.createElement("textarea");
-          ta.value = cmd;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-        });
-        const btn = document.getElementById("copy-btn");
-        const orig = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-        btn.style.color = "#4ade80";
-        setTimeout(() => {
-          btn.innerHTML = orig;
-          btn.style.color = "";
-        }, 2000);
-      }
-    </script>
+    <section class="section" style="text-align:center">
+      <span class="section-eyebrow">Community</span>
+      <h2 class="section-title">Need help or want to contribute?</h2>
+      <p class="section-lead" style="margin-bottom:2rem">Join our Discord to get help, claim test SIKKA from the faucet, or contribute to the open-source codebase.</p>
+      <div class="hero-actions">
+        <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="btn btn-blue"><i class="fa-brands fa-discord"></i> Join Discord</a>
+        <a href="https://github.com/sikkalabs/sikka" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-github"></i> View on GitHub</a>
+        <a href="https://node.sikka.click/" target="_blank" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i> Explorer</a>
+      </div>
+    </section>
+
+    <script src="js/main.js"></script>
   </body>
 </html>

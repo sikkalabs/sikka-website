@@ -8,524 +8,212 @@
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://sikkalabs.com/features.html" />
     <link rel="icon" href="sikka.svg" type="image/svg+xml" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
-
-      * { box-sizing: border-box; }
-
-      :root {
-        --gg-blue: #1a73e8;
-        --gg-gray-300: #dadce0;
-        --gg-gray-700: #5f6368;
-        --gg-gray-900: #202124;
-      }
-
-      html, body {
-        margin: 0; padding: 0;
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        background: #ffffff;
-        color: #202124;
-        overflow-x: hidden;
-      }
-
-      .display-text { font-family: "Google Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
-
-      /* Back button */
-      .back-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.625rem 1.25rem;
-        border-radius: 9999px;
-        background: #f1f3f4;
-        border: 1px solid #dadce0;
-        color: #3c4043;
-        font-size: 0.875rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.2s;
-        cursor: pointer;
-      }
-
-      .back-btn:hover {
-        background: #e8eaed;
-        border-color: #bdc1c6;
-        transform: translateX(-2px);
-      }
-
-      /* Page header */
-      .page-header {
-        padding: 1.5rem 2rem;
-        border-bottom: 1px solid #e8eaed;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        background: #fff;
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        backdrop-filter: blur(8px);
-      }
-
-      .page-header-logo {
-        display: flex;
-        align-items: center;
-        gap: 0.625rem;
-        text-decoration: none;
-      }
-
-      .page-header-title {
-        font-family: "Google Sans", sans-serif;
-        font-size: 1rem;
-        font-weight: 600;
-        color: #5f6368;
-      }
-
-      .page-header-title strong {
-        color: #202124;
-      }
-
-      /* Sections */
-      .section-eyebrow {
-        color: #5f6368;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
-      }
-
-      .g-card {
-        background: #ffffff;
-        border: 1px solid #dadce0;
-        border-radius: 24px;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .g-card:hover {
-        border-color: transparent;
-        box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
-        transform: translateY(-2px);
-      }
-
-      .code-block {
-        background: #f8f9fa;
-        border: 1px solid #dadce0;
-        border-radius: 16px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      }
-
-      /* Hero banner for subpage */
-      .subpage-hero {
-        background: linear-gradient(135deg, #030712 0%, #0f172a 50%, #1e1b4b 100%);
-        color: #f8fafc;
-        padding: 5rem 2rem 4rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .subpage-hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(rgba(26,115,232,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(26,115,232,0.06) 1px, transparent 1px);
-        background-size: 48px 48px;
-      }
-
-      .subpage-hero-glow {
-        position: absolute;
-        top: -30%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 600px;
-        height: 400px;
-        background: radial-gradient(ellipse, rgba(26,115,232,0.25) 0%, transparent 70%);
-        pointer-events: none;
-      }
-
-      .subpage-hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 700px;
-        margin: 0 auto;
-      }
-
-      .subpage-h1 {
-        font-family: "Google Sans", sans-serif;
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-        margin: 0 0 1rem;
-        color: #f8fafc;
-      }
-
-      .subpage-lead {
-        font-size: 1.125rem;
-        color: #94a3b8;
-        line-height: 1.65;
-        margin: 0;
-      }
-
-      /* Footer band */
-      .page-footer-band {
-        background: #030712;
-        color: #475569;
-        padding: 3rem 2rem;
-        text-align: center;
-        margin-top: 6rem;
-      }
-
-      .page-footer-links {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
-        margin-top: 1rem;
-      }
-
-      .page-footer-links a {
-        color: #64748b;
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: color 0.2s;
-      }
-
-      .page-footer-links a:hover { color: #60a5fa; }
-
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
 
-    <!-- Sticky header with back button -->
-    <div class="page-header">
-      <a href="index.html" class="back-btn" id="back-home-btn">
-        <i class="fa-solid fa-arrow-left"></i> Back
-      </a>
-      <a href="index.html" class="page-header-logo">
-        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="100" height="100" rx="20" fill="#1A73E8" />
-          <path d="M50 20L80 70H20L50 20Z" fill="white" />
-        </svg>
-      </a>
-      <span class="page-header-title"><strong>Sikka</strong> — Features</span>
+    <div class="page-hero">
+      <a href="index.html" class="page-back"><i class="fa-solid fa-arrow-left"></i> Back to SIKKA</a>
+      <span class="section-eyebrow">Core Protocol</span>
+      <h1>Elegantly simple invariants</h1>
+      <p>SIKKA is built on a small set of elegant, composable rules. No complicated smart contracts, no global coordinator — just math.</p>
     </div>
 
-    <!-- Hero banner -->
-    <div class="subpage-hero">
-      <div class="subpage-hero-glow"></div>
-      <div class="subpage-hero-content">
-        <div class="section-eyebrow" style="color:#60a5fa; margin-bottom:1rem;">Core Protocol</div>
-        <h1 class="subpage-h1">Elegantly simple invariants.</h1>
-        <p class="subpage-lead">
-          SIKKA is built on a small set of elegant, composable rules. No complicated smart contracts, no global coordinator — just math.
-        </p>
+    <section class="section">
+      <div class="section-header">
+        <span class="section-eyebrow">Why SIKKA?</span>
+        <h2 class="section-title">A scalable smart ledger. Not a blockchain.</h2>
       </div>
-    </div>
-
-    <!-- Why SIKKA Highlights -->
-    <div style="background:#EFF6FF; border-bottom:1px solid #BFDBFE; padding:5rem 0;">
-      <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem;">
-        <div style="text-align:center; margin-bottom:3rem;">
-          <div class="section-eyebrow">Why SIKKA?</div>
-          <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0;">A scalable smart ledger. Not a blockchain.</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Zero Fees</h3>
+          <p>SIKKA has strictly <strong style="color:var(--text)">0 fees</strong>. When you send SIKKA, the exact amount arrives. No gas, no priority fees, no hidden costs.</p>
         </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
-          <div style="background:#fff; padding:2rem; border-radius:24px; border:1px solid #BFDBFE;">
-            <h3 style="font-size:1.125rem; font-weight:700; color:#202124; margin:0 0 0.75rem; display:flex; align-items:center; gap:0.5rem;">
-              <i class="fa-solid fa-bolt" style="color:#EAB308;"></i> Zero Fees
-            </h3>
-            <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">
-              SIKKA has strictly <strong style="color:#202124;">0 fees</strong>. When you send SIKKA, the exact amount arrives. No gas, no priority fees, no hidden costs.
-            </p>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:var(--red-dim);color:var(--red)"><i class="fa-solid fa-ban"></i></div>
+          <h3>Blockless Architecture</h3>
+          <p>SIKKA uses <strong style="color:var(--text)">no Proof of Stake</strong> and <strong style="color:var(--text)">no global Proof of Work</strong> race. Every transaction is its own accepted unit.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:var(--green-dim);color:var(--green)"><i class="fa-solid fa-arrow-trend-up"></i></div>
+          <h3>Parallel Scalable</h3>
+          <p>Unlike blockchains that congest, SIKKA is parallel scalable. The more users interact, <strong style="color:var(--text)">the faster it gets</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="accent-band">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-eyebrow">Core Protocol</span>
+          <h2 class="section-title">Three core invariants</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-code-branch"></i></div>
+            <h3>Exactly Two Parents</h3>
+            <p>Every non-genesis transaction references precisely two earlier transactions. A true directed acyclic graph, not a blockchain.</p>
           </div>
-          <div style="background:#fff; padding:2rem; border-radius:24px; border:1px solid #BFDBFE;">
-            <h3 style="font-size:1.125rem; font-weight:700; color:#202124; margin:0 0 0.75rem; display:flex; align-items:center; gap:0.5rem;">
-              <i class="fa-solid fa-ban" style="color:#EF4444;"></i> Blockless Architecture
-            </h3>
-            <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">
-              SIKKA is technically not a blockchain. It uses <strong style="color:#202124;">no Proof of Stake</strong> and <strong style="color:#202124;">no global Proof of Work</strong> race. Every transaction is its own accepted unit.
-            </p>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h3>Exact Balance Only</h3>
+            <p>Inputs must exactly equal outputs. There is no fee field. The sender transmits the full amount with cryptographic certainty.</p>
           </div>
-          <div style="background:#fff; padding:2rem; border-radius:24px; border:1px solid #BFDBFE;">
-            <h3 style="font-size:1.125rem; font-weight:700; color:#202124; margin:0 0 0.75rem; display:flex; align-items:center; gap:0.5rem;">
-              <i class="fa-solid fa-arrow-trend-up" style="color:#22C55E;"></i> Parallel Scalable
-            </h3>
-            <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">
-              Unlike blockchains that congest, SIKKA is parallel scalable. Because transactions process asynchronously, the more users interact, <strong style="color:#202124;">the faster it gets</strong>.
-            </p>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-hammer"></i></div>
+            <h3>Per-Transaction PoW</h3>
+            <p>Each transaction mines its own SHA3-256 nonce, providing <strong style="color:var(--text)">built-in spam resistance</strong>. Difficulty scales with network congestion.</p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Core Protocol Features -->
-    <div style="max-width:72rem; margin:0 auto; padding:5rem 1.5rem;">
-      <div style="margin-bottom:3rem;">
-        <div class="section-eyebrow">Core Protocol</div>
-        <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0;">Three core invariants.</h2>
+    <section class="section">
+      <div class="section-header">
+        <span class="section-eyebrow">Proof of Work</span>
+        <h2 class="section-title">Spam resistance without fees</h2>
+        <p class="section-lead">Every transaction solves a SHA3-256 puzzle whose difficulty rises automatically when the network is busy.</p>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
-        <div class="g-card" style="padding:2rem;">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;">
-            <i class="fa-solid fa-code-branch"></i>
+
+      <div class="dashboard-grid" style="margin-bottom:2rem">
+        <div class="dash-card col-6">
+          <div class="code-block">
+            <div style="color:var(--text-muted);margin-bottom:1rem;font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Difficulty Formula</div>
+            <div><span class="code-kw">required_bits</span> = BaseBits + floor(recent_count / 60) × 2</div>
+            <div class="code-dim" style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)">BaseBits = 2 &nbsp;•&nbsp; BucketSize = 60 txs &nbsp;•&nbsp; BucketBits = 2</div>
           </div>
-          <h3 class="display-text" style="font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">Exactly Two Parents</h3>
-          <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">Every non-genesis transaction references precisely two earlier transactions. A true directed acyclic graph, not a blockchain.</p>
         </div>
-        <div class="g-card" style="padding:2rem;">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;">
-            <i class="fa-solid fa-scale-balanced"></i>
+        <div class="dash-card col-6">
+          <div class="chart-container lg">
+            <canvas id="chart-congestion"></canvas>
           </div>
-          <h3 class="display-text" style="font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">Exact Balance Only</h3>
-          <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">Inputs must exactly equal outputs. There is no fee field. The sender transmits the full amount with cryptographic certainty.</p>
-        </div>
-        <div class="g-card" style="padding:2rem;">
-          <div style="width:3rem; height:3rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-size:1.125rem; margin-bottom:1.5rem;">
-            <i class="fa-solid fa-hammer"></i>
-          </div>
-          <h3 class="display-text" style="font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">Per-Transaction PoW</h3>
-          <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">Each transaction mines its own SHA3-256 nonce, providing <strong style="color:#202124;">built-in spam resistance</strong>. Difficulty scales with network congestion.</p>
+          <p class="dash-card-desc" style="margin-top:0.75rem;font-size:0.8125rem">Expected hashing work per transaction at different load levels.</p>
         </div>
       </div>
-    </div>
 
-    <!-- Congestion-Adaptive PoW -->
-    <div style="background:#EFF6FF; border-top:1px solid #BFDBFE; border-bottom:1px solid #BFDBFE; padding:5rem 0;">
-      <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem;">
-        <div style="text-align:center; margin-bottom:3rem; max-width:44rem; margin-left:auto; margin-right:auto;">
-          <div class="section-eyebrow">Proof of Work</div>
-          <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0 0 1rem;">Spam resistance without fees.</h2>
-          <p style="font-size:1.0625rem; color:#5f6368; line-height:1.65; margin:0;">
-            Sikka has no gas and no miner fees. Instead, every transaction solves a <strong style="color:#202124;">SHA3-256 puzzle</strong> whose difficulty rises automatically when the network is busy.
-          </p>
+      <div class="dash-card" style="overflow:hidden">
+        <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle)">
+          <h3 style="font-weight:600;margin:0;font-size:0.9375rem">Congestion scaling</h3>
+          <p style="font-size:0.8125rem;color:var(--text-muted);margin:0.25rem 0 0">Expected hashing work per transaction at different load levels</p>
         </div>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; margin-bottom:2rem;">
-          <div class="code-block" style="padding:2rem; position:relative; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #1a73e8, #06b6d4);"></div>
-            <div style="color:#5f6368; margin-bottom:1rem; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">Difficulty Formula</div>
-            <div style="space-y:0.75rem; font-size:0.9375rem; line-height:1.7;">
-              <div><span style="color:#1a73e8; font-weight:600;">required_bits</span> = BaseBits + floor(recent_count / 60) × 2</div>
-              <div style="color:#5f6368; font-size:0.875rem; padding-top:0.75rem; border-top:1px solid #e8eaed; margin-top:0.75rem;">BaseBits = 2 &nbsp;•&nbsp; BucketSize = 60 txs &nbsp;•&nbsp; BucketBits = 2</div>
-              <div style="color:#5f6368; font-size:0.875rem;"><span style="color:#202124; font-weight:500;">recent_count</span> = transactions timestamped in the last 60 seconds</div>
-            </div>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-            <div class="g-card" style="padding:1.5rem;">
-              <div style="width:2.5rem; height:2.5rem; background:#EFF6FF; color:#1a73e8; border-radius:9999px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><i class="fa-solid fa-user"></i></div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.5rem; font-size:0.9375rem;">Normal use</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">At baseline load, ~<strong style="color:#202124;">4 hashes</strong> per payment. Negligible on any device.</p>
-            </div>
-            <div class="g-card" style="padding:1.5rem;">
-              <div style="width:2.5rem; height:2.5rem; background:#FEF2F2; color:#EF4444; border-radius:9999px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;"><i class="fa-solid fa-biohazard"></i></div>
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.5rem; font-size:0.9375rem;">Under attack</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Each extra 60 txs/min adds <strong style="color:#202124;">2 bits</strong> — <strong style="color:#202124;">4×</strong> more work per bucket.</p>
-            </div>
-            <div class="g-card" style="padding:1.5rem; grid-column:span 2; border-color:#BFDBFE; background:#fff;">
-              <h3 style="font-weight:600; color:#202124; margin:0 0 0.5rem; font-size:0.9375rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid fa-shield-halved" style="color:#1a73e8;"></i> Not a fee — a throttle</h3>
-              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">There is no recipient and no money collected. Flooders pay exponentially more CPU as they raise network load.</p>
-            </div>
-          </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Txs in last 60 s</th>
+                <th>Required bits</th>
+                <th>Expected hashes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0 – 59 <span style="color:var(--green);font-size:0.75rem">normal</span></td><td class="mono">2</td><td class="mono">~4</td></tr>
+              <tr><td>60 – 119</td><td class="mono">4</td><td class="mono">~16</td></tr>
+              <tr><td>120 – 179</td><td class="mono">6</td><td class="mono">~64</td></tr>
+              <tr><td>180 – 239</td><td class="mono">8</td><td class="mono">~256</td></tr>
+              <tr><td>240 – 299</td><td class="mono">10</td><td class="mono">~1,024</td></tr>
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        <!-- Congestion Table -->
-        <div style="border-radius:24px; border:1px solid #e8eaed; overflow:hidden; background:#fff; box-shadow:0 1px 3px rgba(60,64,67,0.1);">
-          <div style="padding:1rem 1.5rem; background:#f8f9fa; border-bottom:1px solid #e8eaed;">
-            <h3 style="font-weight:600; color:#202124; margin:0; font-size:0.9375rem;">Congestion scaling</h3>
-            <p style="font-size:0.875rem; color:#5f6368; margin:0.25rem 0 0;">Expected hashing work per transaction at different load levels</p>
-          </div>
-          <div style="overflow-x:auto;">
-            <table style="width:100%; border-collapse:collapse; font-size:0.9375rem;">
-              <thead>
-                <tr style="border-bottom:1px solid #e8eaed; background:#fff;">
-                  <th style="padding:0.875rem 1.5rem; text-align:left; font-weight:600; color:#5f6368;">Txs in last 60 s</th>
-                  <th style="padding:0.875rem 1.5rem; text-align:left; font-weight:600; color:#5f6368;">Required bits</th>
-                  <th style="padding:0.875rem 1.5rem; text-align:left; font-weight:600; color:#202124;">Expected hashes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom:1px solid #f1f3f4;">
-                  <td style="padding:0.875rem 1.5rem; color:#5f6368;">0 – 59 <span style="color:#22C55E; font-size:0.75rem; font-weight:500; margin-left:0.25rem;">normal</span></td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace;">2</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace; color:#202124;">~4</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f1f3f4; background:#f8fbff;">
-                  <td style="padding:0.875rem 1.5rem; color:#5f6368;">60 – 119</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace;">4</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace; color:#202124;">~16</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f1f3f4;">
-                  <td style="padding:0.875rem 1.5rem; color:#5f6368;">120 – 179</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace;">6</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace; color:#202124;">~64</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f1f3f4; background:#f8fbff;">
-                  <td style="padding:0.875rem 1.5rem; color:#5f6368;">180 – 239</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace;">8</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace; color:#202124;">~256</td>
-                </tr>
-                <tr>
-                  <td style="padding:0.875rem 1.5rem; color:#5f6368;">240 – 299</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace;">10</td>
-                  <td style="padding:0.875rem 1.5rem; font-family:monospace; color:#202124;">~1,024</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class="dashboard-grid" style="margin-top:1.5rem">
+        <div class="dash-card col-6">
+          <span class="badge badge-blue" style="margin-bottom:1rem"><span class="badge-dot"></span> Anti-selfish-mining</span>
+          <h3 style="font-size:1.25rem;font-weight:700;margin:0 0 0.75rem">Tip commitment</h3>
+          <p class="dash-card-desc">PoW is bound to the <strong>live state of both parent tips</strong> at mining time. You cannot pre-mine a stockpile — if the DAG moves while you hash, your work is instantly stale.</p>
         </div>
-
-        <!-- Tip commitment card -->
-        <div class="g-card" style="padding:2rem 2.5rem; border-color:#BFDBFE; margin-top:1.5rem; overflow:hidden; position:relative;">
-          <div style="position:absolute; top:0; right:0; width:12rem; height:12rem; background:rgba(219,234,254,0.4); border-radius:50%; filter:blur(3rem); transform:translate(25%,-25%); pointer-events:none;"></div>
-          <div style="display:grid; grid-template-columns:1fr; gap:2rem; align-items:center; position:relative;">
-            <div>
-              <div style="display:inline-flex; align-items:center; gap:0.5rem; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#1a73e8; margin-bottom:0.75rem;"><i class="fa-solid fa-link"></i> Anti-selfish-mining</div>
-              <h3 class="display-text" style="font-size:1.375rem; font-weight:700; color:#202124; margin:0 0 1rem;">Tip commitment</h3>
-              <p style="color:#5f6368; line-height:1.65; margin:0 0 0.75rem; font-size:0.9375rem;">PoW is bound to the <strong style="color:#202124;">live state of both parent tips</strong> at mining time. You cannot pre-mine a stockpile — if the DAG moves while you hash, your work is instantly stale.</p>
-            </div>
-            <div class="code-block" style="padding:1.5rem; font-size:0.875rem; position:relative; overflow:hidden;">
-              <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #1a73e8, #06b6d4);"></div>
-              <div style="color:#5f6368; margin-bottom:0.75rem; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">PoW Input</div>
-              <div style="line-height:1.8;">
-                <div><span style="color:#1a73e8; font-weight:600;">pow_input</span> = txID</div>
-                <div style="padding-left:1rem; color:#5f6368;">|| parent[0].pow_hash</div>
-                <div style="padding-left:1rem; color:#5f6368;">|| parent[1].pow_hash</div>
-                <div style="padding-left:1rem; color:#5f6368;">|| nonce</div>
-                <div style="padding-top:0.75rem; border-top:1px solid #e8eaed; margin-top:0.75rem;"><span style="color:#1a73e8; font-weight:600;">pow_hash</span> = SHA3-256(pow_input)</div>
-              </div>
-            </div>
+        <div class="dash-card col-6">
+          <div class="code-block">
+            <div style="color:var(--text-muted);margin-bottom:0.75rem;font-size:0.625rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">PoW Input</div>
+            <div><span class="code-kw">pow_input</span> = txID</div>
+            <div class="code-dim" style="padding-left:1rem">|| parent[0].pow_hash</div>
+            <div class="code-dim" style="padding-left:1rem">|| parent[1].pow_hash</div>
+            <div class="code-dim" style="padding-left:1rem">|| nonce</div>
+            <div style="padding-top:0.75rem;border-top:1px solid var(--border);margin-top:0.75rem"><span class="code-kw">pow_hash</span> = SHA3-256(pow_input)</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Post-Quantum Cryptography -->
-    <div style="background:#f8f9fa; border-bottom:1px solid #e8eaed; padding:5rem 0;">
-      <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem;">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:4rem; align-items:center;">
+    <section class="accent-band">
+      <div class="section">
+        <div class="two-col">
           <div>
-            <div class="section-eyebrow">Cryptography</div>
-            <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0 0 1.25rem;">Post-quantum ready.</h2>
-            <p style="font-size:1.0625rem; color:#5f6368; margin:0 0 2rem; line-height:1.65;">
-              Sikka relies entirely on the <strong style="color:#202124;">ML-DSA-87 (Dilithium)</strong> signature scheme. We do not use any classical elliptic curves, ensuring maximum security against future quantum threats.
-            </p>
-            <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1rem;">
-              <li style="display:flex; align-items:flex-start; gap:0.75rem;">
-                <i class="fa-solid fa-check" style="color:#1a73e8; margin-top:0.2rem; flex-shrink:0;"></i>
-                <div>
-                  <strong style="display:block; color:#202124;">No classical fallbacks</strong>
-                  <span style="color:#5f6368; font-size:0.9rem;">Pure post-quantum cryptography throughout.</span>
-                </div>
+            <span class="section-eyebrow">Cryptography</span>
+            <h2 class="section-title" style="text-align:left;font-size:clamp(1.5rem,3vw,2rem)">Post-quantum ready</h2>
+            <p class="dash-card-desc" style="margin-bottom:1.5rem">Sikka relies entirely on the <strong>ML-DSA-87 (Dilithium)</strong> signature scheme. No classical elliptic curves.</p>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1rem">
+              <li style="display:flex;gap:0.75rem;align-items:flex-start">
+                <i class="fa-solid fa-check" style="color:var(--blue);margin-top:0.2rem"></i>
+                <div><strong style="display:block">No classical fallbacks</strong><span style="color:var(--text-secondary);font-size:0.9rem">Pure post-quantum cryptography throughout.</span></div>
               </li>
-              <li style="display:flex; align-items:flex-start; gap:0.75rem;">
-                <i class="fa-solid fa-check" style="color:#1a73e8; margin-top:0.2rem; flex-shrink:0;"></i>
-                <div>
-                  <strong style="display:block; color:#202124;">Deterministic sync</strong>
-                  <span style="color:#5f6368; font-size:0.9rem;">State verification is fully deterministic.</span>
-                </div>
+              <li style="display:flex;gap:0.75rem;align-items:flex-start">
+                <i class="fa-solid fa-check" style="color:var(--blue);margin-top:0.2rem"></i>
+                <div><strong style="display:block">Deterministic sync</strong><span style="color:var(--text-secondary);font-size:0.9rem">State verification is fully deterministic.</span></div>
               </li>
             </ul>
           </div>
-          <div class="code-block" style="padding:2rem; position:relative; overflow:hidden;">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #1a73e8, #06b6d4);"></div>
-            <div style="color:#5f6368; margin-bottom:1rem; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">Transaction Spec</div>
-            <div style="line-height:2; font-size:0.9rem;">
-              <div><span style="color:#1a73e8; font-weight:600;">txid</span> = SHA3-256(version || parents || inputs || outputs || ts)</div>
-              <div><span style="color:#1a73e8; font-weight:600;">pow_hash</span> = SHA3-256(txid || pow_nonce)</div>
-              <div><span style="color:#1a73e8; font-weight:600;">witness</span> = ML-DSA-87 signature(s)</div>
+          <div class="dash-card">
+            <div class="chart-container sm" style="margin-bottom:1rem">
+              <canvas id="chart-crypto"></canvas>
+            </div>
+            <div class="code-block" style="margin-top:1rem;border:none;background:transparent;padding:0">
+              <div><span class="code-kw">txid</span> = SHA3-256(version || parents || inputs || outputs || ts)</div>
+              <div><span class="code-kw">pow_hash</span> = SHA3-256(txid || pow_nonce)</div>
+              <div><span class="code-kw">witness</span> = ML-DSA-87 signature(s)</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Native Multisig -->
-    <div style="max-width:72rem; margin:0 auto; padding:5rem 1.5rem;">
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:4rem; align-items:center;">
-        <div style="order:2;">
-          <div class="g-card" style="padding:2.5rem; border-color:#BFDBFE; background:#f0f7ff; overflow:hidden; position:relative;">
-            <div style="position:absolute; top:0; right:0; padding:1.5rem; opacity:0.08; pointer-events:none;">
-              <i class="fa-solid fa-users" style="font-size:6rem; color:#1a73e8;"></i>
-            </div>
-            <div style="position:relative;">
-              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:2rem; flex-wrap:wrap;">
-                <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:#1a73e8; color:white; display:flex; align-items:center; justify-content:center; font-weight:700;">1</div>
-                <div style="height:3px; width:1.5rem; background:#BFDBFE; border-radius:2px;"></div>
-                <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:#1a73e8; color:white; display:flex; align-items:center; justify-content:center; font-weight:700;">2</div>
-                <div style="height:3px; width:1.5rem; background:#BFDBFE; border-radius:2px;"></div>
-                <span style="color:#93C5FD; font-weight:700; font-size:1.125rem; letter-spacing:0.1em;">...</span>
-                <div style="height:3px; width:1.5rem; background:#BFDBFE; border-radius:2px;"></div>
-                <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:#1a73e8; color:white; display:flex; align-items:center; justify-content:center; font-weight:700;">16</div>
-              </div>
-              <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#1a73e8; margin:0 0 0.375rem;">Up to 16 wallets</p>
-              <h3 class="display-text" style="font-size:1.25rem; color:#202124; font-weight:700; margin:0;">Collaborative Tx Building</h3>
-            </div>
+    <section class="section">
+      <div class="two-col">
+        <div class="dash-card">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">1</div>
+            <div style="height:3px;width:1.5rem;background:var(--border);border-radius:2px"></div>
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">2</div>
+            <div style="height:3px;width:1.5rem;background:var(--border);border-radius:2px"></div>
+            <span style="color:var(--blue);font-weight:700">...</span>
+            <div style="height:3px;width:1.5rem;background:var(--border);border-radius:2px"></div>
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">16</div>
           </div>
+          <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin:0 0 0.375rem">Up to 16 wallets</p>
+          <h3 style="font-size:1.25rem;font-weight:700;margin:0">Collaborative Tx Building</h3>
         </div>
-        <div style="order:1;">
-          <div class="section-eyebrow">Smart Wallets</div>
-          <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0 0 1.25rem;">Native n-of-n multisig.</h2>
-          <p style="font-size:1.0625rem; color:#5f6368; margin:0 0 1rem; line-height:1.65;">
-            In Sikka, standard wallets are inherently <strong style="color:#202124;">n-of-n</strong>, and multisig is elegantly abstracted as an <strong style="color:#202124;">m-of-n</strong> wallet. No complicated smart contracts required.
-          </p>
-          <p style="font-size:1.0625rem; color:#5f6368; margin:0; line-height:1.65;">
-            Any single transaction can be collaboratively built and signed by up to <strong style="color:#1a73e8; font-weight:600;">16 different wallets</strong> together.
-          </p>
+        <div>
+          <span class="section-eyebrow">Smart Wallets</span>
+          <h2 class="section-title" style="text-align:left;font-size:clamp(1.5rem,3vw,2rem)">Native n-of-n multisig</h2>
+          <p class="dash-card-desc" style="margin-bottom:1rem">Standard wallets are inherently <strong>n-of-n</strong>, and multisig is elegantly abstracted as an <strong>m-of-n</strong> wallet. No complicated smart contracts required.</p>
+          <p class="dash-card-desc">Any single transaction can be collaboratively built and signed by up to <strong style="color:var(--blue)">16 different wallets</strong> together.</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Networking & Privacy -->
-    <div style="background:#f8f9fa; border-top:1px solid #e8eaed; padding:5rem 0;">
-      <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem;">
-        <div style="text-align:center; margin-bottom:3rem;">
-          <div class="section-eyebrow">Networking</div>
-          <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0;">Privacy and interoperability.</h2>
+    <section class="accent-band">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-eyebrow">Networking</span>
+          <h2 class="section-title">Privacy and interoperability</h2>
         </div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
-          <div class="g-card" style="padding:2.5rem; border-color:#BFDBFE;">
-            <h3 style="font-size:1.25rem; font-weight:700; color:#202124; margin:0 0 1rem; display:flex; align-items:center; gap:0.75rem;">
-              <i class="fa-solid fa-shield-halved" style="color:#1a73e8;"></i> Tor-Native
-            </h3>
-            <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">
-              Privacy is built into networking from the start. Nodes seamlessly advertise onion addresses, communicate privately, and support managed Tor integration.
-            </p>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3 style="display:flex;align-items:center;gap:0.75rem"><i class="fa-solid fa-shield-halved" style="color:var(--blue)"></i> Tor-Native</h3>
+            <p>Privacy is built into networking from the start. Nodes seamlessly advertise onion addresses and support managed Tor integration.</p>
           </div>
-          <div class="g-card" style="padding:2.5rem; border-color:#BFDBFE;">
-            <h3 style="font-size:1.25rem; font-weight:700; color:#202124; margin:0 0 1rem; display:flex; align-items:center; gap:0.75rem;">
-              <i class="fa-solid fa-globe" style="color:#1a73e8;"></i> HTTP Federation
-            </h3>
-            <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">
-              Sikka nodes expose a clean HTTP API with CORS support. Makes it easy to federate networks, build lightweight web clients, and integrate with web applications.
-            </p>
+          <div class="feature-card">
+            <h3 style="display:flex;align-items:center;gap:0.75rem"><i class="fa-solid fa-globe" style="color:var(--blue)"></i> HTTP Federation</h3>
+            <p>Sikka nodes expose a clean HTTP API with CORS support. Federate networks, build lightweight web clients, and integrate with web apps.</p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Footer -->
-    <div class="page-footer-band">
-      <a href="index.html" class="back-btn" style="display:inline-flex; margin-bottom:1.5rem; background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.1); color:#64748b;">
-        <i class="fa-solid fa-arrow-left"></i> Back to Home
-      </a>
-      <p style="margin:0 0 0.5rem; font-size:0.875rem; color:#334155; font-weight:600;">Sikka Protocol</p>
-      <div class="page-footer-links">
-        <a href="https://github.com/sikkalabs/sikka" target="_blank">Source Code</a>
-        <a href="https://discord.gg/HxsRdB2zjb" target="_blank">Discord</a>
-        <a href="https://node.sikka.click/" target="_blank">Explorer</a>
-        <a href="features.html">Features</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="use-cases.html">Use Cases</a>
-        <a href="run-node.html">Run a Node</a>
-      </div>
-    </div>
-
+    <script src="js/charts.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
