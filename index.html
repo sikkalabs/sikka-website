@@ -47,7 +47,7 @@
         <div class="nav-cards">
           <a href="features.html" class="nav-card"><i class="fa-solid fa-layer-group"></i> Features</a>
           <a href="architecture.html" class="nav-card"><i class="fa-solid fa-diagram-project"></i> Architecture</a>
-          <a href="use-cases.html" class="nav-card"><i class="fa-solid fa-rocket"></i> Use Cases</a>
+          <a href="#use-cases" class="nav-card"><i class="fa-solid fa-rocket"></i> Use Cases</a>
           <a href="run-node.html" class="nav-card"><i class="fa-solid fa-server"></i> Run a Node</a>
         </div>
       </div>
@@ -97,7 +97,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="architecture">
       <div class="section-header">
         <span class="section-eyebrow">Why SIKKA</span>
         <h2 class="section-title">SIKKA network monitoring in real time</h2>
@@ -190,35 +190,95 @@
       </div>
     </section>
 
-    <section class="accent-band">
-      <div class="section">
-        <div class="section-header" style="margin-bottom:2rem">
-          <span class="section-eyebrow">SIKKA Protocol</span>
-          <h2 class="section-title">What makes SIKKA different</h2>
+    <section class="section" id="use-cases">
+      <div class="section-header">
+        <span class="section-eyebrow">Use Cases</span>
+        <h2 class="section-title">Built for the real economy</h2>
+        <p class="section-lead">SIKKA is designed for humans, machines, and autonomous AI agents — enabling applications impractical on legacy blockchains.</p>
+      </div>
+
+      <div class="dashboard-grid" style="margin-bottom:3rem">
+        <div class="dash-card col-8">
+          <div class="chart-container lg">
+            <canvas id="chart-usecases"></canvas>
+          </div>
+          <p class="dash-card-desc" style="margin-top:0.75rem;font-size:0.8125rem">Feasibility score across primary SIKKA use case categories.</p>
         </div>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
-            <h3>SIKKA — Zero Fees</h3>
-            <p>When you send SIKKA, the exact amount arrives. No gas, no priority fees, no hidden costs.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h3>SIKKA — Quantum-Safe</h3>
-            <p>SIKKA uses pure ML-DSA-87 post-quantum cryptography throughout. No classical elliptic curve fallbacks.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-code-branch"></i></div>
-            <h3>SIKKA — Blockless DAG</h3>
-            <p>Every SIKKA transaction references two parents in a directed acyclic graph — not a blockchain.</p>
-          </div>
+        <div class="dash-card col-4" style="display:flex;flex-direction:column;justify-content:center">
+          <div class="dash-card-metric-label" style="color:var(--yellow)">SIKKA Use Cases</div>
+          <div class="dash-card-metric yellow" style="font-size:3rem">11+</div>
+          <p class="dash-card-desc" style="margin-top:1rem">From AI agent micropayments to decentralized marketplaces — SIKKA powers the machine economy.</p>
         </div>
       </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3>AI Agent Payments</h3>
+          <p>Instant micropayments between autonomous AI agents — LLMs buying data, bots paying for API calls, research agents purchasing premium information.</p>
+          <div class="pill-row"><span class="pill">No fees</span><span class="pill">Instant settlement</span><span class="pill">Machine economy</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
+          <h3>Micropayment Infrastructure</h3>
+          <p>Payments worth fractions of a cent. Pay-per-article, pay-per-second streaming, pay-per-query search engines, or API billing per request.</p>
+          <div class="pill-row"><span class="pill">New business models</span><span class="pill">Global access</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-handshake"></i></div>
+          <h3>Trustless Escrow</h3>
+          <p>Native multisignature enables decentralized escrow for freelance payments, digital asset trading, P2P commerce, and service agreements.</p>
+          <div class="pill-row"><span class="pill">Multisig</span><span class="pill">No intermediaries</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-id-card"></i></div>
+          <h3>Decentralized Identity</h3>
+          <p>SIKKA wallets become portable digital identities — wallet-based login, cryptographic signatures, reputation systems, and human verification.</p>
+          <div class="pill-row"><span class="pill">Self-sovereign</span><span class="pill">Cryptographic proofs</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-earth-americas"></i></div>
+          <h3>Global P2P Payments</h3>
+          <p>Instant global transfers with no banking restrictions, no fees, and no borders. Immediate settlement for anyone, anywhere.</p>
+          <div class="pill-row"><span class="pill">Borderless</span><span class="pill">Zero fees</span></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-list-check"></i></div>
+          <h3>AI Agent Registry</h3>
+          <p>A decentralized registry for discovering trustworthy AI services — agent discovery, reputation tracking, and stake-backed listings.</p>
+          <div class="pill-row"><span class="pill">Agent discovery</span><span class="pill">Reputation</span></div>
+        </div>
+      </div>
+
+      <div class="use-cases-more">
+        <div class="feature-card use-case-compact">
+          <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0"><i class="fa-solid fa-store"></i></div>
+          <div><h3>Decentralized Marketplace</h3><p>P2P commerce with built-in multisig escrow and instant settlement.</p></div>
+        </div>
+        <div class="feature-card use-case-compact">
+          <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0"><i class="fa-solid fa-microchip"></i></div>
+          <div><h3>Internet of Things</h3><p>Machine-to-machine payments for EV charging, smart parking, and sensor marketplaces.</p></div>
+        </div>
+        <div class="feature-card use-case-compact">
+          <div class="feature-icon" style="width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:0"><i class="fa-solid fa-paintbrush"></i></div>
+          <div><h3>Creator Monetization</h3><p>Direct tips, premium content, memberships, and digital collectibles — no middlemen.</p></div>
+        </div>
+      </div>
+
     </section>
 
-    <section class="feature-ticker" aria-label="SIKKA protocol highlights">
-      <div class="feature-ticker-row" id="ticker-row-1"></div>
-      <div class="feature-ticker-row" id="ticker-row-2"></div>
+    <section class="accent-band" id="features">
+      <div class="section section--last">
+        <div class="section-header">
+          <span class="section-eyebrow">SIKKA Protocol</span>
+          <h2 class="section-title">What makes SIKKA different</h2>
+          <p class="section-lead">Core protocol features that set SIKKA apart — rotating highlights with the details that matter.</p>
+        </div>
+        <div class="feature-ticker feature-ticker--explained" aria-label="SIKKA protocol highlights">
+          <div class="feature-ticker-row" id="ticker-row-1"></div>
+          <div class="feature-ticker-row" id="ticker-row-2"></div>
+        </div>
+      </div>
     </section>
 
     <script src="js/charts.js"></script>
