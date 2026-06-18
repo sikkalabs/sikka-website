@@ -26,270 +26,146 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
+
+      * { box-sizing: border-box; }
 
       :root {
         --gg-blue: #1a73e8;
         --gg-blue-hover: #1b66c9;
         --gg-blue-light: #e8f0fe;
-        --gg-gray-50: #f8f9fa;
-        --gg-gray-100: #f1f3f4;
         --gg-gray-300: #dadce0;
         --gg-gray-700: #5f6368;
         --gg-gray-800: #3c4043;
         --gg-gray-900: #202124;
       }
 
-      body {
-        font-family:
-          "Inter",
-          "Roboto",
-          system-ui,
-          -apple-system,
-          sans-serif;
-        background: #ffffff;
-        color: var(--gg-gray-900);
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
         -webkit-font-smoothing: antialiased;
+        background: #030712;
+        color: #f8fafc;
+        overflow-x: hidden;
       }
+
       .display-text {
         font-family: "Google Sans", "Inter", system-ui, sans-serif;
         letter-spacing: -0.02em;
       }
 
-      /* Clean Google-style cards */
-      .g-card {
-        background: #ffffff;
-        border: 1px solid var(--gg-gray-300);
-        border-radius: 24px;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .g-card:hover {
-        border-color: transparent;
-        box-shadow:
-          0 1px 3px rgba(60, 64, 67, 0.3),
-          0 4px 8px 3px rgba(60, 64, 67, 0.15);
-        transform: translateY(-2px);
-      }
-
-      /* Buttons */
-      .btn-primary {
-        background: var(--gg-blue);
-        color: #ffffff;
-        border-radius: 9999px;
-        font-weight: 500;
-        transition: all 0.2s;
-        border: 1px solid transparent;
-      }
-      .btn-primary:hover {
-        background: var(--gg-blue-hover);
-        box-shadow:
-          0 1px 2px 0 rgba(60, 64, 67, 0.3),
-          0 1px 3px 1px rgba(60, 64, 67, 0.15);
-      }
-      .btn-secondary {
-        background: #ffffff;
-        color: var(--gg-blue);
-        border: 1px solid var(--gg-gray-300);
-        border-radius: 9999px;
-        font-weight: 500;
-        transition: all 0.2s;
-      }
-      .btn-secondary:hover {
-        background: var(--gg-blue-light);
-        border-color: var(--gg-blue-light);
-      }
-
-      /* Pill tags */
-      .g-pill {
-        background: var(--gg-gray-100);
-        color: var(--gg-gray-800);
-        border-radius: 9999px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        border: 1px solid transparent;
-      }
-
-      .dag-container {
-        background: var(--gg-gray-50);
-        border: 1px solid var(--gg-gray-300);
-        border-radius: 24px;
-        overflow: hidden;
-      }
-
-      /* Subdued headers */
-      .section-eyebrow {
-        color: var(--gg-gray-700);
-        font-size: 0.875rem;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-      }
-
-      .hero-title {
-        font-size: clamp(3rem, 8vw, 6rem);
-        line-height: 1.05;
-        font-weight: 700;
-        color: var(--gg-gray-900);
-      }
-
-      .code-block {
-        background: var(--gg-gray-50);
-        border: 1px solid var(--gg-gray-300);
-        border-radius: 16px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      }
-
-      /* Marquee */
-      .feature-scroll-track {
-        display: flex;
-        gap: 1.5rem;
-        white-space: nowrap;
-        will-change: transform;
-        animation: marquee-scroll 40s linear infinite;
-      }
-      @keyframes marquee-scroll {
-        0% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(-50%);
-        }
-      }
-      .feature-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1.5rem;
-        background: #ffffff;
-        border: 1px solid var(--gg-gray-300);
-        border-radius: 9999px;
-        font-size: 0.9375rem;
-        font-weight: 500;
-        color: var(--gg-gray-800);
-        transition: all 0.2s ease;
-      }
-      .feature-tag:hover {
-        background: var(--gg-gray-50);
-      }
-
-      .gradient-mask-x {
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-      }
-
-      /* Live Network Telemetry — full-bleed */
-      .telemetry-section {
+      /* ===================== HERO PAGE ===================== */
+      .hero-page {
         position: relative;
-        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
-        background: #030712;
-        padding: 5rem 0 0;
       }
 
-      .telemetry-bg {
+      /* Dark background layers */
+      .hero-bg {
         position: absolute;
         inset: 0;
         pointer-events: none;
+        z-index: 0;
       }
 
-      .telemetry-grid {
+      .hero-grid {
         position: absolute;
         inset: 0;
         background-image:
           linear-gradient(rgba(26, 115, 232, 0.06) 1px, transparent 1px),
           linear-gradient(90deg, rgba(26, 115, 232, 0.06) 1px, transparent 1px);
         background-size: 48px 48px;
-        mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
       }
 
-      .telemetry-glow {
+      .hero-glow-top {
         position: absolute;
-        top: -20%;
+        top: -10%;
         left: 50%;
         transform: translateX(-50%);
-        width: min(900px, 90vw);
-        height: 500px;
-        background: radial-gradient(ellipse, rgba(26, 115, 232, 0.35) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%);
-        animation: telemetry-pulse 8s ease-in-out infinite;
+        width: min(1000px, 120vw);
+        height: 600px;
+        background: radial-gradient(ellipse, rgba(26, 115, 232, 0.22) 0%, rgba(56, 189, 248, 0.06) 40%, transparent 70%);
+        animation: glow-pulse 8s ease-in-out infinite;
       }
 
-      .telemetry-glow-2 {
+      .hero-glow-left {
         position: absolute;
-        bottom: -10%;
-        right: -5%;
+        bottom: 20%;
+        left: -10%;
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-        animation: telemetry-pulse-alt 12s ease-in-out infinite;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+        animation: glow-pulse-alt 12s ease-in-out infinite;
       }
 
-      @keyframes telemetry-pulse {
-        0%,
-        100% {
-          opacity: 0.6;
-          transform: translateX(-50%) scale(1);
-        }
-        50% {
-          opacity: 1;
-          transform: translateX(-50%) scale(1.08);
-        }
+      .hero-glow-right {
+        position: absolute;
+        top: 30%;
+        right: -5%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+        animation: glow-pulse-alt 10s ease-in-out infinite 2s;
       }
 
-      @keyframes telemetry-pulse-alt {
-        0%,
-        100% {
-          opacity: 0.4;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.8;
-          transform: scale(1.1);
-        }
-      }
-
-      .telemetry-scanline {
+      .hero-scanline {
         position: absolute;
         inset: 0;
         background: repeating-linear-gradient(
           0deg,
           transparent,
           transparent 2px,
-          rgba(255, 255, 255, 0.012) 2px,
-          rgba(255, 255, 255, 0.012) 4px
+          rgba(255, 255, 255, 0.008) 2px,
+          rgba(255, 255, 255, 0.008) 4px
         );
       }
 
-      .telemetry-flow {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
+      @keyframes glow-pulse {
+        0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+        50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+      }
+      @keyframes glow-pulse-alt {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.1); }
       }
 
-      .telemetry-flow-line {
-        position: absolute;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(26, 115, 232, 0.5), transparent);
-        animation: telemetry-flow 6s linear infinite;
-        opacity: 0.4;
-      }
-
-      @keyframes telemetry-flow {
-        0% {
-          transform: translateX(-100%);
-        }
-        100% {
-          transform: translateX(200vw);
-        }
-      }
-
-      .telemetry-header {
+      /* ===== Hero Top: Logo + Live Badge ===== */
+      .hero-top {
         position: relative;
         z-index: 10;
-        text-align: center;
-        padding: 0 1.5rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 2rem;
       }
 
-      .telemetry-live-badge {
+      .hero-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+      }
+
+      .hero-logo-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+      }
+
+      .hero-logo-text {
+        font-family: "Google Sans", sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: -0.02em;
+        color: #f8fafc;
+      }
+
+      .live-badge {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
@@ -298,146 +174,251 @@
         background: rgba(26, 115, 232, 0.12);
         border: 1px solid rgba(26, 115, 232, 0.3);
         color: #93c5fd;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        margin-bottom: 1.25rem;
       }
 
-      .telemetry-live-dot {
+      .live-dot {
         position: relative;
         width: 8px;
         height: 8px;
         border-radius: 50%;
         background: #22c55e;
+        flex-shrink: 0;
       }
 
-      .telemetry-live-dot::before {
+      .live-dot::before {
         content: "";
         position: absolute;
         inset: -3px;
         border-radius: 50%;
         background: #22c55e;
-        animation: telemetry-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
         opacity: 0.5;
       }
 
-      @keyframes telemetry-ping {
-        75%,
-        100% {
-          transform: scale(2.2);
-          opacity: 0;
-        }
+      @keyframes ping {
+        75%, 100% { transform: scale(2.2); opacity: 0; }
       }
 
-      .telemetry-title {
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        font-weight: 700;
-        color: #f8fafc;
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-        margin-bottom: 0.75rem;
-      }
-
-      .telemetry-subtitle {
-        color: #94a3b8;
-        font-size: clamp(1rem, 2vw, 1.125rem);
-        max-width: 36rem;
-        margin: 0 auto;
-      }
-
-      .telemetry-stage {
+      /* ===== Hero Content: Title + DAG split ===== */
+      .hero-content {
         position: relative;
         z-index: 10;
+        flex: 1;
         display: grid;
         grid-template-columns: 1fr;
         gap: 0;
-        min-height: 520px;
+        align-items: stretch;
       }
 
       @media (min-width: 1024px) {
-        .telemetry-stage {
-          grid-template-columns: 280px 1fr 200px;
-          min-height: 560px;
+        .hero-content {
+          grid-template-columns: 1fr 1fr;
+          min-height: calc(100vh - 80px);
         }
       }
 
-      .telemetry-panel {
-        display: none;
+      /* Left: hero text */
+      .hero-left {
+        display: flex;
         flex-direction: column;
-        gap: 0.75rem;
-        padding: 1.5rem;
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, transparent 100%);
+        justify-content: center;
+        padding: 3rem 2rem 2rem;
+        gap: 1.5rem;
       }
 
       @media (min-width: 1024px) {
-        .telemetry-panel {
-          display: flex;
+        .hero-left {
+          padding: 4rem 3rem 4rem 3.5rem;
         }
       }
 
-      .telemetry-stat {
-        padding: 0.875rem 1rem;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(8px);
-        transition: border-color 0.2s, background 0.2s;
-      }
-
-      .telemetry-stat:hover {
-        border-color: rgba(26, 115, 232, 0.25);
-        background: rgba(26, 115, 232, 0.06);
-      }
-
-      .telemetry-stat-label {
-        font-size: 0.65rem;
-        font-weight: 600;
-        letter-spacing: 0.1em;
+      .hero-eyebrow {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: #64748b;
-        margin-bottom: 0.25rem;
-      }
-
-      .telemetry-stat-value {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: #e2e8f0;
-        line-height: 1.3;
-      }
-
-      .telemetry-stat-value a {
         color: #60a5fa;
-        text-decoration: none;
-        transition: color 0.2s;
       }
 
-      .telemetry-stat-value a:hover {
+      .hero-h1 {
+        font-family: "Google Sans", "Inter", sans-serif;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: #f8fafc;
+        margin: 0;
+      }
+
+      .hero-h1 .accent {
+        background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #34d399 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1rem, 2vw, 1.125rem);
+        color: #94a3b8;
+        line-height: 1.65;
+        max-width: 32rem;
+        margin: 0;
+      }
+
+      .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.625rem;
+      }
+
+      .hero-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.375rem 0.875rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #cbd5e1;
+        transition: all 0.2s;
+      }
+
+      .hero-pill:hover {
+        background: rgba(26, 115, 232, 0.15);
+        border-color: rgba(26, 115, 232, 0.4);
         color: #93c5fd;
       }
 
-      .telemetry-canvas-wrap {
-        position: relative;
-        min-height: 420px;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      /* ===== Page Navigation Buttons ===== */
+      .hero-nav-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
       }
 
-      @media (min-width: 1024px) {
-        .telemetry-canvas-wrap {
-          border-top: none;
-          border-bottom: none;
+      @media (min-width: 640px) {
+        .hero-nav-grid {
+          grid-template-columns: repeat(4, 1fr);
         }
       }
 
-      .telemetry-canvas-wrap::before {
-        content: "";
+      .hero-nav-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 0.75rem;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        letter-spacing: 0.01em;
+        cursor: pointer;
+      }
+
+      .hero-nav-btn:hover {
+        background: rgba(26, 115, 232, 0.12);
+        border-color: rgba(26, 115, 232, 0.35);
+        color: #60a5fa;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(26, 115, 232, 0.15);
+      }
+
+      .hero-nav-btn .btn-icon {
+        font-size: 1.25rem;
+        color: #3b82f6;
+        transition: transform 0.25s;
+      }
+
+      .hero-nav-btn:hover .btn-icon {
+        transform: scale(1.15);
+        color: #60a5fa;
+      }
+
+      /* ===== External Action Buttons ===== */
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.25rem;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        background: #1a73e8;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-primary:hover {
+        background: #1b66c9;
+        box-shadow: 0 4px 20px rgba(26, 115, 232, 0.4);
+        transform: translateY(-1px);
+      }
+
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #cbd5e1;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #f1f5f9;
+        transform: translateY(-1px);
+      }
+
+      /* ===== Right: DAG viz ===== */
+      .hero-right {
+        position: relative;
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      @media (min-width: 1024px) {
+        .hero-right {
+          border-left: 1px solid rgba(255, 255, 255, 0.06);
+          min-height: unset;
+        }
+      }
+
+      .dag-inner-glow {
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(26, 115, 232, 0.08) 0%, transparent 70%);
+        background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(26, 115, 232, 0.1) 0%, transparent 70%);
         pointer-events: none;
         z-index: 1;
       }
@@ -445,1308 +426,403 @@
       #hero-dag {
         position: relative;
         z-index: 2;
+        flex: 1;
         width: 100%;
-        height: 420px;
+        min-height: 420px;
         cursor: crosshair;
       }
 
-      @media (min-width: 768px) {
-        #hero-dag {
-          height: 480px;
-        }
-      }
-
       @media (min-width: 1024px) {
         #hero-dag {
-          height: 520px;
+          height: 100%;
+          min-height: unset;
         }
       }
 
-      .telemetry-mobile-stats {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-        padding: 1rem 1.5rem 0;
-      }
-
-      @media (min-width: 1024px) {
-        .telemetry-mobile-stats {
-          display: none;
-        }
-      }
-
-      .telemetry-legend {
-        display: none;
-        flex-direction: column;
-        justify-content: center;
-        gap: 1.25rem;
-        padding: 1.5rem;
-        border-left: 1px solid rgba(255, 255, 255, 0.06);
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, transparent 100%);
-      }
-
-      @media (min-width: 1024px) {
-        .telemetry-legend {
-          display: flex;
-        }
-      }
-
-      .telemetry-legend-item {
+      /* DAG header overlay */
+      .dag-header-overlay {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+        right: 1.25rem;
+        z-index: 5;
         display: flex;
-        align-items: center;
-        gap: 0.625rem;
-        font-size: 0.75rem;
-        color: #94a3b8;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        pointer-events: none;
       }
 
-      .telemetry-legend-swatch {
-        width: 28px;
-        height: 12px;
-        border-radius: 3px;
-        flex-shrink: 0;
+      .dag-title-block {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
       }
 
-      .telemetry-footer {
-        position: relative;
-        z-index: 10;
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
-        gap: 1rem 2rem;
-        padding: 1.25rem 1.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        background: rgba(15, 23, 42, 0.5);
-        backdrop-filter: blur(12px);
+      .dag-label {
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #475569;
       }
 
-      @media (max-width: 767px) {
-        .telemetry-footer {
-          grid-template-columns: 1fr;
-          justify-items: center;
-          text-align: center;
-        }
-      }
-
-      .telemetry-footer-left {
-        justify-self: start;
-      }
-
-      @media (max-width: 767px) {
-        .telemetry-footer-left {
-          justify-self: center;
-          order: 1;
-        }
-      }
-
-      .telemetry-sync-center {
-        justify-self: center;
-        text-align: center;
-        max-width: min(520px, 90vw);
-      }
-
-      @media (max-width: 767px) {
-        .telemetry-sync-center {
-          order: 2;
-        }
-      }
-
-      .telemetry-sync-center .telemetry-stat-label {
-        margin-bottom: 0.375rem;
-      }
-
-      .telemetry-sync-value {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 0.875rem;
+      .dag-title {
+        font-family: "Google Sans", sans-serif;
+        font-size: 0.9rem;
         font-weight: 600;
         color: #e2e8f0;
-        line-height: 1.4;
-        word-break: break-all;
       }
 
-      .telemetry-sync-value a {
-        color: #60a5fa;
-        text-decoration: none;
-        transition: color 0.2s;
+      /* DAG stats bottom bar */
+      .dag-stats-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.75rem 1.25rem;
+        background: rgba(3, 7, 18, 0.7);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
       }
 
-      .telemetry-sync-value a:hover {
-        color: #93c5fd;
+      .dag-stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.125rem;
       }
 
-      .telemetry-footer-right {
-        justify-self: end;
+      .dag-stat-label {
+        font-size: 0.55rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #475569;
       }
 
-      @media (max-width: 767px) {
-        .telemetry-footer-right {
-          justify-self: center;
-          order: 3;
+      .dag-stat-value {
+        font-family: ui-monospace, monospace;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+
+      .dag-status-text {
+        font-family: ui-monospace, monospace;
+        font-size: 0.7rem;
+        color: #475569;
+      }
+
+      .dag-status-text.connected { color: #4ade80; }
+
+      .dag-hint {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.65rem;
+        color: #334155;
+        font-family: ui-monospace, monospace;
+      }
+
+      /* Legend */
+      .dag-legend {
+        display: none;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+        background: rgba(15, 23, 42, 0.5);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      @media (min-width: 640px) {
+        .dag-legend {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 1.25rem;
+          flex-wrap: wrap;
         }
       }
 
-      .telemetry-status {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 0.8125rem;
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.7rem;
         color: #64748b;
       }
 
-      .telemetry-status.connected {
-        color: #4ade80;
+      /* ===== Marquee ===== */
+      .marquee-wrap {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
       }
 
-      .telemetry-hint {
+      .marquee-track {
         display: flex;
+        gap: 1rem;
+        white-space: nowrap;
+        will-change: transform;
+        animation: marquee 40s linear infinite;
+      }
+
+      .marquee-track.reverse {
+        animation-direction: reverse;
+        animation-duration: 50s;
+      }
+
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      .marquee-tag {
+        display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        font-size: 0.75rem;
+        gap: 0.6rem;
+        padding: 0.5rem 1.25rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 9999px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: #64748b;
+      }
+
+      .marquee-tag i {
+        color: #3b82f6;
+      }
+
+      /* ===== Telemetry panel (desktop sidebar stats) ===== */
+      .telemetry-panel {
+        display: none;
+      }
+
+      @media (min-width: 1280px) {
+        .telemetry-panel {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          position: absolute;
+          right: 1.25rem;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 6;
+        }
+      }
+
+      .t-stat {
+        padding: 0.625rem 0.875rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        min-width: 110px;
+      }
+
+      .t-stat-label {
+        font-size: 0.55rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
         color: #475569;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        margin-bottom: 0.2rem;
       }
 
-      .telemetry-hint kbd {
-        padding: 0.125rem 0.5rem;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #94a3b8;
-        font-size: 0.6875rem;
+      .t-stat-value {
+        font-family: ui-monospace, monospace;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #e2e8f0;
       }
 
-      /* Tokenomics */
-      .tokenomics-section {
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
-        border-top: 1px solid var(--gg-gray-300);
-        padding: 6rem 0;
-      }
-
-      .tokenomics-supply {
-        font-size: clamp(1.375rem, 2.2vw + 0.75rem, 2.125rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1.15;
-        color: var(--gg-gray-900);
-        font-variant-numeric: tabular-nums;
-        max-width: 100%;
-        margin-inline: auto;
-      }
-
-      .tokenomics-ring {
-        position: relative;
-        width: 200px;
-        height: 200px;
-        margin: 0 auto;
-      }
-
-      .tokenomics-ring svg {
-        transform: rotate(-90deg);
-      }
-
-      .tokenomics-ring-label {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .tokenomics-try-band {
-        background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
-        border-radius: 24px;
-        color: #ffffff;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .tokenomics-try-band::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-        pointer-events: none;
-      }
     </style>
   </head>
-  <body class="antialiased selection:bg-blue-100 selection:text-blue-900">
-    <!-- Navigation (Enhanced) -->
-    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50 transition-all duration-300" id="navbar">
-      <div class="max-w-7xl mx-auto px-6 h-16 sm:h-20 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-3 group">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 100 100"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="transform group-hover:scale-105 transition-transform duration-300"
-          >
+  <body>
+    <div class="hero-page">
+
+      <!-- Background layers -->
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-glow-top"></div>
+        <div class="hero-glow-left"></div>
+        <div class="hero-glow-right"></div>
+        <div class="hero-scanline"></div>
+      </div>
+
+      <!-- Top bar: Logo + Live badge -->
+      <div class="hero-top">
+        <a href="#" class="hero-logo">
+          <svg class="hero-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="100" height="100" rx="20" fill="#1A73E8" />
             <path d="M50 20L80 70H20L50 20Z" fill="white" />
           </svg>
-          <span class="font-bold text-2xl tracking-tight text-gray-900 display-text">Sikka</span>
+          <span class="hero-logo-text">Sikka</span>
         </a>
-
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center gap-8">
-          <a href="#features" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Features</a>
-          <a href="#architecture" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Architecture</a>
-          <a href="#use-cases" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Use Cases</a>
-          <a href="#run-node" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Run a Node</a>
-        </div>
-
-        <div class="hidden md:flex items-center gap-4">
-          <a
-            href="https://github.com/sikkalabs/sikka"
-            target="_blank"
-            class="text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-2 text-sm font-medium"
-          >
-            <i class="fa-brands fa-git-alt text-xl"></i> <span class="hidden lg:inline">Code</span>
-          </a>
-          <div class="w-px h-6 bg-gray-200"></div>
-          <a
-            href="https://node.sikkalabs.com/wallet.html"
-            target="_blank"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm hover:shadow-md flex items-center gap-2"
-          >
-            <i class="fa-solid fa-wallet"></i> Web Wallet
-          </a>
-        </div>
-
-        <!-- Mobile Menu Button -->
-        <button class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none" id="mobile-menu-btn">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path id="menu-icon-bars" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Mobile Menu -->
-      <div class="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-lg hidden flex-col transition-all" id="mobile-menu">
-        <div class="px-6 py-4 flex flex-col gap-4">
-          <a href="#features" class="text-base font-medium text-gray-600 hover:text-blue-600 transition-colors mobile-link">Features</a>
-          <a href="#architecture" class="text-base font-medium text-gray-600 hover:text-blue-600 transition-colors mobile-link">Architecture</a>
-          <a href="#use-cases" class="text-base font-medium text-gray-600 hover:text-blue-600 transition-colors mobile-link">Use Cases</a>
-          <a href="#run-node" class="text-base font-medium text-gray-600 hover:text-blue-600 transition-colors mobile-link">Run a Node</a>
-          <div class="h-px w-full bg-gray-100 my-2"></div>
-          <a
-            href="https://github.com/sikkalabs/sikka"
-            target="_blank"
-            class="text-base font-medium text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2 mobile-link"
-          >
-            <i class="fa-brands fa-git-alt"></i> Source Code
-          </a>
-          <a
-            href="https://node.sikkalabs.com/wallet.html"
-            target="_blank"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl text-center font-medium transition-all shadow-sm flex items-center justify-center gap-2 mobile-link mt-2 mb-2"
-          >
-            <i class="fa-solid fa-wallet"></i> Open Web Wallet
-          </a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <div class="pt-40 pb-20 px-6 max-w-7xl mx-auto text-center">
-      <div class="inline-flex items-center gap-2 g-pill px-4 py-1.5 mb-8">
-        <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-        <span class="text-xs font-semibold tracking-wide uppercase">Live Network</span>
-      </div>
-
-      <h1 class="hero-title display-text mb-6 tracking-tight">
-        SIKKA: The blockless <br />
-        smart ledger. ⚡
-      </h1>
-
-      <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">
-        A radically simple, parallel-scalable currency for humans, autonomous agents, and machines. 🤖<br /><br />
-        <span class="text-lg sm:text-xl"
-          >💸 <strong class="text-gray-900">0 Fees</strong> &nbsp;•&nbsp; 🛡️ <strong class="text-gray-900">Quantum-Safe</strong> &nbsp;•&nbsp; 🌐
-          <strong class="text-gray-900">Tor-Native</strong> &nbsp;•&nbsp; 🤝 <strong class="text-gray-900">Native Multisig</strong></span
-        >
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a
-          href="https://discord.gg/HxsRdB2zjb"
-          target="_blank"
-          class="btn-primary px-8 py-3.5 text-base flex items-center gap-2 w-full sm:w-auto justify-center"
-        >
-          <i class="fa-brands fa-discord"></i> Join Discord
-        </a>
-        <a
-          href="https://node.sikkalabs.com/wallet.html"
-          target="_blank"
-          class="btn-secondary px-8 py-3.5 text-base flex items-center gap-2 w-full sm:w-auto justify-center bg-blue-50/50"
-        >
-          <i class="fa-solid fa-wallet"></i> Web Wallet
-        </a>
-        <a
-          href="https://github.com/sikkalabs/sikka"
-          target="_blank"
-          class="btn-secondary px-8 py-3.5 text-base flex items-center gap-2 w-full sm:w-auto justify-center"
-        >
-          <i class="fa-solid fa-code"></i> Source Code
-        </a>
-      </div>
-    </div>
-
-    <!-- Marquee -->
-    <div class="w-full overflow-hidden gradient-mask-x py-8 mb-20">
-      <div id="hero-fc-track-1" class="feature-scroll-track"></div>
-      <div id="hero-fc-track-2" class="feature-scroll-track mt-4" style="animation-direction: reverse; animation-duration: 45s"></div>
-    </div>
-
-    <!-- Live Network Telemetry — full bleed -->
-    <section id="telemetry" class="telemetry-section">
-      <div class="telemetry-bg" aria-hidden="true">
-        <div class="telemetry-grid"></div>
-        <div class="telemetry-glow"></div>
-        <div class="telemetry-glow-2"></div>
-        <div class="telemetry-scanline"></div>
-        <div class="telemetry-flow">
-          <div class="telemetry-flow-line" style="top: 22%; width: 40%; animation-delay: 0s"></div>
-          <div class="telemetry-flow-line" style="top: 48%; width: 55%; animation-delay: 2s"></div>
-          <div class="telemetry-flow-line" style="top: 71%; width: 35%; animation-delay: 4s"></div>
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          Live Network
         </div>
       </div>
 
-      <div class="telemetry-header">
-        <div class="telemetry-live-badge">
-          <span class="telemetry-live-dot" id="telemetry-live-dot"></span>
-          Live Network Telemetry
-        </div>
-        <h2 class="telemetry-title display-text">Watch the DAG grow in real time</h2>
-        <p class="telemetry-subtitle">
-          Every transaction extends the graph with exactly two parents. Tips glow — click any node to explore or simulate a new attachment.
-        </p>
-      </div>
+      <!-- Main content: Hero text + DAG -->
+      <div class="hero-content">
 
-      <div class="telemetry-mobile-stats">
-        <div class="telemetry-stat">
-          <div class="telemetry-stat-label">DAG Size</div>
-          <div class="telemetry-stat-value" id="telemetry-dag-size-m">—</div>
-        </div>
-        <div class="telemetry-stat">
-          <div class="telemetry-stat-label">Active Tips</div>
-          <div class="telemetry-stat-value" id="telemetry-tip-count-m">—</div>
-        </div>
-        <div class="telemetry-stat">
-          <div class="telemetry-stat-label">PoW Difficulty</div>
-          <div class="telemetry-stat-value" id="telemetry-pow-m">—</div>
-        </div>
-        <div class="telemetry-stat">
-          <div class="telemetry-stat-label">Work Factor</div>
-          <div class="telemetry-stat-value" id="telemetry-work-m">—</div>
-        </div>
-      </div>
+        <!-- Left: Hero text + navigation -->
+        <div class="hero-left">
+          <div class="hero-eyebrow">Blockless Smart Ledger</div>
 
-      <div class="telemetry-stage">
-        <aside class="telemetry-panel">
-          <div class="telemetry-stat">
-            <div class="telemetry-stat-label">DAG Size</div>
-            <div class="telemetry-stat-value" id="telemetry-dag-size">—</div>
-          </div>
-          <div class="telemetry-stat">
-            <div class="telemetry-stat-label">Active Tips</div>
-            <div class="telemetry-stat-value" id="telemetry-tip-count">—</div>
-          </div>
-          <div class="telemetry-stat">
-            <div class="telemetry-stat-label">PoW Difficulty</div>
-            <div class="telemetry-stat-value" id="telemetry-pow">—</div>
-          </div>
-          <div class="telemetry-stat">
-            <div class="telemetry-stat-label">Work Factor</div>
-            <div class="telemetry-stat-value" id="telemetry-work">—</div>
-          </div>
-        </aside>
+          <h1 class="hero-h1">
+            SIKKA:<br />
+            <span class="accent">The future</span><br />
+            of money.
+          </h1>
 
-        <div class="telemetry-canvas-wrap">
-          <div id="hero-dag"></div>
-        </div>
-
-        <aside class="telemetry-legend">
-          <div class="telemetry-legend-item">
-            <span class="telemetry-legend-swatch" style="width: 14px; height: 14px; border-radius: 50%; background: #60a5fa; box-shadow: 0 0 10px rgba(26, 115, 232, 0.7)"></span>
-            <span>DAG tip</span>
-          </div>
-          <div class="telemetry-legend-item">
-            <span class="telemetry-legend-swatch" style="width: 12px; height: 12px; border-radius: 50%; background: #0f172a; border: 2px solid #3b82f6"></span>
-            <span>Live transaction</span>
-          </div>
-          <div class="telemetry-legend-item">
-            <span class="telemetry-legend-swatch" style="width: 10px; height: 10px; border-radius: 50%; background: #1e293b; border: 1.5px solid #475569"></span>
-            <span>Simulated node</span>
-          </div>
-          <div class="telemetry-legend-item">
-            <span class="telemetry-legend-swatch" style="width: 28px; height: 2px; border-radius: 1px; background: rgba(26, 115, 232, 0.4)"></span>
-            <span>Parent strand</span>
-          </div>
-        </aside>
-      </div>
-
-      <div class="telemetry-footer">
-        <div class="telemetry-footer-left">
-          <div class="telemetry-status" id="hero-dag-stats">Connecting to node.sikkalabs.com…</div>
-        </div>
-        <div class="telemetry-sync-center">
-          <div class="telemetry-stat-label">Sync Source</div>
-          <div class="telemetry-sync-value" id="telemetry-sync-src">—</div>
-        </div>
-        <div class="telemetry-footer-right">
-          <div class="telemetry-hint">
-            <i class="fa-solid fa-hand-pointer text-blue-400/60"></i>
-            Click a node to <kbd>simulate_tx</kbd> or open in explorer
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Smart Ledger Highlights -->
-    <div class="bg-blue-50/50 border-y border-blue-100 py-24 mb-32">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <div class="section-eyebrow mb-2">Why SIKKA?</div>
-          <h2 class="text-4xl font-bold display-text text-gray-900">A scalable smart ledger. Not a blockchain.</h2>
-        </div>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2"><i class="fa-solid fa-bolt text-yellow-500"></i> Zero Fees</h3>
-            <p class="text-gray-600 leading-relaxed">
-              SIKKA has strictly <strong class="text-gray-900">0 fees</strong>. When you send SIKKA, the exact amount arrives. No gas, no priority fees, no
-              hidden costs.
-            </p>
-          </div>
-          <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2"><i class="fa-solid fa-ban text-red-500"></i> Blockless Architecture</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Technically, SIKKA is not a blockchain. It uses <strong class="text-gray-900">no Proof of Stake</strong> and
-              <strong class="text-gray-900">no global Proof of Work</strong> race. Every transaction is its own accepted unit extending the DAG.
-            </p>
-          </div>
-          <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-              <i class="fa-solid fa-arrow-trend-up text-green-500"></i> Parallel Scalable
-            </h3>
-            <p class="text-gray-600 leading-relaxed">
-              Unlike blockchains that congest, SIKKA is parallel scalable. Because transactions process asynchronously, the more users interact with the
-              network, <strong class="text-gray-900">the faster it gets</strong>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Architecture Comparison -->
-    <div id="architecture" class="max-w-5xl mx-auto px-6 mb-32 scroll-mt-24">
-      <div class="text-center mb-12">
-        <div class="section-eyebrow mb-2">Architecture</div>
-        <h2 class="text-3xl font-bold display-text text-gray-900">Traditional Chains vs Sikka</h2>
-      </div>
-      <div class="overflow-hidden rounded-3xl border border-gray-200 shadow-sm">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <th class="py-4 px-6 font-semibold text-gray-700 w-1/2">Traditional Blockchains</th>
-              <th class="py-4 px-6 font-bold text-gray-900 w-1/2 bg-blue-50/30">Sikka DAG</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white text-gray-600">
-            <tr>
-              <td class="py-4 px-6"><i class="fa-solid fa-hourglass-half text-gray-400 w-5"></i> Wait for next block</td>
-              <td class="py-4 px-6 bg-blue-50/10 text-gray-900"><i class="fa-solid fa-bolt text-blue-500 w-5"></i> Attach instantly to DAG tips</td>
-            </tr>
-            <tr>
-              <td class="py-4 px-6"><i class="fa-solid fa-link text-gray-400 w-5"></i> Sequential chain growth</td>
-              <td class="py-4 px-6 bg-blue-50/10 text-gray-900"><i class="fa-solid fa-diagram-project text-blue-500 w-5"></i> Parallel graph growth</td>
-            </tr>
-            <tr>
-              <td class="py-4 px-6"><i class="fa-solid fa-gavel text-gray-400 w-5"></i> Miners or validators decide ordering</td>
-              <td class="py-4 px-6 bg-blue-50/10 text-gray-900"><i class="fa-solid fa-sitemap text-blue-500 w-5"></i> Transactions extend graph directly</td>
-            </tr>
-            <tr>
-              <td class="py-4 px-6"><i class="fa-solid fa-coins text-gray-400 w-5"></i> Transaction fees & gas</td>
-              <td class="py-4 px-6 bg-blue-50/10 text-gray-900"><i class="fa-solid fa-check text-blue-500 w-5"></i> Exact-value feeless transfers</td>
-            </tr>
-            <tr>
-              <td class="py-4 px-6"><i class="fa-solid fa-lock text-gray-400 w-5"></i> Classical signatures</td>
-              <td class="py-4 px-6 bg-blue-50/10 text-gray-900">
-                <i class="fa-solid fa-shield-halved text-blue-500 w-5"></i> ML-DSA-87 post-quantum signatures
-              </td>
-            </tr>
-            <tr>
-              <td class="py-4 px-6"><i class="fa-solid fa-globe text-gray-400 w-5"></i> Global block race</td>
-              <td class="py-4 px-6 bg-blue-50/10 text-gray-900"><i class="fa-solid fa-hammer text-blue-500 w-5"></i> Per-transaction work</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Features Grid -->
-    <div id="features" class="max-w-7xl mx-auto px-6 mb-32 scroll-mt-24">
-      <div class="mb-12">
-        <div class="section-eyebrow mb-2">Core Protocol</div>
-        <h2 class="text-4xl font-bold display-text text-gray-900">Elegantly simple invariants.</h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="g-card p-8">
-          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-            <i class="fa-solid fa-code-branch"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 display-text">Exactly Two Parents</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Every non-genesis transaction references precisely two earlier transactions. A true directed acyclic graph, not a blockchain.
+          <p class="hero-subtitle">
+            A radically simple, parallel-scalable currency for humans, autonomous agents, and machines — with zero fees, quantum-safe cryptography, and native multisig.
           </p>
-        </div>
-        <div class="g-card p-8">
-          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-            <i class="fa-solid fa-scale-balanced"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 display-text">Exact Balance Only</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Inputs must exactly equal outputs. There is no fee field. The sender transmits the full amount with cryptographic certainty.
-          </p>
-        </div>
-        <div class="g-card p-8">
-          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-            <i class="fa-solid fa-hammer"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3 display-text">Per-Transaction PoW</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Each transaction mines its own SHA3-256 nonce. This provides <strong class="text-gray-900">built-in spam resistance</strong>. Abusive traffic
-            becomes computationally expensive as difficulty scales with network congestion.
-          </p>
-        </div>
-      </div>
-    </div>
 
-    <!-- Congestion-Adaptive PoW -->
-    <div id="pow" class="bg-blue-50/50 border-y border-blue-100 py-24 mb-32 scroll-mt-24">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-          <div class="section-eyebrow mb-2">Proof of Work</div>
-          <h2 class="text-4xl font-bold display-text text-gray-900 mb-4">Spam resistance without fees.</h2>
-          <p class="text-lg text-gray-600 leading-relaxed">
-            Sikka has no gas and no miner fees. Instead, every transaction solves a <strong class="text-gray-900">SHA3-256 puzzle</strong> whose difficulty
-            rises automatically when the network is busy — a CPU cost for attackers, not an economic barrier for normal users.
-          </p>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-8 mb-12">
-          <div class="code-block p-8 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-            <div class="text-gray-500 mb-4 text-sm uppercase tracking-wider font-semibold">Difficulty Formula</div>
-            <div class="space-y-3 text-sm sm:text-base leading-relaxed">
-              <div>
-                <span class="text-blue-600 font-semibold">required_bits</span> = BaseBits + floor(recent_count / 60) × 2
-              </div>
-              <div class="text-gray-600 text-sm pt-2 border-t border-gray-200">
-                BaseBits = 2 &nbsp;•&nbsp; BucketSize = 60 txs &nbsp;•&nbsp; BucketBits = 2
-              </div>
-              <div class="text-gray-600 text-sm">
-                <span class="text-gray-900 font-medium">recent_count</span> = transactions timestamped in the last 60 seconds
-              </div>
-            </div>
+          <div class="hero-pills">
+            <span class="hero-pill"><i class="fa-solid fa-bolt" style="color:#fbbf24"></i> Zero Fees</span>
+            <span class="hero-pill"><i class="fa-solid fa-shield-halved" style="color:#34d399"></i> Quantum-Safe</span>
+            <span class="hero-pill"><i class="fa-solid fa-user-secret" style="color:#a78bfa"></i> Tor-Native</span>
+            <span class="hero-pill"><i class="fa-solid fa-users" style="color:#60a5fa"></i> Native Multisig</span>
           </div>
 
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div class="g-card p-6">
-              <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4">
-                <i class="fa-solid fa-user"></i>
-              </div>
-              <h3 class="font-semibold text-gray-900 mb-2">Normal use</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">At baseline load, ~<strong class="text-gray-900">4 hashes</strong> per payment. Negligible on any device.</p>
-            </div>
-            <div class="g-card p-6">
-              <div class="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4">
-                <i class="fa-solid fa-biohazard"></i>
-              </div>
-              <h3 class="font-semibold text-gray-900 mb-2">Under attack</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Each extra 60 txs/min adds <strong class="text-gray-900">2 bits</strong> — <strong class="text-gray-900">4×</strong> more work per bucket.</p>
-            </div>
-            <div class="g-card p-6 sm:col-span-2 border-blue-200 bg-white">
-              <h3 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <i class="fa-solid fa-shield-halved text-blue-600"></i> Not a fee — a throttle
-              </h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                There is no recipient and no money collected. Honest senders always pay the baseline. Flooders pay exponentially more CPU as they raise network
-                load — and each transaction they submit makes the next one harder for everyone, including themselves.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="overflow-hidden rounded-3xl border border-gray-200 shadow-sm bg-white mb-12">
-          <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
-            <h3 class="font-semibold text-gray-900">Congestion scaling</h3>
-            <p class="text-sm text-gray-500 mt-1">Expected hashing work per transaction at different load levels</p>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-sm sm:text-base">
-              <thead>
-                <tr class="border-b border-gray-200 bg-white">
-                  <th class="py-3 px-6 font-semibold text-gray-700">Txs in last 60 s</th>
-                  <th class="py-3 px-6 font-semibold text-gray-700">Required bits</th>
-                  <th class="py-3 px-6 font-semibold text-gray-900">Expected hashes</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100 text-gray-600">
-                <tr>
-                  <td class="py-3 px-6">0 – 59 <span class="text-green-600 text-xs font-medium ml-1">normal</span></td>
-                  <td class="py-3 px-6 font-mono">2</td>
-                  <td class="py-3 px-6 font-mono text-gray-900">~4</td>
-                </tr>
-                <tr class="bg-blue-50/20">
-                  <td class="py-3 px-6">60 – 119</td>
-                  <td class="py-3 px-6 font-mono">4</td>
-                  <td class="py-3 px-6 font-mono text-gray-900">~16</td>
-                </tr>
-                <tr>
-                  <td class="py-3 px-6">120 – 179</td>
-                  <td class="py-3 px-6 font-mono">6</td>
-                  <td class="py-3 px-6 font-mono text-gray-900">~64</td>
-                </tr>
-                <tr class="bg-blue-50/20">
-                  <td class="py-3 px-6">180 – 239</td>
-                  <td class="py-3 px-6 font-mono">8</td>
-                  <td class="py-3 px-6 font-mono text-gray-900">~256</td>
-                </tr>
-                <tr>
-                  <td class="py-3 px-6">240 – 299</td>
-                  <td class="py-3 px-6 font-mono">10</td>
-                  <td class="py-3 px-6 font-mono text-gray-900">~1,024</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="g-card p-8 sm:p-10 border-blue-200 overflow-hidden relative">
-          <div class="absolute top-0 right-0 w-48 h-48 bg-blue-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
-          <div class="relative grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-blue-600 mb-3">
-                <i class="fa-solid fa-link"></i> Anti-selfish-mining
-              </div>
-              <h3 class="text-2xl font-bold display-text text-gray-900 mb-4">Tip commitment</h3>
-              <p class="text-gray-600 leading-relaxed mb-4">
-                PoW is bound to the <strong class="text-gray-900">live state of both parent tips</strong> at mining time. You cannot pre-mine a stockpile of
-                transactions and dump them later — if the DAG moves while you hash, your work is instantly stale.
-              </p>
-              <p class="text-sm text-gray-500 leading-relaxed">
-                An attacker mining against outdated tips produces parent hashes that no longer match. The node rejects the transaction; the CPU cost is wasted.
-              </p>
-            </div>
-            <div class="code-block p-6 text-sm sm:text-base">
-              <div class="text-gray-500 mb-3 text-xs uppercase tracking-wider font-semibold">PoW Input</div>
-              <div class="space-y-2">
-                <div><span class="text-blue-600 font-semibold">pow_input</span> = txID</div>
-                <div class="pl-4 text-gray-500">|| parent[0].pow_hash</div>
-                <div class="pl-4 text-gray-500">|| parent[1].pow_hash</div>
-                <div class="pl-4 text-gray-500">|| nonce</div>
-                <div class="pt-3 border-t border-gray-200">
-                  <span class="text-blue-600 font-semibold">pow_hash</span> = SHA3-256(pow_input)
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Probabilistic Finality -->
-    <div id="finality" class="max-w-7xl mx-auto px-6 mb-32 scroll-mt-24">
-      <div class="mb-12 max-w-3xl">
-        <div class="section-eyebrow mb-2">Conflict Resolution</div>
-        <h2 class="text-4xl font-bold display-text text-gray-900 mb-4">Probabilistic finality.</h2>
-        <p class="text-lg text-gray-600 leading-relaxed">
-          Double-spends are <strong class="text-gray-900">not instantly rejected</strong>. Competing transactions enter the DAG and race until accumulated work
-          picks a winner — per UTXO, without blocks, miners, or a global coordinator.
-        </p>
-      </div>
-
-      <div class="grid lg:grid-cols-3 gap-6 mb-12">
-        <div class="g-card p-8 lg:col-span-1 border-amber-200 bg-amber-50/30">
-          <div class="text-4xl font-bold text-amber-500 mb-2">1</div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Both accepted</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">
-            If two transactions spend the same UTXO, both are gossiped and stored. No mempool gatekeeper decides which one "gets in."
-          </p>
-        </div>
-        <div class="g-card p-8 lg:col-span-1 border-blue-200 bg-blue-50/20">
-          <div class="text-4xl font-bold text-blue-600 mb-2">2</div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Work accumulates</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">
-            Each descendant adds weight: <span class="font-mono text-gray-800">2<sup>pow_bits</sup></span> per transaction in its subtree. The branch with more
-            cumulative work wins.
-          </p>
-        </div>
-        <div class="g-card p-8 lg:col-span-1 border-green-200 bg-green-50/30">
-          <div class="text-4xl font-bold text-green-600 mb-2">3</div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">One survives</h3>
-          <p class="text-sm text-gray-600 leading-relaxed">
-            Once weight crosses the confirmation threshold, the canonical spend is settled. The loser is pruned after a grace period for slow Tor peers.
-          </p>
-        </div>
-      </div>
-
-      <div class="grid lg:grid-cols-2 gap-8 items-start">
-        <div class="code-block p-8 relative overflow-hidden">
-          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-blue-500"></div>
-          <div class="text-gray-500 mb-4 text-sm uppercase tracking-wider font-semibold">Winner Selection</div>
-          <div class="space-y-4 text-sm sm:text-base">
-            <div>
-              <span class="text-blue-600 font-semibold">canonical_spend</span> = argmax cumulative_weight(tx)
-            </div>
-            <div class="text-gray-600 pl-2 border-l-2 border-blue-200">
-              cumulative_weight(tx) = Σ 2<sup>pow_bits</sup> over all descendants of tx
-            </div>
-            <div class="text-gray-600">
-              <span class="text-gray-900 font-medium">Tie-break:</span> lower tx_id (lexicographic) wins
-            </div>
-            <div class="pt-3 border-t border-gray-200 text-gray-600">
-              <span class="text-green-600 font-semibold">Confirmed</span> when cumulative_weight ≥ <span class="font-mono text-gray-900">200</span>
-            </div>
-            <div class="text-gray-500 text-sm">
-              Losers retained for <span class="font-mono">960 s</span> grace (~16 min) before deletion
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-              <i class="fa-solid fa-sitemap"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">No global lock</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                Concurrent double-spends resolve by accumulated work — like competing forks, but at per-UTXO granularity instead of whole-chain reorgs.
-              </p>
-            </div>
-          </div>
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-              <i class="fa-solid fa-arrows-to-circle"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Deterministic convergence</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                Every honest node applies the same argmax rule. No coordinator, no validator set — all nodes converge on identical ledger state.
-              </p>
-            </div>
-          </div>
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Fast in practice</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">
-                At base difficulty (2 bits), reaching 200 weight means ~200 descendants at ~4 hashes each. Under normal load, finality settles in seconds.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Cryptography & Security -->
-    <div class="bg-gray-50 border-y border-gray-200 py-32">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- Page navigation buttons -->
           <div>
-            <div class="section-eyebrow mb-2">Cryptography</div>
-            <h2 class="text-4xl font-bold display-text text-gray-900 mb-6">Post-quantum ready.</h2>
-            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-              Sikka relies entirely on the ML-DSA-87 (Dilithium) signature scheme. We do not use any classical elliptic curves, ensuring maximum security
-              against future quantum threats.
-            </p>
-            <ul class="space-y-4">
-              <li class="flex items-start gap-3">
-                <i class="fa-solid fa-check text-blue-600 mt-1"></i>
-                <div>
-                  <strong class="block text-gray-900">No classical fallbacks</strong>
-                  <span class="text-gray-600 text-sm">Pure post-quantum cryptography.</span>
-                </div>
-              </li>
-              <li class="flex items-start gap-3">
-                <i class="fa-solid fa-check text-blue-600 mt-1"></i>
-                <div>
-                  <strong class="block text-gray-900">Deterministic sync</strong>
-                  <span class="text-gray-600 text-sm">State verification is fully deterministic.</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="code-block p-8 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-            <div class="text-gray-500 mb-4 text-sm uppercase tracking-wider font-semibold">Transaction Spec</div>
-            <div class="space-y-4 text-sm sm:text-base">
-              <div><span class="text-blue-600 font-semibold">txid</span> = SHA3-256(version || parents || inputs || outputs || ts)</div>
-              <div><span class="text-blue-600 font-semibold">pow_hash</span> = SHA3-256(txid || pow_nonce)</div>
-              <div><span class="text-blue-600 font-semibold">witness</span> = ML-DSA-87 signature(s)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Native Multisig -->
-    <div class="max-w-7xl mx-auto px-6 pt-32 pb-16">
-      <div class="grid md:grid-cols-2 gap-16 items-center">
-        <div class="order-2 md:order-1">
-          <div class="g-card p-8 sm:p-12 bg-blue-50/30 border-blue-200 relative overflow-hidden h-full flex flex-col justify-center">
-            <div class="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
-              <i class="fa-solid fa-users text-9xl text-blue-600 transform translate-x-4 -translate-y-4"></i>
-            </div>
-            <div class="relative z-10">
-              <div class="flex items-center gap-2 sm:gap-3 mb-8">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">1</div>
-                <div class="h-1 w-6 sm:w-8 bg-blue-200 rounded"></div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">2</div>
-                <div class="h-1 w-6 sm:w-8 bg-blue-200 rounded"></div>
-                <div class="text-blue-400 font-bold tracking-widest text-xl">...</div>
-                <div class="h-1 w-6 sm:w-8 bg-blue-200 rounded"></div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm">16</div>
-              </div>
-              <p class="text-sm text-blue-600 font-bold uppercase tracking-widest mb-2">Up to 16 wallets</p>
-              <h3 class="text-2xl text-gray-900 font-bold display-text">Collaborative Tx Building</h3>
-            </div>
-          </div>
-        </div>
-        <div class="order-1 md:order-2">
-          <div class="section-eyebrow mb-2">Smart Wallets</div>
-          <h2 class="text-4xl font-bold display-text text-gray-900 mb-6">Native n-of-n multisig.</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            In Sikka, standard wallets are inherently <strong class="text-gray-900">n-of-n</strong>, and multisig is elegantly abstracted as an
-            <strong class="text-gray-900">m-of-n</strong> wallet. There are no complicated, risky smart contracts required.
-          </p>
-          <p class="text-lg text-gray-600 leading-relaxed">
-            Because of this simple yet powerful abstraction, any single transaction can be collaboratively built and signed by up to
-            <strong class="text-blue-600 font-semibold">16 different wallets</strong> together. This dramatically simplifies complex multi-party flows and
-            institutional custody.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Networking & Privacy -->
-    <div class="max-w-7xl mx-auto px-6 py-24">
-      <div class="text-center mb-16">
-        <div class="section-eyebrow mb-2">Networking</div>
-        <h2 class="text-4xl font-bold display-text text-gray-900">Privacy and interoperability.</h2>
-      </div>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="g-card p-10 border-blue-200">
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><i class="fa-solid fa-shield-halved text-blue-600"></i> Tor-Native</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Privacy is built into networking from the start. Nodes seamlessly advertise onion addresses, communicate privately, and support managed Tor
-            integration to expose privacy-friendly peer connectivity globally.
-          </p>
-        </div>
-        <div class="g-card p-10 border-blue-200">
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><i class="fa-solid fa-globe text-blue-600"></i> HTTP Federation</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Sikka nodes expose a clean HTTP API with CORS support. This makes it incredibly easy to federate networks, build lightweight web clients, and
-            integrate directly with existing web applications.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tokenomics -->
-    <section id="tokenomics" class="tokenomics-section scroll-mt-20">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-          <div class="section-eyebrow mb-2">Tokenomics</div>
-          <h2 class="text-4xl font-bold display-text text-gray-900 mb-4">Every SIKKA goes to the network.</h2>
-          <p class="text-lg text-gray-600 leading-relaxed">
-            A fixed genesis supply with no inflation, no premine, and no team allocation.
-            <strong class="text-gray-900">100% of all SIKKA is distributed to node operators</strong> who keep the DAG alive.
-          </p>
-        </div>
-
-        <div class="grid lg:grid-cols-3 gap-8 mb-16">
-          <div class="g-card p-8 text-center lg:col-span-1 min-w-0 overflow-hidden">
-            <div class="tokenomics-supply display-text mb-2">19,960,907</div>
-            <div class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Fixed Max Supply</div>
-            <p class="text-sm text-gray-600 leading-relaxed">
-              Pre-issued entirely in genesis. The cap encodes <span class="font-mono text-gray-800">19960907</span> — no emission schedule, no mining rewards,
-              no hidden minting.
-            </p>
-          </div>
-
-          <div class="g-card p-8 flex flex-col items-center justify-center lg:col-span-1 border-blue-200 bg-blue-50/20">
-            <div class="tokenomics-ring mb-4">
-              <svg width="200" height="200" viewBox="0 0 200 200">
-                <circle cx="100" cy="100" r="82" fill="none" stroke="#e8f0fe" stroke-width="14" />
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="82"
-                  fill="none"
-                  stroke="#1a73e8"
-                  stroke-width="14"
-                  stroke-linecap="round"
-                  stroke-dasharray="515.22"
-                  stroke-dashoffset="0"
-                />
-              </svg>
-              <div class="tokenomics-ring-label">
-                <span class="text-4xl font-bold display-text text-blue-600">100%</span>
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-1">To Operators</span>
-              </div>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed text-center">
-              The entire supply flows to people running nodes. No VC slice, no foundation treasury — decentralization by design.
-            </p>
-          </div>
-
-          <div class="g-card p-8 lg:col-span-1">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-                <i class="fa-solid fa-coins"></i>
-              </div>
-              <h3 class="font-semibold text-gray-900 display-text">Units</h3>
-            </div>
-            <ul class="space-y-3 text-sm text-gray-600">
-              <li class="flex gap-2">
-                <i class="fa-solid fa-check text-blue-600 mt-0.5 shrink-0"></i>
-                <span><strong class="text-gray-900">SIKKA</strong> — singular coin</span>
-              </li>
-              <li class="flex gap-2">
-                <i class="fa-solid fa-check text-blue-600 mt-0.5 shrink-0"></i>
-                <span><strong class="text-gray-900">SIKKE</strong> — plural</span>
-              </li>
-              <li class="flex gap-2">
-                <i class="fa-solid fa-check text-blue-600 mt-0.5 shrink-0"></i>
-                <span
-                  ><strong class="text-gray-900">CHILLAR</strong> — smallest unit &nbsp;<span class="font-mono text-gray-500">1 SIKKA = 10<sup>10</sup> chillar</span></span
-                >
-              </li>
-            </ul>
-            <div class="mt-6 pt-6 border-t border-gray-100 flex items-center gap-3 text-sm text-gray-600">
-              <i class="fa-solid fa-server text-blue-600"></i>
-              <span>Run a node → earn your share of the network.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="tokenomics-try-band p-8 sm:p-10 md:p-12">
-          <div class="relative grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <div class="inline-flex items-center gap-2 bg-white/15 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider mb-4">
-                <i class="fa-solid fa-flask"></i> Try before you run
-              </div>
-              <h3 class="text-2xl sm:text-3xl font-bold display-text mb-4">Get SIKKA and test the network</h3>
-              <p class="text-blue-100 leading-relaxed mb-4">
-                A few of our volunteers operate community faucets so anyone can receive a small amount of SIKKA, create a wallet, and send a real transaction
-                across the DAG — no node required to start.
-              </p>
-              <p class="text-white/90 leading-relaxed">
-                <strong class="text-white">Join our Discord</strong> to claim a few SIKKAs every <strong class="text-white">6 hours</strong> and experience
-                feeless, parallel transfers firsthand.
-              </p>
-            </div>
-            <div class="flex flex-col sm:flex-row lg:flex-col gap-4">
-              <a
-                href="https://discord.gg/HxsRdB2zjb"
-                target="_blank"
-                class="flex items-center justify-center gap-3 bg-white text-blue-700 hover:bg-blue-50 font-semibold px-8 py-4 rounded-2xl transition-all shadow-lg hover:shadow-xl"
-              >
-                <i class="fa-brands fa-discord text-xl"></i>
-                Join Discord &amp; Claim SIKKA
+            <div style="font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#334155; margin-bottom:0.75rem;">Explore</div>
+            <div class="hero-nav-grid">
+              <a href="features.html" class="hero-nav-btn" id="nav-features">
+                <i class="fa-solid fa-layer-group btn-icon"></i>
+                Features
               </a>
-              <a
-                href="https://node.sikkalabs.com/wallet.html"
-                target="_blank"
-                class="flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white font-medium px-8 py-4 rounded-2xl border border-white/25 transition-all"
-              >
-                <i class="fa-solid fa-wallet"></i>
-                Open Web Wallet
+              <a href="architecture.html" class="hero-nav-btn" id="nav-architecture">
+                <i class="fa-solid fa-diagram-project btn-icon"></i>
+                Architecture
+              </a>
+              <a href="use-cases.html" class="hero-nav-btn" id="nav-usecases">
+                <i class="fa-solid fa-rocket btn-icon"></i>
+                Use Cases
+              </a>
+              <a href="run-node.html" class="hero-nav-btn" id="nav-runnode">
+                <i class="fa-solid fa-server btn-icon"></i>
+                Run a Node
               </a>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Use Cases -->
-    <section id="use-cases" class="py-32 border-t border-gray-200 scroll-mt-20">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-20 max-w-3xl mx-auto">
-          <div class="section-eyebrow mb-2">Use Cases</div>
-          <h2 class="text-4xl font-bold display-text text-gray-900 mb-4">Built for the real economy.</h2>
-          <p class="text-lg text-gray-600 leading-relaxed">
-            SIKKA is designed for humans, machines, and autonomous AI agents — enabling entirely new categories of applications that are impractical on traditional payment networks and legacy blockchains.
-          </p>
-        </div>
-
-        <!-- Primary use cases grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-
-          <!-- 1. AI Agent Payments -->
-          <div class="g-card p-8">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-robot"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 display-text">AI Agent Payments</h3>
-            <p class="text-gray-600 text-sm leading-relaxed mb-4">Instant micropayments between autonomous AI agents — LLMs buying data, bots paying for API calls, research agents purchasing premium information.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="g-pill px-3 py-1 text-xs">No fees</span>
-              <span class="g-pill px-3 py-1 text-xs">Instant settlement</span>
-              <span class="g-pill px-3 py-1 text-xs">Machine economy</span>
-            </div>
-          </div>
-
-          <!-- 2. Micropayments -->
-          <div class="g-card p-8">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-coins"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 display-text">Micropayment Infrastructure</h3>
-            <p class="text-gray-600 text-sm leading-relaxed mb-4">Payments worth fractions of a cent. Pay-per-article, pay-per-second streaming, pay-per-query search engines, or API billing per request.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="g-pill px-3 py-1 text-xs">New business models</span>
-              <span class="g-pill px-3 py-1 text-xs">Global access</span>
-            </div>
-          </div>
-
-          <!-- 3. Trustless Escrow -->
-          <div class="g-card p-8">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-handshake"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 display-text">Trustless Escrow</h3>
-            <p class="text-gray-600 text-sm leading-relaxed mb-4">Native multisignature enables decentralized escrow for freelance payments, digital asset trading, P2P commerce, and service agreements — no intermediaries needed.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="g-pill px-3 py-1 text-xs">Buyer + Seller + Arbitrator</span>
-              <span class="g-pill px-3 py-1 text-xs">Multisig</span>
-            </div>
-          </div>
-
-          <!-- 4. Decentralized Identity -->
-          <div class="g-card p-8">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-id-card"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 display-text">Decentralized Identity</h3>
-            <p class="text-gray-600 text-sm leading-relaxed mb-4">SIKKA wallets become portable digital identities — wallet-based login, cryptographic signatures, reputation systems, and human verification layers for forums, marketplaces, and social networks.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="g-pill px-3 py-1 text-xs">Self-sovereign</span>
-              <span class="g-pill px-3 py-1 text-xs">Cryptographic proofs</span>
-            </div>
-          </div>
-
-          <!-- 5. Global P2P Payments -->
-          <div class="g-card p-8">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-earth-americas"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 display-text">Global Peer-to-Peer Payments</h3>
-            <p class="text-gray-600 text-sm leading-relaxed mb-4">Instant global transfers with no banking restrictions, no fees, and no borders. Immediate settlement for anyone, anywhere.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="g-pill px-3 py-1 text-xs">Borderless</span>
-              <span class="g-pill px-3 py-1 text-xs">Zero fees</span>
-              <span class="g-pill px-3 py-1 text-xs">Instant</span>
-            </div>
-          </div>
-
-          <!-- 6. AI Agent Registry -->
-          <div class="g-card p-8">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-list-check"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2 display-text">AI Agent Registry</h3>
-            <p class="text-gray-600 text-sm leading-relaxed mb-4">A decentralized registry for discovering trustworthy AI services — agent discovery, reputation tracking, and stake-backed listings.</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="g-pill px-3 py-1 text-xs">Agent discovery</span>
-              <span class="g-pill px-3 py-1 text-xs">Reputation tracking</span>
-            </div>
+          <!-- External actions -->
+          <div class="hero-actions">
+            <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="btn-primary" id="hero-discord-btn">
+              <i class="fa-brands fa-discord"></i> Join Discord
+            </a>
+            <a href="https://node.sikka.click/wallet.html" target="_blank" class="btn-ghost" id="hero-wallet-btn">
+              <i class="fa-solid fa-wallet"></i> Web Wallet
+            </a>
+            <a href="https://github.com/sikkalabs/sikka" target="_blank" class="btn-ghost" id="hero-github-btn">
+              <i class="fa-brands fa-github"></i> Source
+            </a>
           </div>
         </div>
 
-        <!-- Secondary use cases — compact row -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <!-- Right: Live DAG Visualization -->
+        <div class="hero-right">
+          <div class="dag-inner-glow"></div>
 
-          <!-- 8. Decentralized Marketplace -->
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-base">
-              <i class="fa-solid fa-store"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Decentralized Marketplace</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Sell digital goods, software licenses, AI prompts, and datasets directly — no platform fees, global reach, and direct creator payments.</p>
+          <!-- Header overlay inside DAG panel -->
+          <div class="dag-header-overlay">
+            <div class="dag-title-block">
+              <div class="dag-label">Live Network Telemetry</div>
+              <div class="dag-title">Watch the DAG grow in real time</div>
             </div>
           </div>
 
-          <!-- 9. Infrastructure Economy -->
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-base">
-              <i class="fa-solid fa-server"></i>
+          <!-- Desktop side stats -->
+          <div class="telemetry-panel">
+            <div class="t-stat">
+              <div class="t-stat-label">DAG Size</div>
+              <div class="t-stat-value" id="telemetry-dag-size">—</div>
             </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Infrastructure Economy</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Paid public nodes, gateway services, data indexing, analytics APIs, and managed hosting — sustainable incentives for network operators beyond speculation.</p>
+            <div class="t-stat">
+              <div class="t-stat-label">Active Tips</div>
+              <div class="t-stat-value" id="telemetry-tip-count">—</div>
             </div>
-          </div>
-
-          <!-- 10. Decentralized Messaging -->
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-base">
-              <i class="fa-solid fa-message"></i>
+            <div class="t-stat">
+              <div class="t-stat-label">PoW Bits</div>
+              <div class="t-stat-value" id="telemetry-pow">—</div>
             </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Decentralized Messaging</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Wallet-linked messaging with network-level anti-spam. Wallet-to-wallet comms, business notifications, service alerts, and agent communication.</p>
+            <div class="t-stat">
+              <div class="t-stat-label">Work Factor</div>
+              <div class="t-stat-value" id="telemetry-work">—</div>
             </div>
           </div>
 
-          <!-- 11. IoT Payments -->
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-base">
-              <i class="fa-solid fa-microchip"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Internet of Things</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Machine-to-machine payments for EV charging, smart parking, sensor marketplaces, bandwidth sharing, and device leasing.</p>
-            </div>
-          </div>
+          <!-- D3 canvas -->
+          <div id="hero-dag"></div>
 
-          <!-- 12. Creator Monetization -->
-          <div class="g-card p-6 flex gap-4">
-            <div class="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-base">
-              <i class="fa-solid fa-paintbrush"></i>
+          <!-- Bottom stats bar -->
+          <div class="dag-stats-bar">
+            <div class="dag-status-text" id="hero-dag-stats">Connecting to node.sikka.click…</div>
+            <div style="display:flex; gap:1.5rem; align-items:center;">
+              <div class="dag-stat-item" id="mobile-stat-dag">
+                <span class="dag-stat-label">DAG</span>
+                <span class="dag-stat-value" id="m-dag-size">—</span>
+              </div>
+              <div class="dag-stat-item" id="mobile-stat-tips">
+                <span class="dag-stat-label">Tips</span>
+                <span class="dag-stat-value" id="m-tip-count">—</span>
+              </div>
             </div>
-            <div>
-              <h3 class="font-semibold text-gray-900 mb-1">Creator Monetization</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Direct payment channels for tips, premium content, memberships, and digital collectibles — without surrendering revenue to intermediaries.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Long-term vision banner -->
-        <div class="g-card p-8 sm:p-10 border-blue-200 bg-blue-50/20 overflow-hidden relative">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl translate-x-1/4 -translate-y-1/3 pointer-events-none"></div>
-          <div class="relative grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-blue-600 mb-3">
-                <i class="fa-solid fa-rocket"></i> Long-term vision
-              </div>
-              <h3 class="text-2xl font-bold display-text text-gray-900 mb-3">The native economic layer for the future internet.</h3>
-              <p class="text-gray-600 leading-relaxed">
-                The future economy will not only be human-to-human. It will increasingly be machine-to-machine, agent-to-agent, and human-to-agent. SIKKA is designed to power that economy.
-              </p>
-            </div>
-            <div class="grid grid-cols-3 gap-3 text-center">
-              <div class="bg-white rounded-2xl p-4 border border-blue-100">
-                <i class="fa-solid fa-user text-blue-600 text-xl mb-2 block"></i>
-                <div class="text-xs font-semibold text-gray-700">Humans</div>
-              </div>
-              <div class="bg-white rounded-2xl p-4 border border-blue-100">
-                <i class="fa-solid fa-robot text-blue-600 text-xl mb-2 block"></i>
-                <div class="text-xs font-semibold text-gray-700">AI Agents</div>
-              </div>
-              <div class="bg-white rounded-2xl p-4 border border-blue-100">
-                <i class="fa-solid fa-microchip text-blue-600 text-xl mb-2 block"></i>
-                <div class="text-xs font-semibold text-gray-700">Machines</div>
-              </div>
-              <div class="bg-white rounded-2xl p-4 border border-blue-100">
-                <i class="fa-solid fa-code text-blue-600 text-xl mb-2 block"></i>
-                <div class="text-xs font-semibold text-gray-700">Autonomous Software</div>
-              </div>
-              <div class="bg-white rounded-2xl p-4 border border-blue-100 col-span-2">
-                <i class="fa-solid fa-globe text-blue-600 text-xl mb-2 block"></i>
-                <div class="text-xs font-semibold text-gray-700">Internet Services</div>
-              </div>
+            <div class="dag-hint">
+              <i class="fa-solid fa-hand-pointer" style="color:rgba(96,165,250,0.5)"></i>
+              Click node → <kbd style="padding:1px 5px;border-radius:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;font-size:0.6rem;">explore</kbd>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- Node Operator -->
-    <div id="run-node" class="bg-gray-50 py-32 border-t border-gray-200 scroll-mt-20">
-      <div class="max-w-7xl mx-auto px-6 text-center">
-        <div class="section-eyebrow mb-2 text-center">Operator Guide</div>
-        <h2 class="text-4xl font-bold display-text text-gray-900 mb-6">Run a Sikka Node</h2>
-        <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-          A tiny ~17 MB static binary containing the wallet, explorer, full DAG engine, and managed Tor. Everything you need, zero configuration required.
-        </p>
-
-        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-3xl mx-auto text-left relative border border-gray-300 shadow-sm">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-            <div class="flex items-center gap-2">
-              <i class="fa-brands fa-docker text-blue-600 text-xl"></i>
-              <span class="font-semibold text-gray-900">Docker Quick Start</span>
-            </div>
-            <button
-              onclick="copyDocker()"
-              class="text-sm text-gray-500 hover:text-blue-600 transition-colors flex items-center gap-2 font-medium bg-gray-50 px-3 py-1.5 rounded-full"
-              id="copy-btn"
-            >
-              <i class="fa-regular fa-copy"></i> Copy
-            </button>
-          </div>
-          <pre
-            class="font-mono text-sm md:text-base text-gray-700 overflow-x-auto"
-          ><code>docker run -d  -p 64552:64552 ghcr.io/sikkalabs/sikka</code></pre>
+      <!-- DAG legend -->
+      <div class="dag-legend" role="list">
+        <div class="legend-item">
+          <span style="width:10px;height:10px;border-radius:50%;background:#60a5fa;box-shadow:0 0 8px rgba(26,115,232,0.7);flex-shrink:0;display:inline-block;"></span>
+          DAG tip
         </div>
-
-        <p class="mt-8 text-gray-500 font-medium">
-          Then open
-          <a href="http://localhost:64552" target="_blank" class="text-blue-600 hover:text-blue-800 font-mono transition-colors">http://localhost:64552</a> in
-          your browser.
-        </p>
+        <div class="legend-item">
+          <span style="width:8px;height:8px;border-radius:50%;background:#0f172a;border:1.5px solid #3b82f6;flex-shrink:0;display:inline-block;"></span>
+          Live transaction
+        </div>
+        <div class="legend-item">
+          <span style="width:7px;height:7px;border-radius:50%;background:#1e293b;border:1.5px solid #475569;flex-shrink:0;display:inline-block;"></span>
+          Simulated node
+        </div>
+        <div class="legend-item">
+          <span style="width:20px;height:2px;border-radius:1px;background:rgba(26,115,232,0.4);flex-shrink:0;display:inline-block;"></span>
+          Parent strand
+        </div>
       </div>
+
+      <!-- Marquee -->
+      <div class="marquee-wrap">
+        <div id="marquee-track-1" class="marquee-track"></div>
+        <div id="marquee-track-2" class="marquee-track reverse" style="margin-top:0.5rem;"></div>
+      </div>
+
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-12">
-      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="flex items-center gap-2">
-          <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" rx="20" fill="#9CA3AF" />
-            <path d="M50 20L80 70H20L50 20Z" fill="white" />
-          </svg>
-          <span class="font-semibold text-gray-500">Sikka Protocol</span>
-        </div>
-        <div class="flex gap-8 text-sm text-gray-500 font-medium">
-          <a
-            href="https://github.com/sikkalabs/sikka"
-            target="_blank"
-            class="hover:text-blue-600 transition-colors"
-            >Source Code</a
-          >
-          <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="hover:text-blue-600 transition-colors">Discord</a>
-          <a href="https://node.sikkalabs.com/" target="_blank" class="hover:text-blue-600 transition-colors">Explorer</a>
-        </div>
-      </div>
-    </footer>
 
     <script>
-      function copyDocker() {
-        const cmd = "docker run -d --restart unless-stopped \\\n  -p 64552:64552 \\\n  -v sikka-data:/home/sikka/data \\\n  ghcr.io/sikkalabs/sikka:latest";
-        navigator.clipboard.writeText(cmd);
-        const btn = document.getElementById("copy-btn");
-        const orig = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
-        setTimeout(() => {
-          btn.innerHTML = orig;
-        }, 2000);
-      }
-
-      // Marquee Setup
+      // ===== Marquee =====
       const features1 = [
         { icon: "fa-solid fa-code-branch", text: "Exactly Two Parents" },
         { icon: "fa-solid fa-bolt", text: "Zero Fees" },
@@ -1755,217 +831,113 @@
         { icon: "fa-solid fa-shield-halved", text: "Tor-Native Privacy" },
         { icon: "fa-solid fa-gem", text: "Fixed Supply 19,960,907" },
       ];
-
       const features2 = [
         { icon: "fa-solid fa-users", text: "Multisig Support" },
         { icon: "fa-solid fa-box", text: "17 MB Static Binary" },
         { icon: "fa-solid fa-globe", text: "Full Node Browser Wallet" },
         { icon: "fa-solid fa-magnifying-glass", text: "Built-in Explorer" },
         { icon: "fa-solid fa-network-wired", text: "Deterministic Sync" },
+        { icon: "fa-solid fa-robot", text: "AI Agent Payments" },
       ];
 
       function renderMarquee(trackId, items) {
         const track = document.getElementById(trackId);
         if (!track) return;
         const html = [...items, ...items, ...items, ...items]
-          .map(
-            (f) =>
-              `<div class="feature-tag">
-            <i class="${f.icon} text-blue-600"></i>
-            <span>${f.text}</span>
-          </div>`,
-          )
+          .map(f => `<span class="marquee-tag"><i class="${f.icon}"></i><span>${f.text}</span></span>`)
           .join("");
         track.innerHTML = html;
       }
 
-      renderMarquee("hero-fc-track-1", features1);
-      renderMarquee("hero-fc-track-2", features2);
+      renderMarquee("marquee-track-1", features1);
+      renderMarquee("marquee-track-2", features2);
 
-      function setTelemetryStat(id, value) {
+      // ===== Telemetry stats updaters =====
+      function setEl(id, val) {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = value;
+        if (el) el.innerHTML = val;
       }
 
-      function resolveSyncSource(status) {
-        if (status.last_sync_source) {
-          return { url: status.last_sync_source, hint: null };
-        }
-
-        const peers = status.configured_nodes || [];
-        if (peers.length > 0) {
-          return { url: peers[0], hint: "configured peer" };
-        }
-
-        const addresses = status.addresses || [];
-        if (addresses.length > 0) {
-          return { url: addresses[0], hint: "this node" };
-        }
-
-        if (status.onion_hostname) {
-          return { url: `http://${status.onion_hostname}`, hint: "this node" };
-        }
-
-        if (status.network_health) {
-          const peers = status.known_node_count ?? 0;
-          return {
-            url: null,
-            hint: null,
-            fallback: `${status.network_health} · ${peers} known node${peers === 1 ? "" : "s"}`,
-          };
-        }
-
-        return null;
-      }
-
-      function formatSyncSourceHtml(source) {
-        if (!source) {
-          return '<span style="color:#64748b">Unavailable</span>';
-        }
-
-        if (source.fallback) {
-          return `<span style="color:#94a3b8">${source.fallback}</span>`;
-        }
-
-        const sourceUrl = source.url;
-        const isTor = sourceUrl.includes(".onion");
-        const displayUrl = sourceUrl.replace(/^https?:\/\//, "");
-        const torBadge = isTor
-          ? ' <span style="color:#fbbf24;font-size:0.7rem"><i class="fa-solid fa-user-secret"></i> TOR</span>'
-          : "";
-        const hintBadge = source.hint
-          ? ` <span style="color:#64748b;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.05em">${source.hint}</span>`
-          : "";
-
-        return `<a href="${sourceUrl}" target="_blank" title="${sourceUrl}">${displayUrl}</a>${torBadge}${hintBadge}`;
-      }
-
-      function updateTelemetryStats(status) {
+      function updateStats(status) {
         const dagSize = status.dag_size ?? "?";
         const tipCount = status.tip_count ?? "?";
         const pow = status.submit_pow_base_bits ?? "?";
         const work = status.submit_pow_bucket_work_factor ?? "?";
 
-        setTelemetryStat("telemetry-dag-size", dagSize.toLocaleString());
-        setTelemetryStat("telemetry-tip-count", tipCount.toLocaleString());
-        setTelemetryStat("telemetry-pow", pow);
-        setTelemetryStat("telemetry-work", work);
-        setTelemetryStat("telemetry-dag-size-m", dagSize.toLocaleString());
-        setTelemetryStat("telemetry-tip-count-m", tipCount.toLocaleString());
-        setTelemetryStat("telemetry-pow-m", pow);
-        setTelemetryStat("telemetry-work-m", work);
-
-        setTelemetryStat("telemetry-sync-src", formatSyncSourceHtml(resolveSyncSource(status)));
+        setEl("telemetry-dag-size", typeof dagSize === "number" ? dagSize.toLocaleString() : dagSize);
+        setEl("telemetry-tip-count", typeof tipCount === "number" ? tipCount.toLocaleString() : tipCount);
+        setEl("telemetry-pow", pow);
+        setEl("telemetry-work", work);
+        setEl("m-dag-size", typeof dagSize === "number" ? dagSize.toLocaleString() : dagSize);
+        setEl("m-tip-count", typeof tipCount === "number" ? tipCount.toLocaleString() : tipCount);
       }
 
-      // D3 DAG Viz — radial spider-web layout
+      // ===== D3 DAG Viz =====
       async function initHeroDagViz() {
         const container = document.getElementById("hero-dag");
         if (!container) return;
 
-        let w = container.clientWidth || 800;
+        let w = container.clientWidth || 600;
         let h = container.clientHeight || 480;
-        let cx = w / 2;
-        let cy = h / 2;
-        let maxR = Math.min(w, h) * 0.4;
+        let cx = w / 2, cy = h / 2;
+        let maxR = Math.min(w, h) * 0.38;
 
-        const svg = d3
-          .select(container)
-          .append("svg")
-          .attr("width", "100%")
-          .attr("height", "100%")
+        const svg = d3.select(container).append("svg")
+          .attr("width", "100%").attr("height", "100%")
           .attr("viewBox", `0 0 ${w} ${h}`);
 
         const defs = svg.append("defs");
-        defs
-          .append("filter")
-          .attr("id", "web-glow")
-          .attr("x", "-50%")
-          .attr("y", "-50%")
-          .attr("width", "200%")
-          .attr("height", "200%")
-          .append("feGaussianBlur")
-          .attr("stdDeviation", "3")
-          .attr("result", "blur");
-        defs
-          .select("#web-glow")
-          .append("feMerge")
-          .selectAll("feMergeNode")
-          .data(["blur", "SourceGraphic"])
-          .enter()
-          .append("feMergeNode")
-          .attr("in", (d) => d);
+        const glowFilter = defs.append("filter").attr("id", "web-glow")
+          .attr("x", "-50%").attr("y", "-50%").attr("width", "200%").attr("height", "200%");
+        glowFilter.append("feGaussianBlur").attr("stdDeviation", "3").attr("result", "blur");
+        const merge = glowFilter.append("feMerge");
+        merge.append("feMergeNode").attr("in", "blur");
+        merge.append("feMergeNode").attr("in", "SourceGraphic");
 
         const webBg = svg.append("g").attr("class", "web-bg");
         const linkG = svg.append("g").attr("class", "web-links");
         const nodeG = svg.append("g").attr("class", "web-nodes");
 
-        let nodes = [];
-        let links = [];
-        let linkSel, nodeSel;
-        let usingReal = false;
+        let nodes = [], links = [], linkSel, nodeSel, usingReal = false;
 
-        function drawWebBackground() {
+        function drawWebBg() {
           webBg.selectAll("*").remove();
-          const rings = 6;
-          const spokes = 16;
-
+          const rings = 6, spokes = 16;
           for (let i = 1; i <= rings; i++) {
-            webBg
-              .append("circle")
-              .attr("cx", cx)
-              .attr("cy", cy)
-              .attr("r", (i / rings) * maxR)
-              .attr("fill", "none")
-              .attr("stroke", "rgba(26, 115, 232, 0.1)")
-              .attr("stroke-width", i === rings ? 1.2 : 0.75)
+            webBg.append("circle").attr("cx", cx).attr("cy", cy)
+              .attr("r", (i / rings) * maxR).attr("fill", "none")
+              .attr("stroke", "rgba(26,115,232,0.08)")
+              .attr("stroke-width", i === rings ? 1 : 0.6)
               .attr("stroke-dasharray", i % 2 === 0 ? "2 6" : "none");
           }
-
           for (let i = 0; i < spokes; i++) {
             const angle = (i / spokes) * Math.PI * 2;
-            webBg
-              .append("line")
-              .attr("x1", cx)
-              .attr("y1", cy)
+            webBg.append("line")
+              .attr("x1", cx).attr("y1", cy)
               .attr("x2", cx + Math.cos(angle) * maxR)
               .attr("y2", cy + Math.sin(angle) * maxR)
-              .attr("stroke", "rgba(26, 115, 232, 0.07)")
-              .attr("stroke-width", 0.75);
+              .attr("stroke", "rgba(26,115,232,0.05)").attr("stroke-width", 0.6);
           }
-
-          webBg
-            .append("circle")
-            .attr("cx", cx)
-            .attr("cy", cy)
-            .attr("r", 4)
-            .attr("fill", "rgba(26, 115, 232, 0.25)");
+          webBg.append("circle").attr("cx", cx).attr("cy", cy).attr("r", 4)
+            .attr("fill", "rgba(26,115,232,0.2)");
         }
 
         function computeDepths(nodeList, linkList) {
           const depths = new Map();
-          const idSet = new Set(nodeList.map((n) => n.id));
-          const parentsOf = new Map(nodeList.map((n) => [n.id, []]));
-          const childrenOf = new Map(nodeList.map((n) => [n.id, []]));
-
-          linkList.forEach((l) => {
-            const src = l.source.id || l.source;
-            const tgt = l.target.id || l.target;
-            parentsOf.get(tgt).push(src);
-            childrenOf.get(src).push(tgt);
+          const idSet = new Set(nodeList.map(n => n.id));
+          const parentsOf = new Map(nodeList.map(n => [n.id, []]));
+          const childrenOf = new Map(nodeList.map(n => [n.id, []]));
+          linkList.forEach(l => {
+            const src = l.source.id || l.source, tgt = l.target.id || l.target;
+            parentsOf.get(tgt)?.push(src);
+            childrenOf.get(src)?.push(tgt);
           });
-
-          const roots = nodeList.filter((n) => {
-            const parents = (parentsOf.get(n.id) || []).filter((p) => idSet.has(p));
-            return n.id === "g" || parents.length === 0;
-          });
-
-          const queue = roots.map((n) => ({ id: n.id, depth: n.id === "g" ? 0 : 1 }));
-          roots.forEach((n) => depths.set(n.id, n.id === "g" ? 0 : 1));
-
+          const roots = nodeList.filter(n => n.id === "g" || (parentsOf.get(n.id) || []).filter(p => idSet.has(p)).length === 0);
+          const queue = roots.map(n => ({ id: n.id, depth: n.id === "g" ? 0 : 1 }));
+          roots.forEach(n => depths.set(n.id, n.id === "g" ? 0 : 1));
           while (queue.length) {
             const { id, depth } = queue.shift();
-            (childrenOf.get(id) || []).forEach((child) => {
+            (childrenOf.get(id) || []).forEach(child => {
               const next = depth + 1;
               if (!depths.has(child) || depths.get(child) < next) {
                 depths.set(child, next);
@@ -1973,13 +945,7 @@
               }
             });
           }
-
-          nodeList.forEach((n) => {
-            if (!depths.has(n.id)) {
-              depths.set(n.id, Math.max(1, Math.round((n.age || 0) * 5)));
-            }
-          });
-
+          nodeList.forEach(n => { if (!depths.has(n.id)) depths.set(n.id, Math.max(1, Math.round((n.age || 0) * 5))); });
           return depths;
         }
 
@@ -1987,14 +953,12 @@
           const depths = computeDepths(nodeList, linkList);
           const maxDepth = Math.max(...depths.values(), 1);
           const rings = {};
-
-          nodeList.forEach((n) => {
+          nodeList.forEach(n => {
             const d = depths.get(n.id) ?? 1;
             n.depth = d;
             if (!rings[d]) rings[d] = [];
             rings[d].push(n);
           });
-
           Object.entries(rings).forEach(([depth, ringNodes]) => {
             const d = +depth;
             const radius = d === 0 ? 0 : (d / maxDepth) * maxR;
@@ -2007,193 +971,118 @@
           });
         }
 
-        function nodeRadius(d) {
-          if (d.id === "g") return 10;
-          if (d.isTip) return 8;
-          if (d.id && d.id.startsWith("s-")) return 4;
-          return 5;
-        }
-
-        function nodeLabel(d) {
+        const nodeRadius = d => d.id === "g" ? 10 : d.isTip ? 8 : d.id?.startsWith("s-") ? 3 : 5;
+        const nodeLabel = d => {
           if (d.id === "g") return "GENESIS";
-          if (d.isTip) {
-            if (d.id && d.id.length > 8) return d.id.slice(0, 3) + ".." + d.id.slice(-3);
-            return d.id;
-          }
+          if (d.isTip && d.id?.length > 8) return d.id.slice(0, 3) + ".." + d.id.slice(-3);
           return "";
-        }
+        };
 
-        function nodeTitle(d) {
-          if (d.id === "g") return "Genesis";
-          if (d.id && d.id.startsWith("s-")) return "External parent";
-          return d.id;
-        }
-
-        const sim = d3
-          .forceSimulation()
-          .force(
-            "link",
-            d3
-              .forceLink()
-              .id((d) => d.id)
-              .distance(36)
-              .strength(0.85),
-          )
-          .force("charge", d3.forceManyBody().strength(-120))
-          .force(
-            "radial",
-            d3
-              .forceRadial((d) => {
-                const depth = d.depth || 1;
-                const maxDepth = Math.max(...nodes.map((n) => n.depth || 1), 1);
-                return depth === 0 ? 0 : (depth / maxDepth) * maxR;
-              }, cx, cy)
-              .strength(0.75),
-          )
+        const sim = d3.forceSimulation()
+          .force("link", d3.forceLink().id(d => d.id).distance(34).strength(0.85))
+          .force("charge", d3.forceManyBody().strength(-110))
+          .force("radial", d3.forceRadial(d => {
+            const depth = d.depth || 1;
+            const maxDepth = Math.max(...nodes.map(n => n.depth || 1), 1);
+            return depth === 0 ? 0 : (depth / maxDepth) * maxR;
+          }, cx, cy).strength(0.75))
           .force("center", d3.forceCenter(cx, cy).strength(0.05))
-          .force("collision", d3.forceCollide().radius((d) => nodeRadius(d) + 10).iterations(2))
+          .force("collision", d3.forceCollide().radius(d => nodeRadius(d) + 10).iterations(2))
           .alphaDecay(0.025);
 
         sim.on("tick", () => {
-          if (linkSel) {
-            linkSel.attr("d", (d) => {
-              const sx = d.source.x ?? cx;
-              const sy = d.source.y ?? cy;
-              const tx = d.target.x ?? cx;
-              const ty = d.target.y ?? cy;
-              const mx = (sx + tx) / 2 + (ty - sy) * 0.08;
-              const my = (sy + ty) / 2 - (tx - sx) * 0.08;
-              return `M${sx},${sy} Q${mx},${my} ${tx},${ty}`;
-            });
-          }
+          if (linkSel) linkSel.attr("d", d => {
+            const sx = d.source.x ?? cx, sy = d.source.y ?? cy;
+            const tx = d.target.x ?? cx, ty = d.target.y ?? cy;
+            const mx = (sx + tx) / 2 + (ty - sy) * 0.08;
+            const my = (sy + ty) / 2 - (tx - sx) * 0.08;
+            return `M${sx},${sy} Q${mx},${my} ${tx},${ty}`;
+          });
           if (nodeSel) {
-            nodeSel.attr("transform", (d) => `translate(${d.x ?? cx}, ${d.y ?? cy})`);
-            nodeSel.select(".n-halo").attr("r", (d) => nodeRadius(d) + (d.isTip ? 6 + Math.sin(Date.now() / 400) * 2 : 4));
+            nodeSel.attr("transform", d => `translate(${d.x ?? cx}, ${d.y ?? cy})`);
+            nodeSel.select(".n-halo").attr("r", d => nodeRadius(d) + (d.isTip ? 6 + Math.sin(Date.now() / 400) * 2 : 4));
           }
         });
 
         function update() {
           assignWebPositions(nodes, links);
 
-          linkSel = linkG.selectAll(".l").data(links, (d) => (d.source.id || d.source) + "-" + (d.target.id || d.target));
+          linkSel = linkG.selectAll(".l").data(links, d => (d.source.id || d.source) + "-" + (d.target.id || d.target));
           linkSel.exit().remove();
-          const le = linkSel
-            .enter()
-            .append("path")
-            .attr("class", "l")
+          const le = linkSel.enter().append("path").attr("class", "l")
             .attr("fill", "none")
-            .attr("stroke", (d) => (d.stub ? "rgba(96, 165, 250, 0.15)" : "rgba(26, 115, 232, 0.35)"))
-            .attr("stroke-width", (d) => (d.stub ? 0.75 : 1.25))
-            .attr("stroke-linecap", "round")
-            .attr("stroke-dasharray", (d) => (d.stub ? "3 5" : "none"));
+            .attr("stroke-linecap", "round");
           linkSel = le.merge(linkSel);
-          linkSel
-            .attr("stroke", (d) => (d.stub ? "rgba(96, 165, 250, 0.15)" : "rgba(26, 115, 232, 0.35)"))
-            .attr("stroke-dasharray", (d) => (d.stub ? "3 5" : "none"));
+          linkSel.attr("stroke", d => d.stub ? "rgba(96,165,250,0.12)" : "rgba(26,115,232,0.35)")
+            .attr("stroke-width", d => d.stub ? 0.6 : 1.2)
+            .attr("stroke-dasharray", d => d.stub ? "3 5" : "none");
 
-          nodeSel = nodeG.selectAll(".n").data(nodes, (d) => d.id);
+          nodeSel = nodeG.selectAll(".n").data(nodes, d => d.id);
           nodeSel.exit().remove();
-
-          const ne = nodeSel
-            .enter()
-            .append("g")
-            .attr("class", "n")
-            .attr("transform", (d) => `translate(${d.x ?? cx}, ${d.y ?? cy})`)
+          const ne = nodeSel.enter().append("g").attr("class", "n")
+            .attr("transform", d => `translate(${d.x ?? cx}, ${d.y ?? cy})`)
             .style("cursor", "pointer");
-
-          ne.append("circle")
-            .attr("class", "n-halo")
-            .attr("r", (d) => nodeRadius(d) + 4)
-            .attr("fill", (d) => (d.isTip ? "rgba(26, 115, 232, 0.2)" : "rgba(26, 115, 232, 0.06)"))
-            .attr("stroke", "none")
-            .style("pointer-events", "none");
-
-          ne.append("circle")
-            .attr("class", "n-core")
-            .attr("r", nodeRadius)
-            .attr("fill", (d) => {
-              if (d.id === "g") return "#1a73e8";
-              if (d.isTip) return "#60a5fa";
-              if (d.isReal) return "#0f172a";
-              return "#1e293b";
-            })
-            .attr("stroke", (d) => {
-              if (d.id === "g") return "#93c5fd";
-              if (d.isTip) return "#ffffff";
-              if (d.isReal) return "#3b82f6";
-              return "#475569";
-            })
-            .attr("stroke-width", (d) => (d.isTip || d.id === "g" ? 2 : 1.25))
-            .attr("filter", (d) => (d.isTip || d.id === "g" ? "url(#web-glow)" : null));
-
-          ne.append("text")
-            .attr("class", "n-label")
-            .attr("text-anchor", "middle")
-            .attr("dy", (d) => nodeRadius(d) + 11)
-            .attr("font-size", (d) => (d.id === "g" ? "8px" : "7px"))
+          ne.append("circle").attr("class", "n-halo")
+            .attr("r", d => nodeRadius(d) + 4)
+            .attr("fill", d => d.isTip ? "rgba(26,115,232,0.18)" : "rgba(26,115,232,0.05)")
+            .attr("stroke", "none").style("pointer-events", "none");
+          ne.append("circle").attr("class", "n-core").attr("r", nodeRadius)
+            .attr("fill", d => d.id === "g" ? "#1a73e8" : d.isTip ? "#60a5fa" : d.isReal ? "#0f172a" : "#1e293b")
+            .attr("stroke", d => d.id === "g" ? "#93c5fd" : d.isTip ? "#ffffff" : d.isReal ? "#3b82f6" : "#475569")
+            .attr("stroke-width", d => (d.isTip || d.id === "g") ? 2 : 1.2)
+            .attr("filter", d => (d.isTip || d.id === "g") ? "url(#web-glow)" : null);
+          ne.append("text").attr("class", "n-label")
+            .attr("text-anchor", "middle").attr("dy", d => nodeRadius(d) + 11)
+            .attr("font-size", d => d.id === "g" ? "8px" : "7px")
             .attr("font-family", "ui-monospace, monospace")
-            .attr("font-weight", (d) => (d.isTip || d.id === "g" ? "700" : "500"))
-            .attr("fill", (d) => (d.isTip ? "#93c5fd" : d.id === "g" ? "#60a5fa" : "transparent"))
-            .style("pointer-events", "none")
-            .text(nodeLabel);
-
-          ne.append("title").text(nodeTitle);
-
-          ne.on("click", (_event, d) => {
+            .attr("font-weight", d => (d.isTip || d.id === "g") ? "700" : "500")
+            .attr("fill", d => d.isTip ? "#93c5fd" : d.id === "g" ? "#60a5fa" : "transparent")
+            .style("pointer-events", "none").text(nodeLabel);
+          ne.append("title").text(d => d.id === "g" ? "Genesis" : d.id?.startsWith("s-") ? "External parent" : d.id);
+          ne.on("click", (_ev, d) => {
             if (usingReal && d.isReal && d.id && !d.id.startsWith("s-") && d.id !== "g") {
-              window.open(`https://node.sikkalabs.com/tx/${d.id}`, "_blank");
-            } else {
-              addTx();
-            }
+              window.open(`https://node.sikka.click/tx/${d.id}`, "_blank");
+            } else { addTx(); }
           });
 
           nodeSel = ne.merge(nodeSel);
-          nodeSel.select(".n-core").attr("r", nodeRadius).attr("filter", (d) => (d.isTip || d.id === "g" ? "url(#web-glow)" : null));
-          nodeSel.select(".n-label").text(nodeLabel).attr("fill", (d) => (d.isTip ? "#93c5fd" : d.id === "g" ? "#60a5fa" : "transparent"));
+          nodeSel.select(".n-core").attr("r", nodeRadius)
+            .attr("filter", d => (d.isTip || d.id === "g") ? "url(#web-glow)" : null);
+          nodeSel.select(".n-label").text(nodeLabel)
+            .attr("fill", d => d.isTip ? "#93c5fd" : d.id === "g" ? "#60a5fa" : "transparent");
 
           sim.nodes(nodes);
           sim.force("link").links(links);
-          sim.force(
-            "radial",
-            d3
-              .forceRadial((d) => {
-                const depth = d.depth || 1;
-                const maxDepth = Math.max(...nodes.map((n) => n.depth || 1), 1);
-                return depth === 0 ? 0 : (depth / maxDepth) * maxR;
-              }, cx, cy)
-              .strength(0.75),
-          );
+          sim.force("radial", d3.forceRadial(d => {
+            const depth = d.depth || 1;
+            const maxDepth = Math.max(...nodes.map(n => n.depth || 1), 1);
+            return depth === 0 ? 0 : (depth / maxDepth) * maxR;
+          }, cx, cy).strength(0.75));
           sim.alpha(0.9).restart();
         }
 
         function fromReal(txs, status) {
           const recent = txs.slice(-20);
-          const idSet = new Set(recent.map((t) => t.id));
+          const idSet = new Set(recent.map(t => t.id));
           const tips = new Set(status.tips || []);
-
-          nodes = [];
-          links = [];
-
+          nodes = []; links = [];
           recent.forEach((tx, i) => {
             const age = i / Math.max(1, recent.length - 1);
             nodes.push({ id: tx.id, age, isReal: true, isTip: tips.has(tx.id) });
-            (tx.parents || []).forEach((p) => {
+            (tx.parents || []).forEach(p => {
               if (idSet.has(p)) links.push({ source: p, target: tx.id });
               else links.push({ source: "s-" + p.slice(0, 5), target: tx.id, stub: true });
             });
           });
-
-          const stubs = new Set(links.filter((l) => l.stub).map((l) => l.source));
-          stubs.forEach((s) => nodes.push({ id: s, age: 0, isReal: false, isTip: false }));
-
+          const stubs = new Set(links.filter(l => l.stub).map(l => l.source));
+          stubs.forEach(s => nodes.push({ id: s, age: 0, isReal: false, isTip: false }));
           update();
           usingReal = true;
-          updateTelemetryStats(status);
-
+          updateStats(status);
           const st = document.getElementById("hero-dag-stats");
           if (st) {
             st.classList.add("connected");
-            st.textContent = `● Synced — ${(status.dag_size || 0).toLocaleString()} transactions across ${status.tip_count || "?"} tips`;
+            st.textContent = `● Synced — ${(status.dag_size || 0).toLocaleString()} txs · ${status.tip_count || "?"} tips`;
           }
         }
 
@@ -2208,25 +1097,21 @@
             links.push({ source: p1, target: nid });
             if (p2 !== p1) links.push({ source: p2, target: nid });
           }
-          nodes.forEach((n) => {
-            if (n.id !== "d17") n.isTip = false;
-          });
+          nodes.forEach(n => { if (n.id !== "d17") n.isTip = false; });
           update();
           usingReal = false;
         }
 
         function addTx() {
-          nodes.forEach((n) => (n.isTip = false));
-
+          nodes.forEach(n => (n.isTip = false));
           if (nodes.length > 25) {
-            const old = nodes.find((n) => !n.isTip && n.id !== "g" && !(n.id && n.id.startsWith("s-")));
+            const old = nodes.find(n => !n.isTip && n.id !== "g" && !n.id?.startsWith("s-"));
             if (old) {
-              nodes = nodes.filter((n) => n.id !== old.id);
-              links = links.filter((l) => (l.source.id || l.source) !== old.id && (l.target.id || l.target) !== old.id);
+              nodes = nodes.filter(n => n.id !== old.id);
+              links = links.filter(l => (l.source.id || l.source) !== old.id && (l.target.id || l.target) !== old.id);
             }
           }
-
-          const tips = nodes.filter((n) => n.depth === Math.max(...nodes.map((x) => x.depth || 0)) || n.isTip);
+          const tips = nodes.filter(n => n.depth === Math.max(...nodes.map(x => x.depth || 0)) || n.isTip);
           const p1 = tips[tips.length - 1] || nodes[nodes.length - 1] || nodes[0];
           const p2 = tips[tips.length - 2] || nodes[Math.max(0, nodes.length - 3)] || nodes[0];
           const nid = "l" + Date.now().toString(36).slice(-4);
@@ -2236,73 +1121,54 @@
           update();
         }
 
-        drawWebBackground();
+        drawWebBg();
         dummy();
 
         async function buildDeepGraph() {
           try {
-            const sRes = await fetch("https://node.sikkalabs.com/v1/status", { cache: "no-store" });
+            const sRes = await fetch("https://node.sikka.click/v1/status", { cache: "no-store" });
             if (!sRes.ok) return;
             const status = await sRes.json();
-
             const tips = status.tips || [];
             if (tips.length === 0) return;
-
             const txMap = new Map();
             const queue = [...tips];
             const maxNodes = 25;
-
             while (queue.length > 0 && txMap.size < maxNodes) {
               const txid = queue.shift();
               if (txMap.has(txid)) continue;
-
               try {
-                const txRes = await fetch(`https://node.sikkalabs.com/v1/tx/${txid}`, { cache: "no-store" });
+                const txRes = await fetch(`https://node.sikka.click/v1/tx/${txid}`, { cache: "no-store" });
                 if (!txRes.ok) continue;
                 const tx = await txRes.json();
                 txMap.set(txid, tx);
-
-                if (tx.parents) {
-                  for (const p of tx.parents) {
-                    if (!txMap.has(p) && !queue.includes(p)) queue.push(p);
-                  }
+                if (tx.parents) for (const p of tx.parents) {
+                  if (!txMap.has(p) && !queue.includes(p)) queue.push(p);
                 }
-              } catch (err) {}
+              } catch {}
             }
-
             const txs = Array.from(txMap.values()).reverse();
             if (txs.length > 2) fromReal(txs, status);
-          } catch (e) {}
+          } catch {}
         }
 
         buildDeepGraph();
-        setInterval(() => {
-          if (usingReal) buildDeepGraph();
-        }, 8000);
-
-        setInterval(() => {
-          if (!usingReal) addTx();
-        }, 2000);
+        setInterval(() => { if (usingReal) buildDeepGraph(); }, 8000);
+        setInterval(() => { if (!usingReal) addTx(); }, 2000);
 
         const ro = new ResizeObserver(() => {
           w = container.clientWidth;
           h = container.clientHeight || 480;
-          cx = w / 2;
-          cy = h / 2;
-          maxR = Math.min(w, h) * 0.4;
+          cx = w / 2; cy = h / 2;
+          maxR = Math.min(w, h) * 0.38;
           svg.attr("viewBox", `0 0 ${w} ${h}`);
-          drawWebBackground();
+          drawWebBg();
           assignWebPositions(nodes, links);
-          sim.force(
-            "radial",
-            d3
-              .forceRadial((d) => {
-                const depth = d.depth || 1;
-                const maxDepth = Math.max(...nodes.map((n) => n.depth || 1), 1);
-                return depth === 0 ? 0 : (depth / maxDepth) * maxR;
-              }, cx, cy)
-              .strength(0.75),
-          );
+          sim.force("radial", d3.forceRadial(d => {
+            const depth = d.depth || 1;
+            const maxDepth = Math.max(...nodes.map(n => n.depth || 1), 1);
+            return depth === 0 ? 0 : (depth / maxDepth) * maxR;
+          }, cx, cy).strength(0.75));
           sim.force("center", d3.forceCenter(cx, cy).strength(0.05));
           sim.alpha(0.4).restart();
         });
@@ -2311,31 +1177,6 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         initHeroDagViz();
-
-        // Mobile Menu Toggle
-        const btn = document.getElementById("mobile-menu-btn");
-        const menu = document.getElementById("mobile-menu");
-        const bars = document.getElementById("menu-icon-bars");
-        const close = document.getElementById("menu-icon-close");
-
-        if (btn && menu) {
-          btn.addEventListener("click", () => {
-            menu.classList.toggle("hidden");
-            menu.classList.toggle("flex");
-            bars.classList.toggle("hidden");
-            close.classList.toggle("hidden");
-          });
-
-          // Close menu on link click
-          document.querySelectorAll(".mobile-link").forEach((link) => {
-            link.addEventListener("click", () => {
-              menu.classList.add("hidden");
-              menu.classList.remove("flex");
-              bars.classList.remove("hidden");
-              close.classList.add("hidden");
-            });
-          });
-        }
       });
     </script>
   </body>

@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture — SIKKA</title>
+    <meta name="description" content="How SIKKA's blockless DAG architecture works: parallel graph growth, per-UTXO conflict resolution, and technical comparisons to traditional blockchains." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://sikkalabs.com/architecture.html" />
+    <link rel="icon" href="sikka.svg" type="image/svg+xml" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0; padding: 0;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        background: #ffffff;
+        color: #202124;
+        overflow-x: hidden;
+      }
+
+      .display-text { font-family: "Google Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        border-radius: 9999px;
+        background: #f1f3f4;
+        border: 1px solid #dadce0;
+        color: #3c4043;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .back-btn:hover { background: #e8eaed; border-color: #bdc1c6; transform: translateX(-2px); }
+
+      .page-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #e8eaed;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .page-header-title { font-family: "Google Sans", sans-serif; font-size: 1rem; font-weight: 600; color: #5f6368; }
+      .page-header-title strong { color: #202124; }
+
+      .section-eyebrow { color: #5f6368; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+
+      .g-card {
+        background: #ffffff;
+        border: 1px solid #dadce0;
+        border-radius: 24px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .g-card:hover { border-color: transparent; box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15); transform: translateY(-2px); }
+
+      .code-block {
+        background: #f8f9fa;
+        border: 1px solid #dadce0;
+        border-radius: 16px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      .subpage-hero {
+        background: linear-gradient(135deg, #030712 0%, #0f1629 50%, #0d1f3c 100%);
+        color: #f8fafc;
+        padding: 5rem 2rem 4rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .subpage-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(26,115,232,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(26,115,232,0.06) 1px, transparent 1px);
+        background-size: 48px 48px;
+      }
+      .subpage-hero-glow { position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(26,115,232,0.25) 0%, transparent 70%); pointer-events: none; }
+      .subpage-hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+      .subpage-h1 { font-family: "Google Sans", sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 1rem; color: #f8fafc; }
+      .subpage-lead { font-size: 1.125rem; color: #94a3b8; line-height: 1.65; margin: 0; }
+
+      .page-footer-band { background: #030712; color: #475569; padding: 3rem 2rem; text-align: center; margin-top: 6rem; }
+      .page-footer-links { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; }
+      .page-footer-links a { color: #64748b; text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+      .page-footer-links a:hover { color: #60a5fa; }
+
+      /* Table */
+      table { border-collapse: collapse; }
+      th, td { padding: 1rem 1.5rem; text-align: left; }
+
+      /* Flow steps */
+      .flow-step {
+        position: relative;
+        padding-left: 3.5rem;
+      }
+      .flow-step-num {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .flow-step-connector {
+        position: absolute;
+        left: 1.0625rem;
+        top: 2.25rem;
+        width: 2px;
+        bottom: -1rem;
+        background: #e8eaed;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="page-header">
+      <a href="index.html" class="back-btn" id="back-home-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:0.625rem;">
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" rx="20" fill="#1A73E8" />
+          <path d="M50 20L80 70H20L50 20Z" fill="white" />
+        </svg>
+      </a>
+      <span class="page-header-title"><strong>Sikka</strong> — Architecture</span>
+    </div>
+
+    <div class="subpage-hero">
+      <div class="subpage-hero-glow"></div>
+      <div class="subpage-hero-content">
+        <div class="section-eyebrow" style="color:#60a5fa; margin-bottom:1rem;">Architecture</div>
+        <h1 class="subpage-h1">How the DAG works.</h1>
+        <p class="subpage-lead">
+          SIKKA replaces the linear blockchain with a directed acyclic graph (DAG). Every transaction becomes a node in a growing graph — no blocks, no miners, no global ordering.
+        </p>
+      </div>
+    </div>
+
+    <!-- Architecture Comparison Table -->
+    <div style="max-width:56rem; margin:0 auto; padding:5rem 1.5rem;">
+      <div style="text-align:center; margin-bottom:3rem;">
+        <div class="section-eyebrow">Architecture Comparison</div>
+        <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0;">Traditional Chains vs Sikka</h2>
+      </div>
+      <div style="overflow:hidden; border-radius:24px; border:1px solid #e8eaed; box-shadow:0 1px 4px rgba(60,64,67,0.12);">
+        <table style="width:100%;">
+          <thead>
+            <tr style="background:#f8f9fa; border-bottom:1px solid #e8eaed;">
+              <th style="font-weight:600; color:#5f6368; width:50%;">Traditional Blockchains</th>
+              <th style="font-weight:700; color:#202124; width:50%; background:rgba(26,115,232,0.03);">Sikka DAG</th>
+            </tr>
+          </thead>
+          <tbody style="background:#fff; color:#5f6368;">
+            <tr style="border-bottom:1px solid #f1f3f4;">
+              <td><i class="fa-solid fa-hourglass-half" style="color:#bdc1c6; margin-right:0.5rem; width:1.25rem;"></i> Wait for next block</td>
+              <td style="background:rgba(26,115,232,0.02); color:#202124;"><i class="fa-solid fa-bolt" style="color:#1a73e8; margin-right:0.5rem; width:1.25rem;"></i> Attach instantly to DAG tips</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f3f4;">
+              <td><i class="fa-solid fa-link" style="color:#bdc1c6; margin-right:0.5rem; width:1.25rem;"></i> Sequential chain growth</td>
+              <td style="background:rgba(26,115,232,0.02); color:#202124;"><i class="fa-solid fa-diagram-project" style="color:#1a73e8; margin-right:0.5rem; width:1.25rem;"></i> Parallel graph growth</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f3f4;">
+              <td><i class="fa-solid fa-gavel" style="color:#bdc1c6; margin-right:0.5rem; width:1.25rem;"></i> Miners or validators decide ordering</td>
+              <td style="background:rgba(26,115,232,0.02); color:#202124;"><i class="fa-solid fa-sitemap" style="color:#1a73e8; margin-right:0.5rem; width:1.25rem;"></i> Transactions extend graph directly</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f3f4;">
+              <td><i class="fa-solid fa-coins" style="color:#bdc1c6; margin-right:0.5rem; width:1.25rem;"></i> Transaction fees &amp; gas</td>
+              <td style="background:rgba(26,115,232,0.02); color:#202124;"><i class="fa-solid fa-check" style="color:#1a73e8; margin-right:0.5rem; width:1.25rem;"></i> Exact-value feeless transfers</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f3f4;">
+              <td><i class="fa-solid fa-lock" style="color:#bdc1c6; margin-right:0.5rem; width:1.25rem;"></i> Classical signatures</td>
+              <td style="background:rgba(26,115,232,0.02); color:#202124;"><i class="fa-solid fa-shield-halved" style="color:#1a73e8; margin-right:0.5rem; width:1.25rem;"></i> ML-DSA-87 post-quantum</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-globe" style="color:#bdc1c6; margin-right:0.5rem; width:1.25rem;"></i> Global block race</td>
+              <td style="background:rgba(26,115,232,0.02); color:#202124;"><i class="fa-solid fa-hammer" style="color:#1a73e8; margin-right:0.5rem; width:1.25rem;"></i> Per-transaction work</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- How a transaction flows -->
+    <div style="background:#f8f9fa; border-top:1px solid #e8eaed; border-bottom:1px solid #e8eaed; padding:5rem 0;">
+      <div style="max-width:60rem; margin:0 auto; padding:0 1.5rem;">
+        <div style="margin-bottom:3rem;">
+          <div class="section-eyebrow">Transaction Lifecycle</div>
+          <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0;">How a transaction enters the DAG.</h2>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:2.5rem;">
+          <div class="flow-step" id="step-1">
+            <div class="flow-step-connector"></div>
+            <div class="flow-step-num" style="background:#EFF6FF; color:#1a73e8;">1</div>
+            <div>
+              <h3 style="font-size:1.0625rem; font-weight:700; color:#202124; margin:0 0 0.5rem;">Select two DAG tips</h3>
+              <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">The sender queries the network for current DAG tips — the most recent unconfirmed transactions. Two are selected as parents.</p>
+            </div>
+          </div>
+          <div class="flow-step" id="step-2">
+            <div class="flow-step-connector"></div>
+            <div class="flow-step-num" style="background:#EFF6FF; color:#1a73e8;">2</div>
+            <div>
+              <h3 style="font-size:1.0625rem; font-weight:700; color:#202124; margin:0 0 0.5rem;">Build the transaction</h3>
+              <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">Inputs, outputs, and the two parent references are assembled. Inputs must exactly equal outputs — no change, no fee.</p>
+            </div>
+          </div>
+          <div class="flow-step" id="step-3">
+            <div class="flow-step-connector"></div>
+            <div class="flow-step-num" style="background:#EFF6FF; color:#1a73e8;">3</div>
+            <div>
+              <h3 style="font-size:1.0625rem; font-weight:700; color:#202124; margin:0 0 0.5rem;">Solve the PoW puzzle</h3>
+              <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">A SHA3-256 nonce is found such that the pow_hash has the required leading zero bits. Difficulty is adaptive to network load.</p>
+            </div>
+          </div>
+          <div class="flow-step" id="step-4">
+            <div class="flow-step-connector"></div>
+            <div class="flow-step-num" style="background:#EFF6FF; color:#1a73e8;">4</div>
+            <div>
+              <h3 style="font-size:1.0625rem; font-weight:700; color:#202124; margin:0 0 0.5rem;">Sign with ML-DSA-87</h3>
+              <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">The transaction is signed with post-quantum ML-DSA-87. For multisig wallets, multiple signers collaborate before broadcasting.</p>
+            </div>
+          </div>
+          <div class="flow-step" id="step-5">
+            <div class="flow-step-num" style="background:#DCFCE7; color:#16A34A;">5</div>
+            <div>
+              <h3 style="font-size:1.0625rem; font-weight:700; color:#202124; margin:0 0 0.5rem;">Broadcast &amp; propagate</h3>
+              <p style="color:#5f6368; line-height:1.65; margin:0; font-size:0.9375rem;">The transaction is gossiped to peers. Each node validates and extends the DAG. The sender's transaction is now a tip — ready to be referenced by the next transaction.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Probabilistic Finality -->
+    <div style="max-width:72rem; margin:0 auto; padding:5rem 1.5rem;">
+      <div style="margin-bottom:3rem; max-width:44rem;">
+        <div class="section-eyebrow">Conflict Resolution</div>
+        <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0 0 1rem;">Probabilistic finality.</h2>
+        <p style="font-size:1.0625rem; color:#5f6368; line-height:1.65; margin:0;">
+          Double-spends are <strong style="color:#202124;">not instantly rejected</strong>. Competing transactions enter the DAG and race until accumulated work picks a winner — per UTXO, without blocks, miners, or a global coordinator.
+        </p>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1.5rem; margin-bottom:3rem;">
+        <div class="g-card" style="padding:2rem; border-color:#FDE68A; background:#FFFBEB;">
+          <div style="font-size:2.5rem; font-weight:700; color:#D97706; margin-bottom:0.5rem;">1</div>
+          <h3 style="font-size:1rem; font-weight:600; color:#202124; margin:0 0 0.5rem;">Both accepted</h3>
+          <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">If two transactions spend the same UTXO, both are gossiped and stored. No mempool gatekeeper decides which one "gets in."</p>
+        </div>
+        <div class="g-card" style="padding:2rem; border-color:#BFDBFE; background:#EFF6FF;">
+          <div style="font-size:2.5rem; font-weight:700; color:#1a73e8; margin-bottom:0.5rem;">2</div>
+          <h3 style="font-size:1rem; font-weight:600; color:#202124; margin:0 0 0.5rem;">Work accumulates</h3>
+          <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Each descendant adds weight: <code style="font-size:0.9em;">2<sup>pow_bits</sup></code> per transaction in its subtree. The branch with more cumulative work wins.</p>
+        </div>
+        <div class="g-card" style="padding:2rem; border-color:#BBF7D0; background:#F0FDF4;">
+          <div style="font-size:2.5rem; font-weight:700; color:#16A34A; margin-bottom:0.5rem;">3</div>
+          <h3 style="font-size:1rem; font-weight:600; color:#202124; margin:0 0 0.5rem;">One survives</h3>
+          <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Once weight crosses the confirmation threshold, the canonical spend is settled. The loser is pruned after a grace period.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; align-items:start;">
+        <div class="code-block" style="padding:2rem; position:relative; overflow:hidden;">
+          <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #FBBF24, #1a73e8);"></div>
+          <div style="color:#5f6368; margin-bottom:1rem; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">Winner Selection</div>
+          <div style="line-height:1.9; font-size:0.9rem;">
+            <div><span style="color:#1a73e8; font-weight:600;">canonical_spend</span> = argmax cumulative_weight(tx)</div>
+            <div style="color:#5f6368; padding-left:1rem; border-left:2px solid #BFDBFE; margin:0.5rem 0;">cumulative_weight(tx) = Σ 2<sup>pow_bits</sup> over all descendants</div>
+            <div style="color:#5f6368;"><span style="color:#202124; font-weight:500;">Tie-break:</span> lower tx_id (lexicographic) wins</div>
+            <div style="padding-top:0.75rem; border-top:1px solid #e8eaed; margin-top:0.75rem; color:#5f6368;">
+              <span style="color:#22C55E; font-weight:600;">Confirmed</span> when cumulative_weight ≥ <span style="font-family:monospace; color:#202124;">200</span>
+            </div>
+            <div style="font-size:0.875rem; color:#5f6368;">Losers retained for <span style="font-family:monospace;">960 s</span> (~16 min) before deletion</div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-sitemap"></i></div>
+            <div>
+              <h3 style="font-weight:600; color:#202124; margin:0 0 0.25rem; font-size:0.9375rem;">No global lock</h3>
+              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Concurrent double-spends resolve by accumulated work — like competing forks, but at per-UTXO granularity instead of whole-chain reorgs.</p>
+            </div>
+          </div>
+          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-arrows-to-circle"></i></div>
+            <div>
+              <h3 style="font-weight:600; color:#202124; margin:0 0 0.25rem; font-size:0.9375rem;">Deterministic convergence</h3>
+              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Every honest node applies the same argmax rule. No coordinator, no validator set — all nodes converge on identical ledger state.</p>
+            </div>
+          </div>
+          <div class="g-card" style="padding:1.5rem; display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:2.5rem; height:2.5rem; flex-shrink:0; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <h3 style="font-weight:600; color:#202124; margin:0 0 0.25rem; font-size:0.9375rem;">Fast in practice</h3>
+              <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">At base difficulty (2 bits), reaching 200 weight means ~200 descendants at ~4 hashes each. Under normal load, finality settles in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Genesis & Supply -->
+    <div style="background:#f8f9fa; border-top:1px solid #e8eaed; padding:5rem 0;">
+      <div style="max-width:56rem; margin:0 auto; padding:0 1.5rem; text-align:center;">
+        <div class="section-eyebrow">Tokenomics</div>
+        <h2 class="display-text" style="font-size:clamp(1.75rem, 4vw, 2.5rem); font-weight:700; color:#202124; margin:0 0 1rem;">Fixed supply. No inflation.</h2>
+        <p style="font-size:1.0625rem; color:#5f6368; margin:0 0 3rem; line-height:1.65; max-width:38rem; margin-left:auto; margin-right:auto;">
+          A fixed genesis supply with no inflation, no premine, and no team allocation. <strong style="color:#202124;">100% of all SIKKA is distributed to node operators</strong> who keep the DAG alive.
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem;">
+          <div class="g-card" style="padding:2rem; text-align:center;">
+            <div style="font-size:1.75rem; font-weight:700; letter-spacing:-0.02em; color:#202124; margin-bottom:0.5rem; font-family:'Google Sans',sans-serif;">19,960,907</div>
+            <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#5f6368; margin-bottom:1rem;">Fixed Max Supply</div>
+            <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">Pre-issued entirely in genesis. The cap encodes <span style="font-family:monospace; color:#202124;">19960907</span> — no emission schedule.</p>
+          </div>
+          <div class="g-card" style="padding:2rem; text-align:center; border-color:#BFDBFE; background:#f0f7ff;">
+            <div style="font-size:2.5rem; font-weight:700; color:#1a73e8; margin-bottom:0.375rem; font-family:'Google Sans',sans-serif;">100%</div>
+            <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:#5f6368; margin-bottom:1rem;">To Operators</div>
+            <p style="font-size:0.875rem; color:#5f6368; line-height:1.6; margin:0;">The entire supply flows to people running nodes. No VC slice, no foundation treasury.</p>
+          </div>
+          <div class="g-card" style="padding:2rem; text-align:center;">
+            <div style="width:2.5rem; height:2.5rem; background:#EFF6FF; color:#1a73e8; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;"><i class="fa-solid fa-coins"></i></div>
+            <div style="font-size:0.875rem; font-weight:600; color:#202124; margin-bottom:0.75rem;">Units</div>
+            <ul style="list-style:none; margin:0; padding:0; font-size:0.875rem; color:#5f6368; line-height:1.9; text-align:left;">
+              <li><strong style="color:#202124;">SIKKA</strong> — singular coin</li>
+              <li><strong style="color:#202124;">SIKKE</strong> — plural</li>
+              <li><strong style="color:#202124;">CHILLAR</strong> — 10<sup>10</sup> per SIKKA</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer-band">
+      <a href="index.html" class="back-btn" style="display:inline-flex; margin-bottom:1.5rem; background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.1); color:#64748b;">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+      <p style="margin:0 0 0.5rem; font-size:0.875rem; color:#334155; font-weight:600;">Sikka Protocol</p>
+      <div class="page-footer-links">
+        <a href="https://github.com/sikkalabs/sikka" target="_blank">Source Code</a>
+        <a href="https://discord.gg/HxsRdB2zjb" target="_blank">Discord</a>
+        <a href="https://node.sikka.click/" target="_blank">Explorer</a>
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use Cases</a>
+        <a href="run-node.html">Run a Node</a>
+      </div>
+    </div>
+
+  </body>
+</html>
