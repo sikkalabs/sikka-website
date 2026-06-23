@@ -165,7 +165,7 @@ async function initHeroDagViz() {
     ne.append("title").text(d => d.id === "g" ? "Genesis" : d.id?.startsWith("s-") ? "External parent" : d.id);
     ne.on("click", (_ev, d) => {
       if (usingReal && d.isReal && d.id && !d.id.startsWith("s-") && d.id !== "g") {
-        window.open(`https://node.sikka.click/tx/${d.id}`, "_blank");
+        window.open(`https://1.sikkalabs.com/tx/${d.id}`, "_blank");
       } else { addTx(); }
     });
 
@@ -250,7 +250,7 @@ async function initHeroDagViz() {
 
   async function buildDeepGraph() {
     try {
-      const sRes = await fetch("https://node.sikka.click/v1/status", { cache: "no-store" });
+      const sRes = await fetch("https://1.sikkalabs.com/v1/status", { cache: "no-store" });
       if (!sRes.ok) return;
       const status = await sRes.json();
       const tips = status.tips || [];
@@ -262,7 +262,7 @@ async function initHeroDagViz() {
         const txid = queue.shift();
         if (txMap.has(txid)) continue;
         try {
-          const txRes = await fetch(`https://node.sikka.click/v1/tx/${txid}`, { cache: "no-store" });
+          const txRes = await fetch(`https://1.sikkalabs.com/v1/tx/${txid}`, { cache: "no-store" });
           if (!txRes.ok) continue;
           const tx = await txRes.json();
           txMap.set(txid, tx);
