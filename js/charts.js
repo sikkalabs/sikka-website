@@ -177,36 +177,28 @@ function initHeroTxChart() {
 }
 
 function initDashboardCharts() {
-  createGaugeChart("gauge-network", 78);
+  if (document.getElementById("chart-status")) {
+    createDoughnutChart("chart-status", {
+      labels: ["Confirmed", "Pending", "Failed"],
+      values: [88, 10, 2],
+    }, [ChartColors.blue, ChartColors.purple, ChartColors.red]);
+  }
 
-  createBarChart("chart-activity", ["10am", "12pm", "2pm", "4pm", "6pm"], [45, 62, 38, 71, 55], ChartColors.blue, {
-    scales: {
-      y: {
-        ...chartDefaults.scales.y,
-        max: 80,
-        ticks: { ...chartDefaults.scales.y.ticks, callback: v => v + "%" },
+  if (document.getElementById("chart-pow")) {
+    createLineChart("chart-pow", ["0s", "60s", "120s", "180s", "240s"], [
+      {
+        label: "Required bits",
+        data: [2, 2, 4, 6, 8],
+        borderColor: ChartColors.cyan || ChartColors.blue,
+        backgroundColor: "rgba(34, 211, 238, 0.1)",
+        fill: true,
       },
-    },
-  });
-
-  createDoughnutChart("chart-status", {
-    labels: ["Open", "In Progress", "Resolved"],
-    values: [5, 12, 78],
-  }, [ChartColors.red, ChartColors.yellow, ChartColors.blue]);
-
-  createLineChart("chart-pow", ["0s", "60s", "120s", "180s", "240s"], [
-    {
-      label: "Required bits",
-      data: [2, 2, 4, 6, 8],
-      borderColor: ChartColors.yellow,
-      backgroundColor: "rgba(251, 191, 36, 0.1)",
-      fill: true,
-    },
-  ], {
-    scales: {
-      y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, stepSize: 2 } },
-    },
-  });
+    ], {
+      scales: {
+        y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, stepSize: 2 } },
+      },
+    });
+  }
 }
 
 function initFeaturesCharts() {
@@ -257,7 +249,7 @@ function initUseCasesCharts() {
 
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("hero-tx-chart")) initHeroTxChart();
-  if (document.getElementById("gauge-network")) initDashboardCharts();
+  if (document.getElementById("chart-status") || document.getElementById("chart-pow")) initDashboardCharts();
   if (document.getElementById("chart-congestion")) initFeaturesCharts();
   if (document.getElementById("chart-finality")) initArchitectureCharts();
   if (document.getElementById("chart-usecases")) initUseCasesCharts();
