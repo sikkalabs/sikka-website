@@ -130,60 +130,65 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════
-     WHY SIKKA — LIVE STATS DASHBOARD
+     WHY SIKKA — LIVE STATS DASHBOARD (REDESIGNED)
 ═══════════════════════════════════════════════════ -->
-<section class="section">
-  <div class="container">
+<section class="section live-network-section" style="position: relative; overflow: hidden; background: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.05) 0%, transparent 70%);">
+  <div class="container" style="position: relative; z-index: 1;">
     <div class="section-header reveal">
       <span class="label">Live Network</span>
-      <h2>Why <span class="gradient-text">SIKKA</span></h2>
+      <h2>Mainnet <span class="gradient-text">Telemetry</span></h2>
       <p>Real-time data from the SIKKA mainnet. No blocks, no fees, no compromise.</p>
     </div>
 
-    <div class="dash-grid">
+    <div class="bento">
       <!-- DAG Size -->
-      <div class="dash-card reveal reveal-delay-1">
-        <div class="dash-label">DAG Size</div>
-        <div class="dash-value blue" id="dash-dag-size">—</div>
-        <div class="dash-sub" id="dash-dag-label">Total transactions</div>
+      <div class="bento-card bento-4 dash-stat-card reveal reveal-delay-1" style="min-height: 180px;">
+        <div class="dash-3d-bg" id="canvas-dag-size"></div>
+        <div style="position: relative; z-index: 2;">
+          <div class="dash-label">DAG Size</div>
+          <div class="dash-value blue" id="dash-dag-size">—</div>
+          <div class="dash-sub" id="dash-dag-label">Total transactions</div>
+        </div>
       </div>
 
       <!-- Tips -->
-      <div class="dash-card reveal reveal-delay-2">
-        <div class="dash-label">Open Tips</div>
-        <div class="dash-value purple" id="dash-tip-count">—</div>
-        <div class="dash-sub">Unconfirmed tips</div>
-      </div>
-
-      <!-- Network Health Gauge -->
-      <div class="dash-card reveal reveal-delay-3">
-        <div class="dash-label">Network Health</div>
-        <div class="dash-chart sm" style="height:100px;">
-          <canvas id="gauge-network"></canvas>
+      <div class="bento-card bento-4 dash-stat-card reveal reveal-delay-2" style="min-height: 180px;">
+        <div class="dash-3d-bg" id="canvas-tips"></div>
+        <div style="position: relative; z-index: 2;">
+          <div class="dash-label">Open Tips</div>
+          <div class="dash-value purple" id="dash-tip-count">—</div>
+          <div class="dash-sub">Unconfirmed tips</div>
         </div>
       </div>
 
-      <!-- Activity Chart -->
-      <div class="dash-card span-2 reveal reveal-delay-4">
-        <div class="dash-label">Network Activity</div>
-        <div class="dash-chart">
-          <canvas id="chart-activity"></canvas>
+      <!-- Network Health -->
+      <div class="bento-card bento-4 dash-stat-card reveal reveal-delay-3" style="min-height: 180px;">
+        <div class="dash-3d-bg" id="canvas-health"></div>
+        <div style="position: relative; z-index: 2;">
+          <div class="dash-label">Network Health</div>
+          <div class="dash-value cyan" id="dash-health-value">100%</div>
+          <div class="dash-sub">Uptime & Sync status</div>
         </div>
       </div>
 
-      <!-- Status Doughnut -->
-      <div class="dash-card reveal reveal-delay-1">
-        <div class="dash-label">TX Status</div>
-        <div class="dash-chart">
-          <canvas id="chart-status"></canvas>
+      <!-- Network Topology (Large 3D Canvas) -->
+      <div class="bento-card bento-8 reveal reveal-delay-4" style="min-height: 380px; padding: 0; border: 1px solid rgba(34, 211, 238, 0.2);">
+        <div style="position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10; pointer-events: none;">
+          <div class="dash-label" style="color: var(--cyan); text-shadow: 0 0 10px rgba(34,211,238,0.5);">Global Topology</div>
+          <div class="dash-sub" style="color: #fff;">Live transaction stream</div>
         </div>
+        <div id="canvas-topology" style="width: 100%; height: 100%; position: absolute; inset: 0;"></div>
       </div>
 
-      <!-- PoW Difficulty -->
-      <div class="dash-card span-2 reveal reveal-delay-2">
-        <div class="dash-label">PoW Difficulty (last 5 min)</div>
-        <div class="dash-chart">
+      <!-- PoW & Activity (2D Charts) -->
+      <div class="bento-card bento-4 reveal reveal-delay-5" style="display: flex; flex-direction: column;">
+        <div class="dash-label">PoW Difficulty</div>
+        <div class="dash-chart" style="flex: 1; margin-top: 0; min-height: 100px;">
           <canvas id="chart-pow"></canvas>
+        </div>
+        <div class="dash-label" style="margin-top: 1rem;">TX Status</div>
+        <div class="dash-chart" style="flex: 1; margin-top: 0; min-height: 100px;">
+          <canvas id="chart-status"></canvas>
         </div>
       </div>
     </div>
@@ -336,6 +341,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/dag.js"></script>
+<script src="js/live-network-3d.js"></script>
 <script src="js/main.js"></script>
 
 <script>
