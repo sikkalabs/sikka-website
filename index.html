@@ -48,24 +48,24 @@
 ═══════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-bg">
-    <div class="hero-mesh"></div>
+    <canvas id="hero-canvas"></canvas>
     <div class="hero-grid-lines"></div>
   </div>
 
   <div class="hero-content">
-    <div class="hero-badge">
+    <div class="hero-badge reveal">
       <span class="dot"></span>
       Live on Mainnet
     </div>
-    <h1 class="hero-title">
+    <h1 class="hero-title reveal reveal-delay-1">
       <span class="big gradient-text">SIKKA</span>
       <span style="display:block;font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.03em;color:var(--text-2);margin-top:0.5rem;">The Blockless DAG Ledger</span>
     </h1>
-    <p class="hero-sub">
+    <p class="hero-sub reveal reveal-delay-2">
       Zero fees. Quantum-safe ML-DSA-87 cryptography. Tor-native privacy.
       Built for humans, AI agents, and machines alike.
     </p>
-    <div class="hero-actions">
+    <div class="hero-actions reveal reveal-delay-3">
       <a href="https://discord.gg/HxsRdB2zjb" target="_blank" class="btn btn-ghost btn-lg">
         <i class="fa-brands fa-discord"></i> Join Discord
       </a>
@@ -75,42 +75,6 @@
       <a href="https://github.com/sikkalabs/sikka" target="_blank" class="btn btn-ghost btn-lg">
         <i class="fa-brands fa-github"></i> GitHub
       </a>
-    </div>
-  </div>
-
-  <!-- DAG Visualization Panel -->
-  <div class="hero-viz">
-    <div class="hero-viz-inner">
-      <div class="hero-viz-bar">
-        <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
-        <span class="hero-viz-title">sikka — live dag visualization</span>
-      </div>
-      <div class="hero-viz-body">
-        <div id="hero-dag"></div>
-        <div class="hero-viz-sidebar">
-          <div class="hero-stat-row">
-            <div class="hero-stat">
-              <div class="hero-stat-value" id="stat-dag-size">—</div>
-              <div class="hero-stat-label">DAG Size</div>
-            </div>
-            <div class="hero-stat">
-              <div class="hero-stat-value" id="stat-tip-count">—</div>
-              <div class="hero-stat-label">Tips</div>
-            </div>
-            <div class="hero-stat">
-              <div class="hero-stat-value" id="stat-pow">—</div>
-              <div class="hero-stat-label">PoW Bits</div>
-            </div>
-          </div>
-          <div style="flex:1;display:flex;flex-direction:column;gap:0.5rem;">
-            <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;">Activity (24h)</div>
-            <div class="hero-chart-wrap" style="flex:1;min-height:120px;">
-              <canvas id="hero-tx-chart"></canvas>
-            </div>
-          </div>
-          <div id="hero-dag-stats">● Connecting to node…</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -366,7 +330,9 @@
 <!-- ═══════════════════════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════════════════════ -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/dag.js"></script>
@@ -387,16 +353,35 @@
     mob.classList.toggle('open');
   });
 
-  /* Scroll reveal */
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('revealed');
-        observer.unobserve(e.target);
+  /* GSAP Scroll Animations Integration */
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Better reveal with GSAP */
+  const revealElements = document.querySelectorAll('.reveal');
+  revealElements.forEach((el, i) => {
+    // Determine delay based on class
+    let delay = 0;
+    if(el.classList.contains('reveal-delay-1')) delay = 0.1;
+    if(el.classList.contains('reveal-delay-2')) delay = 0.2;
+    if(el.classList.contains('reveal-delay-3')) delay = 0.3;
+    if(el.classList.contains('reveal-delay-4')) delay = 0.4;
+    
+    gsap.fromTo(el, 
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, 
+        y: 0,
+        duration: 0.8,
+        delay: delay,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
       }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    );
+  });
 </script>
 </body>
 </html>
