@@ -1,4 +1,4 @@
-// Three.js Linear DAG Animation
+// Three.js Linear DAG Animation with Live Data
 function initHeroThreeDag() {
   const canvas = document.getElementById("hero-canvas");
   if (!canvas || typeof THREE === "undefined") return;
@@ -12,7 +12,7 @@ function initHeroThreeDag() {
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 4000);
   camera.position.set(0, 0, 100);
 
-  // Generate Linear DAG
+  // Generate Linear DAG Background
   const numNodes = 1000;
   const nodes = [];
   const links = [];
@@ -106,7 +106,6 @@ function initHeroThreeDag() {
 
   // GSAP Scroll Animation
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // Animate camera moving forward through the DAG
     gsap.to(camera.position, {
       z: -2000,
       ease: "none",
@@ -118,7 +117,6 @@ function initHeroThreeDag() {
       }
     });
 
-    // Slight rotation for dynamic feel
     gsap.to(camera.rotation, {
       z: Math.PI / 6,
       ease: "none",
@@ -129,6 +127,47 @@ function initHeroThreeDag() {
         scrub: 1
       }
     });
+  }
+
+  // Live TX Effects
+  const txContainer = document.createElement('div');
+  txContainer.style.position = 'absolute';
+  txContainer.style.inset = '0';
+  txContainer.style.pointerEvents = 'none';
+  txContainer.style.overflow = 'hidden';
+  txContainer.style.zIndex = '10';
+  const heroEl = document.querySelector('.hero');
+  if (heroEl) heroEl.appendChild(txContainer);
+
+  const liveTxs = [];
+
+  function spawnLiveTx(txid) {
+    const zOffset = camera.position.z - 30 - Math.random() * 60;
+    const xOffset = (Math.random() - 0.5) * 40;
+    const yOffset = (Math.random() - 0.5) * 40;
+
+    const ringGeo = new THREE.RingGeometry(1.5, 2.0, 32);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 1, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.position.set(xOffset, yOffset, zOffset);
+    ring.lookAt(camera.position);
+    scene.add(ring);
+
+    const label = document.createElement('div');
+    label.textContent = "TX: " + txid.slice(0, 6) + "..";
+    label.style.position = 'absolute';
+    label.style.color = '#22d3ee';
+    label.style.fontFamily = 'ui-monospace, monospace';
+    label.style.fontSize = '11px';
+    label.style.background = 'rgba(34, 211, 238, 0.1)';
+    label.style.border = '1px solid rgba(34, 211, 238, 0.3)';
+    label.style.padding = '4px 6px';
+    label.style.borderRadius = '4px';
+    label.style.textShadow = '0 0 10px rgba(34, 211, 238, 0.5)';
+    label.style.pointerEvents = 'none';
+    txContainer.appendChild(label);
+
+    liveTxs.push({ mesh: ring, label: label, life: 1.0 });
   }
 
   // Render loop
@@ -145,9 +184,107 @@ function initHeroThreeDag() {
     // Rotate slightly
     scene.rotation.z = Math.sin(t * 0.2) * 0.05;
 
+    // Update live TX effects
+    const heroH = heroEl ? heroEl.clientHeight : window.innerHeight;
+    for (let i = liveTxs.length - 1; i >= 0; i--) {
+      const tx = liveTxs[i];
+      tx.life -= 0.01; // Fade out over ~100 frames
+      tx.mesh.scale.addScalar(0.06);
+      tx.mesh.material.opacity = tx.life;
+      
+      if (tx.life > 0) {
+        const pos = tx.mesh.position.clone();
+        pos.project(camera);
+        // Only show if in front of camera
+        if (pos.z < 1) {
+          const x = (pos.x * 0.5 + 0.5) * window.innerWidth;
+          const y = (pos.y * -0.5 + 0.5) * heroH;
+          tx.label.style.left = x + 'px';
+          tx.label.style.top = y + 'px';
+          tx.label.style.opacity = tx.life;
+          tx.label.style.transform = `translate(-50%, -50%) translateY(-${(1 - tx.life) * 40}px)`;
+        } else {
+          tx.label.style.opacity = '0';
+        }
+      } else {
+        scene.remove(tx.mesh);
+        tx.mesh.geometry.dispose();
+        tx.mesh.material.dispose();
+        if (tx.label.parentNode) tx.label.parentNode.removeChild(tx.label);
+        liveTxs.splice(i, 1);
+      }
+    }
+
     renderer.render(scene, camera);
   }
   animate();
+
+  // Polling Live Data
+  let lastTips = new Set();
+  
+  // Dummy fallback in case network fails
+  function spawnDummyTx() {
+    const dummyId = Math.random().toString(36).substring(2, 10);
+    spawnLiveTx(dummyId);
+  }
+  
+  async function fetchLiveStatus() {
+    try {
+      const res = await fetch("https://1.sikkalabs.com/v1/status", { cache: "no-store" });
+      if (!res.ok) return;
+      const status = await res.json();
+      
+      if (typeof updateStats === 'function') {
+        updateStats(status);
+      }
+      
+      const currentTips = status.tips || [];
+      const newTips = currentTips.filter(t => !lastTips.has(t));
+      
+      newTips.forEach(tx => {
+        spawnLiveTx(tx);
+      });
+      
+      // If we got tips, update lastTips
+      if (currentTips.length > 0) {
+        lastTips = new Set(currentTips);
+      }
+    } catch (e) {
+      // On fetch error (e.g. no network), optionally spawn dummy TXs for visual interest
+      if (Math.random() > 0.5) spawnDummyTx();
+    }
+  }
+
+  // Initial fetch and loop
+  fetchLiveStatus();
+  setInterval(fetchLiveStatus, 5000);
+}
+
+// Stats Updater
+function updateStats(status) {
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  const dagSize = status.dag_size ?? "?";
+  const tipCount = status.tip_count ?? "?";
+  const pow = status.submit_pow_base_bits ?? "?";
+  const work = status.submit_pow_bucket_work_factor ?? "?";
+
+  const dagStr = typeof dagSize === "number" ? dagSize.toLocaleString() : dagSize;
+  const tipStr = typeof tipCount === "number" ? tipCount.toLocaleString() : tipCount;
+
+  set("stat-dag-size", dagStr);
+  set("stat-tip-count", tipStr);
+  set("stat-pow", pow);
+  set("stat-work", work);
+  set("dash-dag-size", dagStr);
+  set("dash-tip-count", tipStr);
+
+  const label = document.getElementById("dash-dag-label");
+  if (label && typeof dagSize === "number") {
+    label.textContent = `DAG Block ${dagSize.toLocaleString()}`;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
