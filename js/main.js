@@ -20,11 +20,6 @@ const TICKER_FEATURES_1 = [
     desc: "Each transaction mines its own SHA3-256 nonce for spam resistance. Difficulty scales with network load.",
   },
   {
-    icon: "fa-solid fa-shield-halved",
-    title: "Tor-Native Privacy",
-    desc: "SIKKA nodes advertise onion addresses and communicate privately with managed Tor integration.",
-  },
-  {
     icon: "fa-solid fa-gem",
     title: "Fixed Supply 19,960,907",
     desc: "Pre-issued in genesis with no inflation or premine. 100% of SIKKA goes to node operators.",
@@ -40,7 +35,7 @@ const TICKER_FEATURES_2 = [
   {
     icon: "fa-solid fa-box",
     title: "17 MB Static Binary",
-    desc: "A tiny static binary with wallet, explorer, full DAG engine, and managed Tor — zero configuration.",
+    desc: "A tiny static binary with wallet, explorer, and full DAG engine — zero configuration.",
   },
   {
     icon: "fa-solid fa-globe",

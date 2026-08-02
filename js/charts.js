@@ -221,9 +221,9 @@ function initFeaturesCharts() {
   });
 
   createDoughnutChart("chart-crypto", {
-    labels: ["ML-DSA-87", "SHA3-256", "Tor"],
-    values: [60, 25, 15],
-  }, [ChartColors.blue, ChartColors.yellow, ChartColors.green]);
+    labels: ["ML-DSA-87", "SHA3-256"],
+    values: [70, 30],
+  }, [ChartColors.blue, ChartColors.yellow]);
 }
 
 function initArchitectureCharts() {

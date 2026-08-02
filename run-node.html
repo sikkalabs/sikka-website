@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Run a SIKKA node — 17 MB static binary, one Docker command, zero configuration. Full wallet, explorer, DAG engine, and managed Tor."/>
+  <meta name="description" content="Run a SIKKA node — 17 MB static binary, one Docker command, zero configuration. Full wallet, explorer, and DAG engine."/>
   <title>Run a Node — SIKKA</title>
   <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -43,7 +43,7 @@
   <div class="container">
     <span class="label">Self-Sovereign Infrastructure</span>
     <h1>Run a <span class="gradient-text">SIKKA</span> Node</h1>
-    <p>A single static binary. No dependencies. No configuration. Full DAG node, wallet, explorer, and Tor — online in seconds.</p>
+    <p>A single static binary. No dependencies. No configuration. Full DAG node, wallet, and explorer — online in seconds.</p>
 
     <!-- Stats strip -->
     <div class="stats-strip" style="margin-top:3rem;">
@@ -144,12 +144,6 @@
         <div class="node-feature-desc">Complete consensus implementation. Validates transactions, resolves conflicts, syncs with peers, and maintains the full SIKKA ledger state.</div>
       </div>
 
-      <div class="node-feature-card reveal">
-        <div class="node-feature-icon" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2);color:var(--yellow);"><i class="fa-solid fa-eye-slash"></i></div>
-        <div class="node-feature-title">Managed Tor</div>
-        <div class="node-feature-desc">Tor is bundled inside the binary. Your node automatically generates a .onion address and routes all traffic over Tor. Zero configuration required.</div>
-      </div>
-
       <div class="node-feature-card reveal reveal-delay-1">
         <div class="node-feature-icon" style="background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.2);color:var(--cyan);"><i class="fa-solid fa-plug"></i></div>
         <div class="node-feature-title">HTTP REST API</div>
@@ -202,10 +196,9 @@
         <div class="step-num">3</div>
         <div class="step-content">
           <h3>Open the wallet</h3>
-          <p>Navigate to <code style="font-family:monospace;color:var(--blue-2);background:var(--surface);padding:2px 6px;border-radius:4px;">http://localhost:64552</code> in your browser. The web wallet and DAG explorer are live. Your node is syncing and your .onion address is active.</p>
+          <p>Navigate to <code style="font-family:monospace;color:var(--blue-2);background:var(--surface);padding:2px 6px;border-radius:4px;">http://localhost:64552</code> in your browser. The web wallet and DAG explorer are live. Your node is syncing.</p>
           <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
             <span class="tag green"><i class="fa-solid fa-circle-dot"></i> Node live</span>
-            <span class="tag blue"><i class="fa-solid fa-eye-slash"></i> Tor active</span>
             <span class="tag purple"><i class="fa-solid fa-rotate"></i> Syncing DAG</span>
           </div>
         </div>
@@ -275,12 +268,14 @@
       </ul></div>
       <div class="footer-col"><h4>Community</h4><ul>
         <li><a href="https://t.me/sikkalabs" target="_blank">Telegram</a></li>
+        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
       <div class="footer-social">
         <a href="https://t.me/sikkalabs" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
         <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
       </div>
     </div>
