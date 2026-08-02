@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="SIKKA — Blockless DAG digital currency. Zero fees, post-quantum ML-DSA-87 cryptography, fixed supply 19,960,907 coins. Live on mainnet."/>
-  <meta property="og:title" content="SIKKA — The Blockless DAG Currency"/>
-  <meta property="og:description" content="Zero fees · ML-DSA-87 quantum-safe · Fixed supply 19,960,907"/>
+  <meta name="description" content="SIKKA — the simplest digital currency for humans, AI agents, and machines. Zero fees, no transaction history, private by default, post-quantum ML-DSA-87. Live on mainnet."/>
+  <meta property="og:title" content="SIKKA — Simple, Private, Zero-Fee Money"/>
+  <meta property="og:description" content="Zero fees · No transaction history · Post-quantum ML-DSA-87"/>
   <meta property="og:image" content="og.jpg"/>
-  <title>SIKKA — Blockless DAG Currency</title>
+  <title>SIKKA — Simple, Private, Zero-Fee Money</title>
   <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -59,11 +59,11 @@
     </div>
     <h1 class="hero-title reveal reveal-delay-1">
       <span class="big gradient-text">SIKKA</span>
-      <span style="display:block;font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.03em;color:var(--text-2);margin-top:0.5rem;">The Blockless DAG Ledger</span>
+      <span style="display:block;font-size:clamp(1.4rem,3.5vw,2.4rem);font-weight:700;letter-spacing:-0.03em;color:var(--text-2);margin-top:0.5rem;">Simple Money for Machines &amp; Humans</span>
     </h1>
     <p class="hero-sub reveal reveal-delay-2">
-      Zero fees. Quantum-safe ML-DSA-87 cryptography.
-      Built for humans, AI agents, and machines alike.
+      Zero fees. No transaction history. Private by default.
+      Post-quantum ML-DSA-87 — built for humans, AI agents, and machines alike.
     </p>
     <div class="hero-actions reveal reveal-delay-3">
       <a href="https://t.me/sikkalabs" target="_blank" class="btn btn-ghost btn-lg">
@@ -92,15 +92,15 @@
     <div class="marquee-sep">·</div>
     <div class="marquee-item highlight"><i class="fa-solid fa-lock"></i> ML-DSA-87</div>
     <div class="marquee-sep">·</div>
-    <div class="marquee-item highlight"><i class="fa-solid fa-gem"></i> 19,960,907 Fixed Supply</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-gem"></i> 19,960,907 Genesis Supply</div>
     <div class="marquee-sep">·</div>
-    <div class="marquee-item"><i class="fa-solid fa-code-branch"></i> Blockless DAG</div>
+    <div class="marquee-item"><i class="fa-solid fa-shield-halved"></i> No Transaction History</div>
     <div class="marquee-sep">·</div>
     <div class="marquee-item highlight"><i class="fa-solid fa-users"></i> Native Multisig</div>
     <div class="marquee-sep">·</div>
     <div class="marquee-item"><i class="fa-solid fa-robot"></i> AI Agent Payments</div>
     <div class="marquee-sep">·</div>
-    <div class="marquee-item highlight"><i class="fa-solid fa-hammer"></i> Per-TX Proof of Work</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-percent"></i> Spam Credits</div>
     <div class="marquee-sep">·</div>
     <div class="marquee-item"><i class="fa-solid fa-box"></i> 17 MB Static Binary</div>
     <div class="marquee-sep">·</div>
@@ -111,15 +111,15 @@
     <div class="marquee-sep">·</div>
     <div class="marquee-item highlight"><i class="fa-solid fa-lock"></i> ML-DSA-87</div>
     <div class="marquee-sep">·</div>
-    <div class="marquee-item highlight"><i class="fa-solid fa-gem"></i> 19,960,907 Fixed Supply</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-gem"></i> 19,960,907 Genesis Supply</div>
     <div class="marquee-sep">·</div>
-    <div class="marquee-item"><i class="fa-solid fa-code-branch"></i> Blockless DAG</div>
+    <div class="marquee-item"><i class="fa-solid fa-shield-halved"></i> No Transaction History</div>
     <div class="marquee-sep">·</div>
     <div class="marquee-item highlight"><i class="fa-solid fa-users"></i> Native Multisig</div>
     <div class="marquee-sep">·</div>
     <div class="marquee-item"><i class="fa-solid fa-robot"></i> AI Agent Payments</div>
     <div class="marquee-sep">·</div>
-    <div class="marquee-item highlight"><i class="fa-solid fa-hammer"></i> Per-TX Proof of Work</div>
+    <div class="marquee-item highlight"><i class="fa-solid fa-percent"></i> Spam Credits</div>
     <div class="marquee-sep">·</div>
     <div class="marquee-item"><i class="fa-solid fa-box"></i> 17 MB Static Binary</div>
     <div class="marquee-sep">·</div>
@@ -136,27 +136,27 @@
     <div class="section-header reveal">
       <span class="label">Live Network</span>
       <h2>Mainnet <span class="gradient-text">Telemetry</span></h2>
-      <p>Real-time data from the SIKKA mainnet. No blocks, no fees, no compromise.</p>
+      <p>Real-time data from the SIKKA mainnet. No history, no fees, no compromise.</p>
     </div>
 
     <div class="bento">
-      <!-- DAG Size -->
+      <!-- Checkpoint Height -->
       <div class="bento-card bento-4 dash-stat-card reveal reveal-delay-1" style="min-height: 180px;">
         <div class="dash-3d-bg" id="canvas-dag-size"></div>
         <div style="position: relative; z-index: 2;">
-          <div class="dash-label">DAG Size</div>
-          <div class="dash-value blue" id="dash-dag-size">—</div>
-          <div class="dash-sub" id="dash-dag-label">Total transactions</div>
+          <div class="dash-label">Checkpoint Height</div>
+          <div class="dash-value blue" id="dash-height">—</div>
+          <div class="dash-sub" id="dash-height-label">Finalized checkpoints</div>
         </div>
       </div>
 
-      <!-- Tips -->
+      <!-- Mempool -->
       <div class="bento-card bento-4 dash-stat-card reveal reveal-delay-2" style="min-height: 180px;">
         <div class="dash-3d-bg" id="canvas-tips"></div>
         <div style="position: relative; z-index: 2;">
-          <div class="dash-label">Open Tips</div>
-          <div class="dash-value purple" id="dash-tip-count">—</div>
-          <div class="dash-sub">Unconfirmed tips</div>
+          <div class="dash-label">Mempool</div>
+          <div class="dash-value purple" id="dash-mempool">—</div>
+          <div class="dash-sub">Pending transactions</div>
         </div>
       </div>
 
@@ -179,9 +179,9 @@
         <div id="canvas-topology" style="width: 100%; height: 100%; position: absolute; inset: 0;"></div>
       </div>
 
-      <!-- PoW & Activity (2D Charts) -->
+      <!-- Credits & TX Status (2D Charts) -->
       <div class="bento-card bento-4 reveal reveal-delay-5" style="display: flex; flex-direction: column;">
-        <div class="dash-label">PoW Difficulty</div>
+        <div class="dash-label">Credit Regeneration</div>
         <div class="dash-chart" style="flex: 1; margin-top: 0; min-height: 100px;">
           <canvas id="chart-pow"></canvas>
         </div>
@@ -240,7 +240,7 @@
       <div class="usecase-card reveal reveal-delay-3">
         <div class="usecase-emoji">🔮</div>
         <div class="usecase-title">Quantum-Safe Store of Value</div>
-        <div class="usecase-desc">Fixed supply of 19,960,907 coins secured by ML-DSA-87 post-quantum cryptography. Ready for the post-quantum era.</div>
+        <div class="usecase-desc">Deterministic 1.5%/year inflation on bonded stake secured by ML-DSA-87 post-quantum cryptography. Ready for the post-quantum era.</div>
       </div>
     </div>
   </div>
@@ -276,7 +276,7 @@
     <div class="reveal">
       <span class="label" style="display:block;margin-bottom:1rem;">Get Started</span>
       <h2>Ready to run a <span class="gradient-text">SIKKA</span> node?</h2>
-      <p>One Docker command. Zero configuration. Full DAG engine, wallet, and explorer — all in 17 MB.</p>
+      <p>One Docker command. Zero configuration. Full node, wallet, and explorer — all in 17 MB.</p>
       <div class="cta-actions">
         <a href="run-node.html" class="btn btn-primary btn-lg">
           <i class="fa-solid fa-server"></i> Run a Node
@@ -296,7 +296,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <p>Blockless DAG digital currency for humans, AI agents, and machines.</p>
+        <p>Digital currency for humans, AI agents, and machines.</p>
       </div>
       <div class="footer-col">
         <h4>Protocol</h4>
@@ -323,7 +323,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
+      <span>© 2025 SIKKA Labs. 1.5%/year inflation. No premine.</span>
       <div class="footer-social">
         <a href="https://t.me/sikkalabs" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
         <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>

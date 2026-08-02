@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="SIKKA architecture — blockless DAG, transaction lifecycle, probabilistic finality, and tokenomics of 19,960,907 fixed supply."/>
+  <meta name="description" content="SIKKA architecture — account-based ledger, bonded-stake checkpoint consensus, no transaction history, and deterministic low tokenomics."/>
   <title>Architecture — SIKKA</title>
   <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -43,7 +43,7 @@
   <div class="container">
     <span class="label">Under the Hood</span>
     <h1>How <span class="gradient-text">SIKKA</span> Works</h1>
-    <p>A deep dive into the blockless DAG ledger, transaction model, conflict resolution, and economic design.</p>
+    <p>A deep dive into the account-based ledger, bonded-stake checkpoint consensus, finality, and economic design.</p>
   </div>
 </section>
 
@@ -54,40 +54,40 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="label">Comparison</span>
-      <h2>Blockchain vs. <span class="gradient-text">SIKKA DAG</span></h2>
-      <p>Most cryptocurrencies serialize all transactions into a global block chain. SIKKA removes the chain entirely.</p>
+      <h2>Traditional Crypto vs. <span class="gradient-text">SIKKA</span></h2>
+      <p>Most cryptocurrencies serialize every transaction into a permanent public ledger. SIKKA keeps account balances and discards the transaction history.</p>
     </div>
 
     <div class="compare-grid reveal">
       <div class="compare-col">
         <div class="compare-head">
           <i class="fa-solid fa-link"></i>
-          Traditional Blockchain
+          Traditional Crypto
         </div>
         <div class="compare-rows">
-          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Transactions serialized into blocks</div>
-          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Global ordering required</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Every transfer stored permanently on-chain</div>
+          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Transaction history is public</div>
           <div class="compare-row"><i class="fa-solid fa-xmark"></i> Block size / gas limits throughput</div>
           <div class="compare-row"><i class="fa-solid fa-xmark"></i> Fees required to include transactions</div>
           <div class="compare-row"><i class="fa-solid fa-xmark"></i> Classical ECDSA (quantum-vulnerable)</div>
           <div class="compare-row"><i class="fa-solid fa-xmark"></i> Privacy is optional / bolt-on</div>
           <div class="compare-row"><i class="fa-solid fa-minus"></i> Complex multisig via scripts</div>
-          <div class="compare-row"><i class="fa-solid fa-xmark"></i> Throughput decreases under load</div>
+          <div class="compare-row"><i class="fa-solid fa-minus"></i> Heavy client storage</div>
         </div>
       </div>
       <div class="compare-col highlight">
         <div class="compare-head" style="color:var(--blue-2);">
-          <i class="fa-solid fa-code-branch"></i>
-          SIKKA DAG
+          <i class="fa-solid fa-circle-check"></i>
+          SIKKA
         </div>
         <div class="compare-rows">
-          <div class="compare-row"><i class="fa-solid fa-check"></i> Every TX is a graph vertex</div>
-          <div class="compare-row"><i class="fa-solid fa-check"></i> Parallel confirmation, no serialization</div>
-          <div class="compare-row"><i class="fa-solid fa-check"></i> Scales horizontally with network size</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Account-based balances, not a public log</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Checkpoint batches, round-robin proposer</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> Finality via ≥2/3 bonded-stake vote</div>
           <div class="compare-row"><i class="fa-solid fa-check"></i> Zero fees — protocol enforced</div>
           <div class="compare-row"><i class="fa-solid fa-check"></i> ML-DSA-87 post-quantum signatures</div>
           <div class="compare-row"><i class="fa-solid fa-check"></i> Native m-of-n multisig (up to 16)</div>
-          <div class="compare-row"><i class="fa-solid fa-check"></i> Throughput increases under load</div>
+          <div class="compare-row"><i class="fa-solid fa-check"></i> No public transaction history</div>
         </div>
       </div>
     </div>
@@ -101,21 +101,21 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="label">Transaction Lifecycle</span>
-      <h2>From wallet to <span class="gradient-text">DAG</span></h2>
-      <p>Every SIKKA transaction follows a deterministic 5-step lifecycle before joining the DAG.</p>
+      <h2>From wallet to <span class="gradient-text">Finality</span></h2>
+      <p>Every SIKKA transaction follows a deterministic lifecycle before it is batched into a finalized checkpoint.</p>
     </div>
 
     <div class="flow reveal">
       <div class="flow-step">
         <div class="flow-step-num">Step 01</div>
         <div class="flow-step-title">Build TX</div>
-        <div class="flow-step-desc">Wallet selects inputs, outputs, and two parent tips from the current DAG frontier.</div>
+        <div class="flow-step-desc">Wallet assembles a transfer — kind, from, to, amount (CHILLAR), nonce, timestamp, and chain id — over the SIKKA/tx/v3 wire format.</div>
       </div>
       <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
       <div class="flow-step">
         <div class="flow-step-num">Step 02</div>
-        <div class="flow-step-title">Mine PoW</div>
-        <div class="flow-step-desc">SHA3-256 nonce found to satisfy current difficulty bits. Prevents spam.</div>
+        <div class="flow-step-title">Spend a Credit</div>
+        <div class="flow-step-desc">Each account burns 1 spend credit (+1/min, cap 100) to rate-limit spam. No proof-of-work required.</div>
       </div>
       <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
       <div class="flow-step">
@@ -132,14 +132,14 @@
       <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
       <div class="flow-step">
         <div class="flow-step-num">Step 05</div>
-        <div class="flow-step-title">DAG Entry</div>
-        <div class="flow-step-desc">Valid TX appended to DAG. Referenced by future transactions — confirmation probability grows.</div>
+        <div class="flow-step-title">Finalize</div>
+        <div class="flow-step-desc">Transactions are batched into a checkpoint. Once ≥2/3 of the bonded stake votes, it finalizes — the state root is signed and the raw txs are discarded.</div>
       </div>
     </div>
 
     <div style="margin-top:3rem;">
       <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;" class="reveal">
-        <div style="font-size:0.8rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Finality confidence — references by later transactions</div>
+        <div style="font-size:0.8rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Checkpoint finality — cumulative bonded-stake quorum</div>
         <div class="chart-wrap lg">
           <canvas id="chart-finality"></canvas>
         </div>
@@ -155,52 +155,47 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="label">Consensus</span>
-      <h2>Probabilistic <span class="gradient-text">Finality</span></h2>
-      <p>SIKKA uses DAG-based probabilistic finality. As a transaction accumulates references from later transactions, the probability that it belongs to a valid ledger state approaches 1.</p>
+      <h2>Checkpoint <span class="gradient-text">Finality</span></h2>
+      <p>SIKKA uses bonded-stake checkpoint voting. A round-robin proposer batches transactions, validators vote, and the checkpoint finalizes once ≥2/3 of the active bonded stake agrees. At that point the state root is signed and the transactions are discarded.</p>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;" class="reveal">
       <div>
         <div class="finality-steps">
           <div class="finality-step">
-            <div class="finality-step-label">1 reference</div>
+            <div class="finality-step-label">Proposer chosen</div>
             <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:20%"></div></div>
-            <div class="finality-step-pct">~20%</div>
+            <div class="finality-step-pct">round-robin</div>
           </div>
           <div class="finality-step">
-            <div class="finality-step-label">2 references</div>
-            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:40%"></div></div>
-            <div class="finality-step-pct">~40%</div>
+            <div class="finality-step-label">Votes open</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:45%"></div></div>
+            <div class="finality-step-pct"></div>
           </div>
           <div class="finality-step">
-            <div class="finality-step-label">5 references</div>
-            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:70%"></div></div>
-            <div class="finality-step-pct">~70%</div>
+            <div class="finality-step-label">Quorum</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:67%"></div></div>
+            <div class="finality-step-pct">≥2/3 bonded</div>
           </div>
           <div class="finality-step">
-            <div class="finality-step-label">10 references</div>
-            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:90%"></div></div>
-            <div class="finality-step-pct">~90%</div>
-          </div>
-          <div class="finality-step">
-            <div class="finality-step-label">20+ references</div>
-            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:99%"></div></div>
-            <div class="finality-step-pct">&gt;99%</div>
+            <div class="finality-step-label">Finalize</div>
+            <div class="finality-step-bar-wrap"><div class="finality-step-bar" style="width:100%"></div></div>
+            <div class="finality-step-pct">signed root</div>
           </div>
         </div>
-        <p style="font-size:0.83rem;color:var(--text-3);margin-top:1rem;line-height:1.6;">In a conflict (double-spend attempt), honest nodes apply a deterministic conflict resolution rule: the conflicting transaction with greater cumulative DAG weight wins. Attackers must outpace the entire honest network's transaction graph.</p>
+        <p style="font-size:0.83rem;color:var(--text-3);margin-top:1rem;line-height:1.6;">If the proposer is slow, automatic 10-second timeout fallbacks keep the chain moving. Downtime never burns stake — only double-signing (equivocation) is slashed.</p>
       </div>
 
       <div>
         <div class="card reveal reveal-delay-1" style="margin-bottom:1rem;">
           <div class="bento-icon cyan" style="margin-bottom:1rem;"><i class="fa-solid fa-shuffle"></i></div>
-          <div style="font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Conflict Resolution</div>
-          <p style="font-size:0.875rem;">When two transactions attempt to spend the same output, the one that accumulates more DAG weight — determined by the total PoW embedded in all descendent transactions — is accepted. The other is orphaned. All honest nodes converge on the same outcome deterministically.</p>
+          <div style="font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Non-Punitive Consensus</div>
+          <p style="font-size:0.875rem;">Validators rotate as proposer on a round-robin schedule with automatic 10-second timeouts. Missing a turn never costs stake; only equivocation — signing two conflicting checkpoints — is slashed. This keeps participation cheap and honest.</p>
         </div>
         <div class="card reveal reveal-delay-2">
           <div class="bento-icon green" style="margin-bottom:1rem;"><i class="fa-solid fa-circle-check"></i></div>
-          <div style="font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Deterministic Convergence</div>
-          <p style="font-size:0.875rem;">Every honest node independently applies the same deterministic rules to the same DAG. There is no leader, no voting round, no BFT committee. The state emerges from the graph structure alone.</p>
+          <div style="font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Deterministic Finality</div>
+          <p style="font-size:0.875rem;">Finality is solely a function of bonded stake and checkpoint height — computed with 128-bit fixed-point integer math. Every honest node converges on the identical finalized state root, with no floating-point divergence between CPUs.</p>
         </div>
       </div>
     </div>
@@ -214,24 +209,24 @@
   <div class="container">
     <div class="section-header reveal">
       <span class="label">Tokenomics</span>
-      <h2>Fixed Supply — <span class="gradient-text">No Inflation</span></h2>
-      <p>19,960,907 SIKKA were pre-issued in the genesis transaction. No mining rewards. No premine. 100% goes to node operators.</p>
+      <h2>Deterministic <span class="gradient-text">Low Inflation</span></h2>
+      <p>19,960,907 CHILLAR at genesis. Validators earn 1.5%/year inflation on bonded stake. No mining rewards. No premine.</p>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;" class="reveal">
       <div>
         <div style="display:flex;flex-direction:column;gap:1.5rem;">
           <div class="card-glow">
-            <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;">Total Supply</div>
+            <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;">Genesis Supply</div>
             <div style="font-size:2.8rem;font-weight:900;letter-spacing:-0.05em;" class="gradient-text">19,960,907</div>
-            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.25rem;">SIKKA — fixed forever</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.25rem;">SIKKA — grows with 1.5%/yr validator inflation</div>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             <div class="card">
               <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Inflation</div>
-              <div style="font-size:1.5rem;font-weight:800;color:var(--green);">0%</div>
-              <div style="font-size:0.8rem;color:var(--text-3);">Protocol enforced</div>
+              <div style="font-size:1.5rem;font-weight:800;color:var(--green);">1.5%/yr</div>
+              <div style="font-size:0.8rem;color:var(--text-3);">On bonded stake, deterministic</div>
             </div>
             <div class="card">
               <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">Premine</div>
@@ -241,7 +236,7 @@
           </div>
 
           <div class="card">
-            <div style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">The genesis transaction issued the entire fixed supply to the first node operators. There are no block rewards, no staking emissions, no VC allocations. The number 19,960,907 references the date of a significant cryptographic event — a nod to the math behind post-quantum security.</div>
+            <div style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">The genesis transaction issued 19,960,907 SIKKA to operators and minters. There are no block rewards or premine. Validators earn a deterministic 1.5%/year inflation, compounded with 128-bit fixed-point math and shared bond-weighted across the active set — no floating-point divergence between CPUs. The number 19,960,907 references the date of a significant cryptographic event — a nod to the math behind post-quantum security.</div>
           </div>
         </div>
       </div>
@@ -288,7 +283,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <p>Blockless DAG digital currency for humans, AI agents, and machines.</p>
+        <p>Digital currency for humans, AI agents, and machines.</p>
       </div>
       <div class="footer-col"><h4>Protocol</h4><ul>
         <li><a href="features.html">Features</a></li>
@@ -305,7 +300,7 @@
       </ul></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 SIKKA Labs. Fixed supply. No premine.</span>
+      <span>© 2025 SIKKA Labs. 1.5%/year inflation. No premine.</span>
       <div class="footer-social">
         <a href="https://t.me/sikkalabs" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
         <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>

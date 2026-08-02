@@ -1,4 +1,4 @@
-// Three.js Linear DAG Animation with Live Data
+// Three.js Particle Ledger Animation with Live Data
 function initHeroThreeDag() {
   const canvas = document.getElementById("hero-canvas");
   if (!canvas || typeof THREE === "undefined") return;
@@ -12,7 +12,7 @@ function initHeroThreeDag() {
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 4000);
   camera.position.set(0, 0, 100);
 
-  // Generate Linear DAG Background
+  // Generate Particle Background
   const numNodes = 1000;
   const nodes = [];
   const links = [];
@@ -220,8 +220,6 @@ function initHeroThreeDag() {
   animate();
 
   // Polling Live Data
-  let lastTips = new Set();
-  
   // Dummy fallback in case network fails
   function spawnDummyTx() {
     const dummyId = Math.random().toString(36).substring(2, 10);
@@ -230,24 +228,12 @@ function initHeroThreeDag() {
   
   async function fetchLiveStatus() {
     try {
-      const res = await fetch("https://1.sikkalabs.com/v1/status", { cache: "no-store" });
+      const res = await fetch("https://1.sikkalabs.com/api/health", { cache: "no-store" });
       if (!res.ok) return;
-      const status = await res.json();
+      const health = await res.json();
       
       if (typeof updateStats === 'function') {
-        updateStats(status);
-      }
-      
-      const currentTips = status.tips || [];
-      const newTips = currentTips.filter(t => !lastTips.has(t));
-      
-      newTips.forEach(tx => {
-        spawnLiveTx(tx);
-      });
-      
-      // If we got tips, update lastTips
-      if (currentTips.length > 0) {
-        lastTips = new Set(currentTips);
+        updateStats(health);
       }
     } catch (e) {
       // On fetch error (e.g. no network), optionally spawn dummy TXs for visual interest
@@ -261,30 +247,22 @@ function initHeroThreeDag() {
 }
 
 // Stats Updater
-function updateStats(status) {
+function updateStats(health) {
   const set = (id, val) => {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   };
-  const dagSize = status.dag_size ?? "?";
-  const tipCount = status.tip_count ?? "?";
-  const pow = status.submit_pow_base_bits ?? "?";
-  const work = status.submit_pow_bucket_work_factor ?? "?";
 
-  const dagStr = typeof dagSize === "number" ? dagSize.toLocaleString() : dagSize;
-  const tipStr = typeof tipCount === "number" ? tipCount.toLocaleString() : tipCount;
+  const height = health.height ?? "?";
+  set("dash-height", typeof height === "number" ? height.toLocaleString() : height);
 
-  set("stat-dag-size", dagStr);
-  set("stat-tip-count", tipStr);
-  set("stat-pow", pow);
-  set("stat-work", work);
-  set("dash-dag-size", dagStr);
-  set("dash-tip-count", tipStr);
+  const label = document.getElementById("dash-height-label");
+  if (label) label.textContent = `Checkpoint ${typeof height === "number" ? height.toLocaleString() : height}`;
 
-  const label = document.getElementById("dash-dag-label");
-  if (label && typeof dagSize === "number") {
-    label.textContent = `DAG Block ${dagSize.toLocaleString()}`;
-  }
+  set("dash-mempool", typeof health.mempool === "number" ? health.mempool.toLocaleString() : "?");
+
+  const healthEl = document.getElementById("dash-health-value");
+  if (healthEl) healthEl.textContent = "Online";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -30,7 +30,7 @@ function initDagSize3D() {
   if (!setup) return;
   const { scene, camera, renderer } = setup;
 
-  // Icosahedron to represent the DAG
+  // Icosahedron to represent the network
   const geometry = new THREE.IcosahedronGeometry(2, 1);
   const material = new THREE.MeshBasicMaterial({ 
     color: 0x3b82f6, 

@@ -143,14 +143,14 @@ function initHeroTxChart() {
     "05:00", "07:00", "09:00", "11:00", "13:00", "15:00", "17:00", "18:00",
   ], [
     {
-      label: "DAG Txs",
+      label: "Transactions",
       data: [1.2, 1.8, 2.4, 3.1, 2.8, 3.5, 2.9, 3.2],
       borderColor: ChartColors.blue,
       backgroundColor: "rgba(59, 130, 246, 0.1)",
       fill: true,
     },
     {
-      label: "Tips",
+      label: "Mempool",
       data: [0.4, 0.5, 0.6, 0.8, 0.7, 0.9, 0.7, 0.8],
       borderColor: ChartColors.yellow,
       backgroundColor: "transparent",
@@ -185,27 +185,27 @@ function initDashboardCharts() {
   }
 
   if (document.getElementById("chart-pow")) {
-    createLineChart("chart-pow", ["0s", "60s", "120s", "180s", "240s"], [
+    createLineChart("chart-pow", ["0m", "20m", "40m", "60m", "80m", "100m"], [
       {
-        label: "Required bits",
-        data: [2, 2, 4, 6, 8],
+        label: "Credits available",
+        data: [0, 20, 40, 60, 80, 100],
         borderColor: ChartColors.cyan || ChartColors.blue,
         backgroundColor: "rgba(34, 211, 238, 0.1)",
         fill: true,
       },
     ], {
       scales: {
-        y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, stepSize: 2 } },
+        y: { ...chartDefaults.scales.y, max: 100, ticks: { ...chartDefaults.scales.y.ticks, stepSize: 20 } },
       },
     });
   }
 }
 
 function initFeaturesCharts() {
-  createLineChart("chart-congestion", ["0–59", "60–119", "120–179", "180–239", "240–299"], [
+  createLineChart("chart-congestion", ["0", "10m", "20m", "30m", "40m", "50m", "60m", "80m", "100m"], [
     {
-      label: "Expected hashes",
-      data: [4, 16, 64, 256, 1024],
+      label: "Credits available (cap 100)",
+      data: [0, 10, 20, 30, 40, 50, 60, 80, 100],
       borderColor: ChartColors.blue,
       backgroundColor: "rgba(59, 130, 246, 0.15)",
       fill: true,
@@ -214,8 +214,8 @@ function initFeaturesCharts() {
     scales: {
       y: {
         ...chartDefaults.scales.y,
-        type: "logarithmic",
-        ticks: { ...chartDefaults.scales.y.ticks, callback: v => v.toLocaleString() },
+        max: 100,
+        ticks: { ...chartDefaults.scales.y.ticks, callback: v => v },
       },
     },
   });
@@ -238,7 +238,7 @@ function initArchitectureCharts() {
   });
 
   createDoughnutChart("chart-supply", {
-    labels: ["Operators", "Genesis"],
+    labels: ["Node Operators", "Team / VC / Foundation"],
     values: [100, 0],
   }, [ChartColors.blue, "rgba(255,255,255,0.06)"]);
 }

@@ -5,9 +5,9 @@ const TICKER_FEATURES_1 = [
     desc: "When you send SIKKA, the exact amount arrives. No gas, no priority fees, no hidden costs — ever.",
   },
   {
-    icon: "fa-solid fa-code-branch",
-    title: "Exactly Two Parents",
-    desc: "Every non-genesis transaction references two earlier txs. A true directed acyclic graph, not a blockchain.",
+    icon: "fa-solid fa-user-secret",
+    title: "No Transaction History",
+    desc: "Balances, not a public ledger. Finalized payments are discarded once the checkpoint state root is signed.",
   },
   {
     icon: "fa-solid fa-lock",
@@ -15,14 +15,14 @@ const TICKER_FEATURES_1 = [
     desc: "SIKKA uses pure ML-DSA-87 cryptography throughout. No classical elliptic curve fallbacks.",
   },
   {
-    icon: "fa-solid fa-hammer",
-    title: "Per-Transaction PoW",
-    desc: "Each transaction mines its own SHA3-256 nonce for spam resistance. Difficulty scales with network load.",
+    icon: "fa-solid fa-percent",
+    title: "Spend Credits",
+    desc: "Each account earns +1 credit/min (cap 100) and burns 1 per transaction. Sustained spam is impossible; normal use is free.",
   },
   {
     icon: "fa-solid fa-gem",
-    title: "Fixed Supply 19,960,907",
-    desc: "Pre-issued in genesis with no inflation or premine. 100% of SIKKA goes to node operators.",
+    title: "1.5%/yr Low Inflation",
+    desc: "Genesis 19,960,907 SIKKA. Validators earn deterministic 1.5%/year inflation on bonded stake — no premine, no VC allocations.",
   },
 ];
 
@@ -35,7 +35,7 @@ const TICKER_FEATURES_2 = [
   {
     icon: "fa-solid fa-box",
     title: "17 MB Static Binary",
-    desc: "A tiny static binary with wallet, explorer, and full DAG engine — zero configuration.",
+    desc: "A tiny static binary with wallet, explorer, and full node — zero configuration.",
   },
   {
     icon: "fa-solid fa-globe",
@@ -45,7 +45,7 @@ const TICKER_FEATURES_2 = [
   {
     icon: "fa-solid fa-magnifying-glass",
     title: "Built-in Explorer",
-    desc: "Real-time DAG visualization. Browse the graph, inspect any transaction, and monitor network health.",
+    desc: "Real-time network explorer. Browse accounts, checkpoints, and balances without trusting a third party.",
   },
   {
     icon: "fa-solid fa-network-wired",
