@@ -1,5 +1,5 @@
-// Side-Anchored Animated Gradient Mesh & Ambient Glows for SIKKA Hero Section
-// Pure HTML5 2D Canvas — Keeps center dark for maximum text readability & contrast
+// Side-Anchored Animated Gradient Mesh for SIKKA Hero Section
+// Mainnet Telemetry live data polling from https://1.sikkalabs.com/api/health
 
 function initHeroGradientMesh() {
   const canvas = document.getElementById("hero-canvas");
@@ -121,23 +121,49 @@ function initHeroGradientMesh() {
   render();
 }
 
-// Static default stats update without any external network calls
-function initStaticStats() {
+// Live Mainnet Telemetry Fetching from https://1.sikkalabs.com/api/health
+async function fetchTelemetryStats() {
   const set = (id, val) => {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   };
 
-  set("dash-height", "1,996,090");
-  const label = document.getElementById("dash-height-label");
-  if (label) label.textContent = "Finalized checkpoints";
+  try {
+    const res = await fetch("https://1.sikkalabs.com/api/health", { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP error " + res.status);
+    const data = await res.json();
 
-  set("dash-mempool", "0");
-  const healthEl = document.getElementById("dash-health-value");
-  if (healthEl) healthEl.textContent = "100%";
+    // Checkpoint Height
+    const height = data.height ?? data.checkpoint_height ?? data.checkpoint ?? data.block_height;
+    if (height !== undefined && height !== null) {
+      set("dash-height", typeof height === "number" ? height.toLocaleString() : height);
+      const label = document.getElementById("dash-height-label");
+      if (label) label.textContent = `Checkpoint ${typeof height === "number" ? height.toLocaleString() : height}`;
+    }
+
+    // Mempool Count
+    const mempool = data.mempool ?? data.mempool_size ?? data.pending_txs ?? 0;
+    set("dash-mempool", typeof mempool === "number" ? mempool.toLocaleString() : mempool);
+
+    // Network Health Status
+    const status = data.status ?? data.health ?? (data.ok ? "100%" : "Online");
+    const healthEl = document.getElementById("dash-health-value");
+    if (healthEl) {
+      if (typeof status === "string" && status.includes("%")) {
+        healthEl.textContent = status;
+      } else if (data.ok === true || status === "ok" || status === "healthy" || res.ok) {
+        healthEl.textContent = "100%";
+      } else {
+        healthEl.textContent = String(status);
+      }
+    }
+  } catch (err) {
+    console.warn("Telemetry live fetch info:", err.message);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   initHeroGradientMesh();
-  initStaticStats();
+  fetchTelemetryStats();
+  setInterval(fetchTelemetryStats, 5000);
 });
