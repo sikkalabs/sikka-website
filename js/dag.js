@@ -1,5 +1,5 @@
-// Modern Animated Gradient Mesh & Ambient Glows for SIKKA Hero Section
-// Pure HTML5 2D Canvas — Self-contained, High performance, Zero network requests
+// Side-Anchored Animated Gradient Mesh & Ambient Glows for SIKKA Hero Section
+// Pure HTML5 2D Canvas — Keeps center dark for maximum text readability & contrast
 
 function initHeroGradientMesh() {
   const canvas = document.getElementById("hero-canvas");
@@ -11,7 +11,7 @@ function initHeroGradientMesh() {
   let width = 0;
   let height = 0;
 
-  // Track mouse position for smooth ambient parallax shift
+  // Track mouse position for subtle side parallax
   const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
 
   function handleMouseMove(e) {
@@ -33,45 +33,47 @@ function initHeroGradientMesh() {
   window.addEventListener("resize", resize);
   resize();
 
-  // Color Orbs definition with smooth fluid motion
+  // Color Orbs anchored strictly to Left & Right sides
   const blobs = [
+    // Left Side Orbs
     {
-      x: 0.35, y: 0.35, radius: 0.45,
-      speedX: 0.0006, speedY: 0.0004,
+      x: 0.12, y: 0.32, radius: 0.38,
+      speedX: 0.0005, speedY: 0.0004,
       phaseX: 0, phaseY: 0,
       colorStops: [
-        { offset: 0, color: "rgba(59, 130, 246, 0.45)" },  // Electric Blue
-        { offset: 0.55, color: "rgba(37, 99, 235, 0.15)" },
+        { offset: 0, color: "rgba(59, 130, 246, 0.42)" },  // Electric Blue (Left Top)
+        { offset: 0.55, color: "rgba(37, 99, 235, 0.12)" },
         { offset: 1, color: "rgba(8, 8, 8, 0)" }
       ]
     },
     {
-      x: 0.65, y: 0.45, radius: 0.5,
-      speedX: -0.0005, speedY: 0.0007,
-      phaseX: 1.5, phaseY: 0.8,
-      colorStops: [
-        { offset: 0, color: "rgba(139, 92, 246, 0.40)" }, // Violet / Purple
-        { offset: 0.6, color: "rgba(124, 58, 237, 0.12)" },
-        { offset: 1, color: "rgba(8, 8, 8, 0)" }
-      ]
-    },
-    {
-      x: 0.5, y: 0.65, radius: 0.42,
-      speedX: 0.0007, speedY: -0.0005,
+      x: 0.16, y: 0.72, radius: 0.34,
+      speedX: 0.0006, speedY: -0.0004,
       phaseX: 3.1, phaseY: 2.2,
       colorStops: [
-        { offset: 0, color: "rgba(34, 211, 238, 0.35)" }, // Cyan
-        { offset: 0.55, color: "rgba(6, 182, 212, 0.10)" },
+        { offset: 0, color: "rgba(34, 211, 238, 0.35)" }, // Cyan (Left Bottom)
+        { offset: 0.55, color: "rgba(6, 182, 212, 0.09)" },
+        { offset: 1, color: "rgba(8, 8, 8, 0)" }
+      ]
+    },
+    // Right Side Orbs
+    {
+      x: 0.88, y: 0.35, radius: 0.42,
+      speedX: -0.0005, speedY: 0.0006,
+      phaseX: 1.5, phaseY: 0.8,
+      colorStops: [
+        { offset: 0, color: "rgba(139, 92, 246, 0.38)" }, // Violet / Purple (Right Top)
+        { offset: 0.55, color: "rgba(124, 58, 237, 0.10)" },
         { offset: 1, color: "rgba(8, 8, 8, 0)" }
       ]
     },
     {
-      x: 0.25, y: 0.75, radius: 0.38,
-      speedX: -0.0006, speedY: 0.0004,
+      x: 0.84, y: 0.75, radius: 0.35,
+      speedX: -0.0005, speedY: 0.0004,
       phaseX: 4.5, phaseY: 1.1,
       colorStops: [
-        { offset: 0, color: "rgba(99, 102, 241, 0.30)" }, // Indigo
-        { offset: 0.65, color: "rgba(79, 70, 229, 0.08)" },
+        { offset: 0, color: "rgba(99, 102, 241, 0.30)" }, // Indigo (Right Bottom)
+        { offset: 0.6, color: "rgba(79, 70, 229, 0.07)" },
         { offset: 1, color: "rgba(8, 8, 8, 0)" }
       ]
     }
@@ -93,9 +95,9 @@ function initHeroGradientMesh() {
     const baseRadius = Math.max(width, height);
 
     blobs.forEach((blob) => {
-      // Fluid orbital motion
-      const offsetX = Math.sin(time * blob.speedX + blob.phaseX) * 0.18 + mouse.x * 0.05;
-      const offsetY = Math.cos(time * blob.speedY + blob.phaseY) * 0.18 + mouse.y * 0.05;
+      // Fluid orbital motion constrained to side edges
+      const offsetX = Math.sin(time * blob.speedX + blob.phaseX) * 0.07 + mouse.x * 0.03;
+      const offsetY = Math.cos(time * blob.speedY + blob.phaseY) * 0.07 + mouse.y * 0.03;
 
       const cx = (blob.x + offsetX) * width;
       const cy = (blob.y + offsetY) * height;
