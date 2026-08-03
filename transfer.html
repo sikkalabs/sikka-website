@@ -9,12 +9,11 @@
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="SIKKA"/>
   <meta property="og:title" content="Bridge SIKKA — Ethereum to the Sikka Chain"/>
-  <meta property="og:description" content="Burn your SIKKA token on Ethereum, name your 32-byte Sikka address, and a relayer delivers native SIKKA 1:1 from escrow. The door into the Sikka chain."/>
+  <meta property="og:description" content="Burn your SIKKA token on Ethereum, name your 32-byte Sikka address, and receive native SIKKA 1:1 from escrow."/>
   <meta property="og:url" content="https://sikkalabs.com/transfer.html"/>
   <meta property="og:image" content="https://sikkalabs.com/og.jpg"/>
   <meta property="og:image:width" content="1376"/>
   <meta property="og:image:height" content="752"/>
-  <meta property="og:image:alt" content="Bridge SIKKA to the Sikka Chain"/>
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image"/>
@@ -55,206 +54,99 @@
 </div>
 
 <!-- PAGE HERO -->
-<section class="page-hero">
-  <div class="container">
-    <span class="label">Ethereum → Sikka Chain</span>
-    <h1>Bridge <span class="gradient-text">SIKKA</span> to the Chain</h1>
-    <p>Burn your SIKKA token on Ethereum, name your 32-byte Sikka address, and a relayer delivers native SIKKA 1:1 from escrow. One-way — this is the door in.</p>
-
-    <div class="stats-strip" style="margin-top:3rem;">
-      <div class="stat-item">
-        <div class="stat-item-value">1:1</div>
-        <div class="stat-item-label">Peg to native SIKKA</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-item-value">19,960,907</div>
-        <div class="stat-item-label">Fixed supply (escrowed)</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-item-value">1</div>
-        <div class="stat-item-label">One-way burn</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-item-value">32-byte</div>
-        <div class="stat-item-label">Sikka destination address</div>
-      </div>
+<section class="page-hero" style="padding-bottom: 2rem;">
+  <div class="container" style="max-width: 680px;">
+    <div class="hero-badge reveal" style="margin-bottom: 1rem;">
+      <span class="dot"></span>
+      Ethereum <i class="fa-solid fa-arrow-right" style="font-size:0.75rem;margin:0 2px;"></i> Sikka Chain
     </div>
+    <h1 style="font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: 0.75rem;">Bridge <span class="gradient-text">SIKKA</span></h1>
+    <p style="font-size: 1.05rem; color: var(--text-2);">Burn your SIKKA token on Ethereum to receive native SIKKA 1:1 on the Sikka mainnet.</p>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════
-     BRIDGE INTERFACE
+     MINIMAL & REACTIVE BRIDGE WIDGET
 ═══════════════════════════════════════════════════ -->
-<section class="section">
-  <div class="container">
-    <div class="transfer-layout">
-      <!-- Left: Bridge card -->
-      <div class="bridge-card reveal">
-        <div class="dash-label" style="margin-bottom:0.25rem;">Bridge</div>
-        <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:1.5rem;">Burn SIKKA → Receive <span class="gradient-text">native</span> SIKKA</h2>
-
-        <div class="network-warn" id="network-warn">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          <div>Wrong network detected. The SIKKA token lives on Ethereum. <a href="#" id="switch-net">Switch to Ethereum</a>.</div>
-        </div>
-
-        <div class="bridge-balance" id="balance-row" style="display:none;">
-          <span class="k">SIKKA balance</span>
-          <span class="v"><span id="balance-val">—</span> <span class="sym">SIKKA</span></span>
-        </div>
-
-        <div class="bridge-field">
-          <label for="amount-input">Amount to bridge</label>
-          <div style="position:relative;">
-            <input type="text" id="amount-input" class="bridge-input" placeholder="0.0" inputmode="decimal" autocomplete="off"/>
-            <button type="button" class="bridge-max" id="btn-max" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);">Max</button>
-          </div>
-          <div class="bridge-hint">The amount of SIKKA to burn. You will receive the same amount of native SIKKA at your Sikka address.</div>
-        </div>
-
-        <div class="bridge-field">
-          <label for="sikka-input">Sikka destination address (32-byte)</label>
-          <input type="text" id="sikka-input" class="bridge-input" placeholder="0x… (64 hex characters)" autocomplete="off" spellcheck="false"/>
-          <div class="bridge-hint">Your 64-hex Sikka address from the <a href="https://1.sikkalabs.com" target="_blank" style="color:var(--blue-2);font-weight:600;">web wallet</a> or node CLI. Must be exactly 32 bytes (64 hex chars).</div>
-        </div>
-
-        <button class="btn btn-primary btn-lg" id="btn-connect" style="width:100%;justify-content:center;">
-          <i class="fa-solid fa-wallet"></i> Connect Wallet
-        </button>
-        <button class="btn btn-primary btn-lg" id="btn-bridge" style="width:100%;justify-content:center;display:none;">
-          <i class="fa-solid fa-right-left"></i> Bridge to SIKKA
-        </button>
-
-        <div class="bridge-status" id="status"></div>
+<section class="section" style="padding-top: 1rem;">
+  <div class="container" style="max-width: 560px;">
+    
+    <div class="bridge-card reveal" style="box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+      
+      <!-- Wrong Network Warning -->
+      <div class="network-warn" id="network-warn">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>Wrong network. <a href="#" id="switch-net">Switch to Ethereum Mainnet</a></div>
       </div>
 
-      <!-- Right: Info -->
-      <div class="bridge-sidenote reveal reveal-delay-1">
-        <h3><i class="fa-solid fa-circle-info" style="color:var(--blue-2);margin-right:0.4rem;"></i>How the bridge works</h3>
-        <p>The SIKKA token is a guest pass on Ethereum. Its fixed supply of 19,960,907 SIKKA is fully escrowed on the Sikka blockchain. The only way out is one-way: burn the token naming your Sikka address, and a relayer delivers native SIKKA from escrow to that address.</p>
-        <p><strong style="color:var(--text);">1.</strong> Connect your wallet on Ethereum.<br/>
-        <strong style="color:var(--text);">2.</strong> Enter the amount to burn.<br/>
-        <strong style="color:var(--text);">3.</strong> Enter your 32-byte Sikka address.<br/>
-        <strong style="color:var(--text);">4.</strong> Confirm the burn — a relayer does the rest.</p>
-        <div style="display:flex;flex-direction:column;gap:0.4rem;margin-top:0.25rem;">
-          <span class="tag blue"><i class="fa-solid fa-scale-balanced"></i> Pegged 1:1 with native SIKKA</span>
-          <span class="tag purple"><i class="fa-solid fa-lock"></i> Supply escrowed on the chain</span>
-          <span class="tag green"><i class="fa-solid fa-fire"></i> One-way burn — the door in</span>
+      <!-- Balance Header -->
+      <div class="bridge-balance" id="balance-row" style="display:none; margin-bottom: 1.25rem;">
+        <span class="k"><i class="fa-solid fa-wallet"></i> SIKKA Balance</span>
+        <span class="v"><span id="balance-val">0</span> <span class="sym">SIKKA</span></span>
+      </div>
+
+      <!-- Field 1: Amount -->
+      <div class="bridge-field">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+          <label for="amount-input" style="margin:0;">Amount to Burn</label>
+          <button type="button" class="bridge-max" id="btn-max">Use Max</button>
         </div>
+        <div style="position:relative;">
+          <input type="text" id="amount-input" class="bridge-input" placeholder="0.0" inputmode="decimal" autocomplete="off" style="font-size:1.15rem; padding-right: 80px;"/>
+          <span style="position:absolute; right:16px; top:50%; transform:translateY(-50%); font-weight:700; font-size:0.85rem; color:var(--text-2); pointer-events:none;">SIKKA</span>
+        </div>
+        <div id="receive-preview" class="bridge-hint text-blue" style="display:none; font-weight:600; margin-top:0.4rem;"></div>
+      </div>
+
+      <!-- Direction Arrow Divider -->
+      <div style="display:flex; align-items:center; justify-content:center; margin: 1rem 0; gap: 0.75rem;">
+        <div style="height:1px; flex:1; background:var(--border);"></div>
+        <span class="tag" style="font-size:0.72rem; padding: 4px 12px; background:var(--surface);">
+          ERC-20 <i class="fa-solid fa-arrow-right" style="margin: 0 4px; color:var(--cyan);"></i> Native 1:1
+        </span>
+        <div style="height:1px; flex:1; background:var(--border);"></div>
+      </div>
+
+      <!-- Field 2: Sikka Address -->
+      <div class="bridge-field">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+          <label for="sikka-input" style="margin:0;">Sikka Destination Address</label>
+          <span id="sikka-counter" class="tag" style="font-size:0.7rem; font-family:monospace; padding:2px 8px;">0 / 64 hex</span>
+        </div>
+        <input type="text" id="sikka-input" class="bridge-input" placeholder="0x… (64 hex characters)" autocomplete="off" spellcheck="false" style="font-size:0.85rem; font-family:'ui-monospace', monospace;"/>
+        <div id="sikka-validation" class="bridge-hint">
+          Enter your 64 hex character (32-byte) Sikka address from the <a href="https://1.sikkalabs.com" target="_blank" style="color:var(--blue-2);font-weight:600;">web wallet</a>.
+        </div>
+      </div>
+
+      <!-- Dynamic Action Buttons -->
+      <button class="btn btn-primary btn-lg" id="btn-connect" style="width:100%; justify-content:center; margin-top:0.5rem;">
+        <i class="fa-solid fa-wallet"></i> Connect Wallet
+      </button>
+      <button class="btn btn-primary btn-lg" id="btn-bridge" style="width:100%; justify-content:center; display:none; margin-top:0.5rem;" disabled>
+        Enter SIKKA Amount
+      </button>
+
+      <!-- Status Notification -->
+      <div class="bridge-status" id="status"></div>
+    </div>
+
+    <!-- Contract Info Pill -->
+    <div class="card reveal reveal-delay-1" style="margin-top:1.5rem; padding: 1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; background:var(--bg-2);">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <i class="fa-solid fa-file-contract" style="color:var(--cyan);"></i>
+        <div style="min-width:0;">
+          <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; font-weight:700;">Token Contract</div>
+          <div class="mono" id="contract-addr" style="font-size:0.78rem; color:var(--text-2); overflow:hidden; text-overflow:ellipsis;">0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-shrink:0;">
+        <button class="btn btn-ghost btn-sm copy-btn" onclick="copyContract()"><i class="fa-regular fa-copy"></i> Copy</button>
+        <a href="https://matcha.xyz/tokens/ethereum/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81?sellChain=1&sellAddress=0xdac17f958d2ee523a2206206994597c13d831ec7" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-solid fa-mug-hot"></i> Trade</a>
+        <a href="https://etherscan.io/token/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-brands fa-ethereum"></i> Etherscan</a>
       </div>
     </div>
 
-    <!-- Contract address row -->
-    <div class="bridge-sidenote reveal reveal-delay-2" style="margin-top:1.5rem;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-      <div style="display:flex;flex-direction:column;gap:0.25rem;min-width:0;">
-        <h3 style="font-size:0.85rem;"><i class="fa-solid fa-file-contract" style="color:var(--cyan);margin-right:0.4rem;"></i>SIKKA Token contract</h3>
-        <span class="mono" id="contract-addr">0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81</span>
-      </div>
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-        <button class="copy-btn" onclick="copyContract()"><i class="fa-regular fa-copy"></i> Copy</button>
-        <a href="https://etherscan.io/token/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81" target="_blank" rel="noopener" class="copy-btn" style="text-decoration:none;"><i class="fa-brands fa-ethereum"></i> Etherscan</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     STEPS
-═══════════════════════════════════════════════════ -->
-<section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container" style="max-width:860px;">
-    <div class="section-header reveal">
-      <span class="label">The Bridge</span>
-      <h2>From <span class="gradient-text">Ethereum</span> to the Chain</h2>
-      <p>Staking, zero-fee micropayments, and everything else only exist on the Sikka chain. The burn is how you get there.</p>
-    </div>
-
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h3>Get SIKKA on Ethereum</h3>
-          <p>Buy the SIKKA token on Matcha or any major DEX. The token is pegged 1:1 with native SIKKA — the supply is fully escrowed on the Sikka chain.</p>
-          <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-            <a href="https://matcha.xyz/tokens/ethereum/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81?sellChain=1&sellAddress=0xdac17f958d2ee523a2206206994597c13d831ec7" target="_blank" rel="noopener" class="tag purple" style="text-decoration:none;"><i class="fa-solid fa-mug-hot"></i> Matcha</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h3>Get your Sikka address</h3>
-          <p>Generate a 32-byte ML-DSA-87 keypair in the web wallet or your node. Your Sikka address is the 64-hex public key where native SIKKA will be delivered.</p>
-          <div style="margin-top:0.75rem;">
-            <a href="https://1.sikkalabs.com" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-wallet"></i> Open the web wallet</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h3>Burn &amp; bridge</h3>
-          <p>Enter the amount and your Sikka address above, then confirm the burn. A relayer watches the Burned event and delivers native SIKKA from escrow to your address — 1:1, directly on the chain.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     STATS
-═══════════════════════════════════════════════════ -->
-<section class="section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label">Token Facts</span>
-      <h2>SIKKA on <span class="gradient-text">Ethereum</span></h2>
-    </div>
-    <div class="bridge-stat-grid reveal reveal-delay-1">
-      <div class="bridge-stat">
-        <div class="k">Name</div>
-        <div class="v">SIKKA</div>
-      </div>
-      <div class="bridge-stat">
-        <div class="k">Symbol</div>
-        <div class="v">SIKKA</div>
-      </div>
-      <div class="bridge-stat">
-        <div class="k">Decimals</div>
-        <div class="v">9</div>
-      </div>
-      <div class="bridge-stat">
-        <div class="k">Total supply</div>
-        <div class="v" id="stat-supply">19,960,907</div>
-      </div>
-      <div class="bridge-stat" style="grid-column:span 2;">
-        <div class="k">Peg</div>
-        <div class="v" style="color:var(--green);">1 SIKKA = 1 native SIKKA</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     CTA
-═══════════════════════════════════════════════════ -->
-<section class="cta-section" style="background:var(--bg-1);border-top:1px solid var(--border);">
-  <div class="container">
-    <div class="reveal">
-      <span class="label" style="display:block;margin-bottom:1rem;">Questions?</span>
-      <h2>Need a hand on the <span class="gradient-text">bridge</span>?</h2>
-      <p>Join Telegram — the team and community help bridge SIKKA to the chain in minutes.</p>
-      <div class="cta-actions">
-        <a href="https://t.me/sikkalabs" target="_blank" class="btn btn-primary btn-lg">
-          <i class="fa-brands fa-telegram"></i> Join Telegram
-        </a>
-        <a href="index.html" class="btn btn-ghost btn-lg">
-          <i class="fa-solid fa-house"></i> Back to Home
-        </a>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -305,7 +197,7 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  /* ══════════ Bridge web3 ══════════ */
+  /* ══════════ Minimal & Reactive Bridge Web3 ══════════ */
   const TOKEN_ADDRESS = '0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81';
   const TOKEN_ABI = [
     'function symbol() view returns (string)',
@@ -323,6 +215,9 @@
     balanceVal: document.getElementById('balance-val'),
     amount: document.getElementById('amount-input'),
     sikka: document.getElementById('sikka-input'),
+    sikkaCounter: document.getElementById('sikka-counter'),
+    sikkaValidation: document.getElementById('sikka-validation'),
+    receivePreview: document.getElementById('receive-preview'),
     status: document.getElementById('status'),
     networkWarn: document.getElementById('network-warn'),
     switchNet: document.getElementById('switch-net'),
@@ -353,11 +248,73 @@
     return '0x' + s.toLowerCase();
   }
 
+  // Reactive state management
+  function updateReactiveState() {
+    // 1. Sikka Address Validation & Realtime Hex Counter
+    let rawSikka = (els.sikka.value || '').trim();
+    let cleanHex = rawSikka.toLowerCase().startsWith('0x') ? rawSikka.slice(2) : rawSikka;
+    let hexLength = cleanHex.length;
+
+    els.sikkaCounter.textContent = `${hexLength} / 64 hex`;
+
+    const isValidAddress = /^[0-9a-fA-F]{64}$/.test(cleanHex);
+
+    if (hexLength === 0) {
+      els.sikka.style.borderColor = 'var(--border)';
+      els.sikkaValidation.className = 'bridge-hint';
+      els.sikkaValidation.innerHTML = 'Enter your 64 hex character (32-byte) Sikka address from the <a href="https://1.sikkalabs.com" target="_blank" style="color:var(--blue-2);font-weight:600;">web wallet</a>.';
+    } else if (isValidAddress) {
+      els.sikka.style.borderColor = 'var(--green)';
+      els.sikkaValidation.className = 'bridge-hint text-green';
+      els.sikkaValidation.innerHTML = '<i class="fa-solid fa-circle-check"></i> Valid 32-byte Sikka destination address';
+    } else {
+      els.sikka.style.borderColor = hexLength > 64 ? 'var(--red)' : 'var(--border)';
+      els.sikkaValidation.className = 'bridge-hint text-muted';
+      els.sikkaValidation.innerHTML = `Address must be exactly 64 hex characters (${hexLength}/64)`;
+    }
+
+    // 2. Amount Receive Preview
+    const amt = els.amount.value.trim();
+    if (amt && !isNaN(amt) && parseFloat(amt) > 0) {
+      els.receivePreview.textContent = `You will receive ~${amt} native SIKKA`;
+      els.receivePreview.style.display = 'block';
+    } else {
+      els.receivePreview.style.display = 'none';
+    }
+
+    // 3. Dynamic Action Button State
+    if (!account) {
+      els.connect.style.display = 'flex';
+      els.bridge.style.display = 'none';
+    } else {
+      els.connect.style.display = 'none';
+      els.bridge.style.display = 'flex';
+
+      if (!amt || isNaN(amt) || parseFloat(amt) <= 0) {
+        els.bridge.textContent = 'Enter SIKKA Amount';
+        els.bridge.disabled = true;
+        els.bridge.style.opacity = '0.6';
+      } else if (!isValidAddress) {
+        els.bridge.textContent = 'Enter Valid 64-Hex Sikka Address';
+        els.bridge.disabled = true;
+        els.bridge.style.opacity = '0.6';
+      } else {
+        els.bridge.innerHTML = `<i class="fa-solid fa-fire"></i> Burn & Bridge ${amt} SIKKA`;
+        els.bridge.disabled = false;
+        els.bridge.style.opacity = '1';
+      }
+    }
+  }
+
+  els.amount.addEventListener('input', updateReactiveState);
+  els.sikka.addEventListener('input', updateReactiveState);
+
   els.max.addEventListener('click', async () => {
     if (!token || !account) return;
     try {
       const bal = await token.balanceOf(account);
       els.amount.value = ethers.utils.formatUnits(bal, decimals);
+      updateReactiveState();
     } catch (e) { /* ignore */ }
   });
 
@@ -370,7 +327,7 @@
       });
       await refreshNetwork();
     } catch (err) {
-      showError('Could not switch to Ethereum. Switch networks manually in your wallet and try again.');
+      showError('Could not switch to Ethereum. Switch networks manually in your wallet.');
     }
   });
 
@@ -383,7 +340,7 @@
       return;
     }
     try {
-      setStatus('info', '<i class="fa-solid fa-circle-info"></i><div>Waiting for wallet…</div>');
+      setStatus('info', '<i class="fa-solid fa-circle-info"></i><div>Connecting wallet…</div>');
       provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send('eth_requestAccounts', []);
       signer = provider.getSigner();
@@ -392,8 +349,7 @@
       decimals = await token.decimals();
       await refreshNetwork();
       await refreshBalance();
-      els.connect.style.display = 'none';
-      els.bridge.style.display = 'flex';
+      updateReactiveState();
       clearStatus();
     } catch (err) {
       showError('Wallet connection cancelled or failed.');
@@ -423,11 +379,12 @@
   }
 
   els.bridge.addEventListener('click', async () => {
+    if (els.bridge.disabled) return;
     clearStatus();
     if (!token) { showError('Connect your wallet first.'); return; }
 
     const netOk = await refreshNetwork();
-    if (!netOk) { showError('Switch to Ethereum mainnet before bridging. SIKKA lives on Ethereum.'); return; }
+    if (!netOk) { showError('Switch to Ethereum mainnet before bridging.'); return; }
 
     let amountWei;
     try {
@@ -440,7 +397,7 @@
 
     const sikkaAddr = parseSikkaAddress(els.sikka.value);
     if (!sikkaAddr) {
-      showError('Invalid Sikka destination. It must be exactly 64 hex characters (32 bytes).');
+      showError('Invalid Sikka destination. Must be 64 hex characters (32 bytes).');
       return;
     }
 
@@ -452,23 +409,23 @@
     try {
       setStatus('pending', '<i class="fa-solid fa-spinner fa-spin"></i><div>Confirming the burn in your wallet…</div>');
       const tx = await token.burn(sikkaAddr, amountWei);
-      setStatus('pending', '<i class="fa-solid fa-circle-notch fa-spin"></i><div>Transaction submitted. Waiting for confirmation…<span class="small">' + tx.hash + '</span></div>');
+      setStatus('pending', '<i class="fa-solid fa-circle-notch fa-spin"></i><div>Transaction submitted. Waiting for block confirmation…<span class="small">' + tx.hash + '</span></div>');
       const receipt = await tx.wait();
       setStatus('ok',
         '<i class="fa-solid fa-circle-check"></i><div>' +
-        '<strong>' + els.amount.value.trim() + ' SIKKA burned.</strong> A relayer will deliver native SIKKA to your Sikka address shortly.' +
+        '<strong>' + els.amount.value.trim() + ' SIKKA burned successfully!</strong> Native SIKKA will be delivered from escrow to your Sikka address.' +
         '<span class="small">View on <a href="https://etherscan.io/tx/' + receipt.transactionHash + '" target="_blank" rel="noopener">Etherscan</a></span>' +
         '</div>'
       );
       els.amount.value = '';
       await refreshBalance();
+      updateReactiveState();
     } catch (err) {
       const msg = (err && err.reason) ? err.reason : 'Transaction failed or was rejected.';
       showError(msg);
     }
   });
 
-  /* Copy contract address */
   function copyContract() {
     const addr = document.getElementById('contract-addr').textContent.trim();
     if (navigator.clipboard) {
