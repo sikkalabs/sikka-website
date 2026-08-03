@@ -587,20 +587,60 @@ a  { color: inherit; text-decoration: none; }
 
 /* 21. FLOW DIAGRAM */
 .flow {
-  display: flex; align-items: center; gap: 0;
-  overflow-x: auto; padding: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  width: 100%;
 }
 .flow-step {
-  flex-shrink: 0; text-align: center;
-  background: var(--bg-2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.25rem 1.5rem;
-  min-width: 150px; transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  transition: all var(--transition);
 }
-.flow-step:hover { border-color: rgba(59,130,246,0.4); box-shadow: 0 0 20px rgba(59,130,246,0.1); }
-.flow-step-num { font-size: 0.7rem; color: var(--blue); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
-.flow-step-title { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.35rem; }
-.flow-step-desc { font-size: 0.75rem; color: var(--text-3); line-height: 1.4; }
-.flow-arrow { flex-shrink: 0; padding: 0 0.5rem; color: var(--text-3); font-size: 1.25rem; }
+.flow-step:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+.flow-step-num {
+  font-size: 0.7rem;
+  color: var(--blue-2);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.flow-step-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+.flow-step-desc {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.flow-arrow {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .flow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .flow {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* 22. PROOF-OF-WORK TABLE */
 .pow-table { width:100%; border-collapse:collapse; font-size:0.875rem; }
