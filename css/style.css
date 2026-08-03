@@ -683,18 +683,62 @@ a  { color: inherit; text-decoration: none; }
 /* 24. CTA SECTION */
 .cta-section {
   text-align: center;
-  padding: clamp(4rem,8vw,8rem) 0;
-  position: relative; overflow: hidden;
+  padding: clamp(5rem, 10vw, 9rem) 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
 }
-.cta-section::before {
-  content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  width: 600px; height: 300px;
-  background: radial-gradient(ellipse, rgba(59,130,246,0.1) 0%, transparent 70%);
-  pointer-events:none;
+.cta-section .cta-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
 }
-.cta-section h2 { margin-bottom: 1rem; }
-.cta-section p { margin-bottom: 2.5rem; font-size: 1.1rem; }
-.cta-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.cta-section .cta-bg::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: -15%;
+  width: 45%;
+  height: 80%;
+  background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.20) 0%, rgba(34, 211, 238, 0.08) 50%, transparent 75%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 1;
+}
+.cta-section .cta-bg::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  right: -15%;
+  width: 45%;
+  height: 80%;
+  background: radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.20) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 75%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 1;
+}
+.cta-section h2 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+  line-height: 1.1;
+}
+.cta-section p {
+  margin: 0 auto 2.5rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-2);
+  max-width: 600px;
+  line-height: 1.6;
+}
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 /* 25. FOOTER */
 footer {
