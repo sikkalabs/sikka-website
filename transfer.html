@@ -141,9 +141,50 @@
         </div>
       </div>
       <div style="display:flex; gap:0.5rem; flex-shrink:0;">
-        <button class="btn btn-ghost btn-sm copy-btn" onclick="copyContract()"><i class="fa-regular fa-copy"></i> Copy</button>
+        <button class="btn btn-ghost btn-sm copy-btn" onclick="copyContract(this,'contract-addr')"><i class="fa-regular fa-copy"></i> Copy</button>
         <a href="https://matcha.xyz/tokens/ethereum/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81?sellChain=1&sellAddress=0xdac17f958d2ee523a2206206994597c13d831ec7" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-solid fa-mug-hot"></i> Trade</a>
         <a href="https://etherscan.io/token/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-brands fa-ethereum"></i> Etherscan</a>
+      </div>
+    </div>
+
+    <!-- SIKKA Vesting Contract Info Pill -->
+    <div class="card reveal reveal-delay-1" style="margin-top:0.75rem; padding: 1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; background:var(--bg-2);">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <i class="fa-solid fa-vault" style="color:var(--purple-2);"></i>
+        <div style="min-width:0;">
+          <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; font-weight:700;">SIKKA Vesting Contract</div>
+          <div class="mono" id="vesting-addr" style="font-size:0.78rem; color:var(--text-2); overflow:hidden; text-overflow:ellipsis;">0xe4a5F67529D40ACFf666303Dd0b6f72A734198B3</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-shrink:0;">
+        <button class="btn btn-ghost btn-sm copy-btn" onclick="copyContract(this,'vesting-addr')"><i class="fa-regular fa-copy"></i> Copy</button>
+        <a href="https://etherscan.io/address/0xe4a5F67529D40ACFf666303Dd0b6f72A734198B3" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-brands fa-ethereum"></i> Etherscan</a>
+      </div>
+    </div>
+
+    <!-- Locked in Vesting -->
+    <div class="card reveal reveal-delay-1" style="margin-top:0.75rem; padding: 1.25rem; background:linear-gradient(135deg, rgba(139,92,246,0.10), rgba(59,130,246,0.05)); border-color:rgba(139,92,246,0.25); text-align:center;">
+      <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.4rem;"><i class="fa-solid fa-vault" style="color:var(--purple-2);"></i> Locked in vesting right now</div>
+      <div style="font-size:2rem; font-weight:900; letter-spacing:-0.04em;" data-vesting-balance class="gradient-text">—</div>
+      <div style="font-size:0.8rem; color:var(--text-2); margin-top:0.4rem;">Releases 1 SIKKA every 4 seconds to the beneficiary. By design it cannot be withdrawn all at once.</div>
+    </div>
+
+    <!-- SIKKA on Ethereum Stats Grid -->
+    <div class="card reveal reveal-delay-1" style="margin-top:0.75rem; padding: 1.25rem; background:var(--bg-2);">
+      <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">SIKKA on Ethereum</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; text-align:center;">
+        <div>
+          <div style="font-size:0.68rem; color:var(--text-3); text-transform:uppercase; margin-bottom:0.4rem;">Vesting balance</div>
+          <div style="font-weight:800; color:var(--cyan); font-size:0.95rem;" data-vesting-balance>—</div>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; color:var(--text-3); text-transform:uppercase; margin-bottom:0.4rem;">Release rate</div>
+          <div style="font-weight:800; color:var(--text); font-size:0.95rem;">1 SIKKA / 4 sec</div>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; color:var(--text-3); text-transform:uppercase; margin-bottom:0.4rem;">Released so far</div>
+          <div style="font-weight:800; color:var(--green); font-size:0.95rem;" data-vesting-released>—</div>
+        </div>
       </div>
     </div>
 
@@ -186,6 +227,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/vesting.js"></script>
 <script>
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
@@ -426,13 +468,13 @@
     }
   });
 
-  function copyContract() {
-    const addr = document.getElementById('contract-addr').textContent.trim();
+  function copyContract(btn, id) {
+    const addr = document.getElementById(id).textContent.trim();
     if (navigator.clipboard) {
       navigator.clipboard.writeText(addr).then(() => {
-        const btn = document.querySelector('.copy-btn');
+        const original = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
-        setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 1600);
+        setTimeout(() => { btn.innerHTML = original; }, 1600);
       });
     }
   }

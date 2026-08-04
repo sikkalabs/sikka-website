@@ -402,6 +402,12 @@
             </div>
           </div>
 
+          <div class="card-glow">
+            <div style="font-size:0.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;">Escrowed, Fixed Supply</div>
+            <div style="font-size:2rem;font-weight:900;letter-spacing:-0.04em;" data-vesting-balance class="gradient-text">—</div>
+            <div style="font-size:0.875rem;color:var(--text-2);margin-top:0.25rem;">SIKKA locked in the <a href="https://etherscan.io/address/0xe4a5F67529D40ACFf666303Dd0b6f72A734198B3" target="_blank" rel="noopener" style="color:var(--cyan);">vesting contract</a> (live) — releases 1 SIKKA every 4 seconds, cannot be withdrawn all at once.</div>
+          </div>
+
           <div class="card">
             <div style="font-size:0.875rem;color:var(--text-2);line-height:1.65;">The genesis transaction issued 19,960,907 SIKKA to operators and minters. There are no block rewards or premine. Validators earn a deterministic 1.5%/year inflation, compounded with 128-bit fixed-point math and shared bond-weighted across the active set — no floating-point divergence between CPUs. The number 19,960,907 references the date of a significant cryptographic event — a nod to the math behind post-quantum security.</div>
           </div>
@@ -588,6 +594,7 @@
 <script src="js/dag.js"></script>
 <script src="js/live-network-3d.js"></script>
 <script src="js/main.js"></script>
+<script src="js/vesting.js"></script>
 
 <script>
   /* Nav scroll glass */
