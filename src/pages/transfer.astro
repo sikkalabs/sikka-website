@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Bridge SIKKA — Ethereum to the Sikka Chain";
+const description = "Bridge SIKKA from Ethereum to the Sikka chain — burn your SIKKA token, name your Sikka address, and receive native SIKKA 1:1 from escrow.";
+const path = "/transfer.html";
+const jsonLd = undefined;
+
+---
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="transfer">
+
+<section class="page-hero" style="padding-bottom: 2rem;">
+  <div class="container" style="max-width: 680px;">
+    <div class="hero-badge reveal" style="margin-bottom: 1rem;">
+      <span class="dot"></span>
+      Ethereum <i class="fa-solid fa-arrow-right" style="font-size:0.75rem;margin:0 2px;"></i> Sikka Chain
+    </div>
+    <h1 style="font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: 0.75rem;">Bridge <span class="gradient-text">SIKKA</span></h1>
+    <p style="font-size: 1.05rem; color: var(--text-2);">Burn your SIKKA token on Ethereum to receive native SIKKA 1:1 on the Sikka mainnet.</p>
+  </div>
+</section>
+
+
+<section class="section" style="padding-top: 1rem;">
+  <div class="container" style="max-width: 560px;">
+    
+    <div class="bridge-card reveal" style="box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+      
+      
+      <div class="network-warn" id="network-warn">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>Wrong network. <a href="#" id="switch-net">Switch to Ethereum Mainnet</a></div>
+      </div>
+
+      
+      <div class="bridge-balance" id="balance-row" style="display:none; margin-bottom: 1.25rem;">
+        <span class="k"><i class="fa-solid fa-wallet"></i> SIKKA Balance</span>
+        <span class="v"><span id="balance-val">0</span> <span class="sym">SIKKA</span></span>
+      </div>
+
+      
+      <div class="bridge-field">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+          <label for="amount-input" style="margin:0;">Amount to Burn</label>
+          <button type="button" class="bridge-max" id="btn-max">Use Max</button>
+        </div>
+        <div style="position:relative;">
+          <input type="text" id="amount-input" class="bridge-input" placeholder="0.0" inputmode="decimal" autocomplete="off" style="font-size:1.15rem; padding-right: 80px;"/>
+          <span style="position:absolute; right:16px; top:50%; transform:translateY(-50%); font-weight:700; font-size:0.85rem; color:var(--text-2); pointer-events:none;">SIKKA</span>
+        </div>
+        <div id="receive-preview" class="bridge-hint text-blue" style="display:none; font-weight:600; margin-top:0.4rem;"></div>
+      </div>
+
+      
+      <div style="display:flex; align-items:center; justify-content:center; margin: 1rem 0; gap: 0.75rem;">
+        <div style="height:1px; flex:1; background:var(--border);"></div>
+        <span class="tag" style="font-size:0.72rem; padding: 4px 12px; background:var(--surface);">
+          ERC-20 <i class="fa-solid fa-arrow-right" style="margin: 0 4px; color:var(--cyan);"></i> Native 1:1
+        </span>
+        <div style="height:1px; flex:1; background:var(--border);"></div>
+      </div>
+
+      
+      <div class="bridge-field">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+          <label for="sikka-input" style="margin:0;">Sikka Destination Address</label>
+          <span id="sikka-counter" class="tag" style="font-size:0.7rem; font-family:monospace; padding:2px 8px;">0 / 64 hex</span>
+        </div>
+        <input type="text" id="sikka-input" class="bridge-input" placeholder="0x… (64 hex characters)" autocomplete="off" spellcheck="false" style="font-size:0.85rem; font-family:'ui-monospace', monospace;"/>
+        <div id="sikka-validation" class="bridge-hint">
+          Enter your 64 hex character (32-byte) Sikka address from the <a href="https://1.sikkalabs.com" target="_blank" style="color:var(--blue-2);font-weight:600;">web wallet</a>.
+        </div>
+      </div>
+
+      
+      <button class="btn btn-primary btn-lg" id="btn-connect" style="width:100%; justify-content:center; margin-top:0.5rem;">
+        <i class="fa-solid fa-wallet"></i> Connect Wallet
+      </button>
+      <button class="btn btn-primary btn-lg" id="btn-bridge" style="width:100%; justify-content:center; display:none; margin-top:0.5rem;" disabled>
+        Enter SIKKA Amount
+      </button>
+
+      
+      <div class="bridge-status" id="status"></div>
+    </div>
+
+    
+    <div class="card reveal reveal-delay-1" style="margin-top:1.5rem; padding: 1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; background:var(--bg-2);">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <i class="fa-solid fa-file-contract" style="color:var(--cyan);"></i>
+        <div style="min-width:0;">
+          <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; font-weight:700;">Token Contract</div>
+          <div class="mono" id="contract-addr" style="font-size:0.78rem; color:var(--text-2); overflow:hidden; text-overflow:ellipsis;">0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-shrink:0;">
+        <button class="btn btn-ghost btn-sm copy-btn" onclick="copyContract(this,'contract-addr')"><i class="fa-regular fa-copy"></i> Copy</button>
+        <a href="https://matcha.xyz/tokens/ethereum/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81?sellChain=1&sellAddress=0xdac17f958d2ee523a2206206994597c13d831ec7" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-solid fa-mug-hot"></i> Trade</a>
+        <a href="https://etherscan.io/token/0xbab5a2cc8c9eb4042eeae289b26b66166cf04a81" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-brands fa-ethereum"></i> Etherscan</a>
+      </div>
+    </div>
+
+    
+    <div class="card reveal reveal-delay-1" style="margin-top:0.75rem; padding: 1rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; background:var(--bg-2);">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <i class="fa-solid fa-vault" style="color:var(--purple-2);"></i>
+        <div style="min-width:0;">
+          <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; font-weight:700;">SIKKA Vesting Contract</div>
+          <div class="mono" id="vesting-addr" style="font-size:0.78rem; color:var(--text-2); overflow:hidden; text-overflow:ellipsis;">0xe4a5F67529D40ACFf666303Dd0b6f72A734198B3</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-shrink:0;">
+        <button class="btn btn-ghost btn-sm copy-btn" onclick="copyContract(this,'vesting-addr')"><i class="fa-regular fa-copy"></i> Copy</button>
+        <a href="https://etherscan.io/address/0xe4a5F67529D40ACFf666303Dd0b6f72A734198B3" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="text-decoration:none;"><i class="fa-brands fa-ethereum"></i> Etherscan</a>
+      </div>
+    </div>
+
+    
+    <div class="card reveal reveal-delay-1" style="margin-top:0.75rem; padding: 1.25rem; background:linear-gradient(135deg, rgba(139,92,246,0.10), rgba(59,130,246,0.05)); border-color:rgba(139,92,246,0.25); text-align:center;">
+      <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.4rem;"><i class="fa-solid fa-vault" style="color:var(--purple-2);"></i> Locked in vesting right now</div>
+      <div style="font-size:2rem; font-weight:900; letter-spacing:-0.04em;" data-vesting-balance class="gradient-text">—</div>
+      <div style="font-size:0.8rem; color:var(--text-2); margin-top:0.4rem;">Releases 1 SIKKA every 4 seconds to the beneficiary. By design it cannot be withdrawn all at once.</div>
+    </div>
+
+    
+    <div class="card reveal reveal-delay-1" style="margin-top:0.75rem; padding: 1.25rem; background:var(--bg-2);">
+      <div style="font-size:0.7rem; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">SIKKA on Ethereum</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; text-align:center;">
+        <div>
+          <div style="font-size:0.68rem; color:var(--text-3); text-transform:uppercase; margin-bottom:0.4rem;">Vesting balance</div>
+          <div style="font-weight:800; color:var(--cyan); font-size:0.95rem;" data-vesting-balance>—</div>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; color:var(--text-3); text-transform:uppercase; margin-bottom:0.4rem;">Release rate</div>
+          <div style="font-weight:800; color:var(--text); font-size:0.95rem;">1 SIKKA / 4 sec</div>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; color:var(--text-3); text-transform:uppercase; margin-bottom:0.4rem;">Released so far</div>
+          <div style="font-weight:800; color:var(--green); font-size:0.95rem;" data-vesting-released>—</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <Fragment slot="head">
+    <script is:inline src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  </Fragment>
+  <script>import '../scripts/main.js';</script>
+  <script>import '../scripts/vesting.js';</script>
+  <script>import '../scripts/transfer.js';</script>
+</BaseLayout>

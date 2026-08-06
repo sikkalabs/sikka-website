@@ -1,67 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Run a SIKKA node — 17 MB static binary, one Docker command, zero configuration. Full wallet, explorer, and node."/>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:site_name" content="SIKKA"/>
-  <meta property="og:title" content="Run a Node — SIKKA"/>
-  <meta property="og:description" content="One Docker command. Zero configuration. A full node, wallet, and explorer in a 17 MB static binary. Online in seconds."/>
-  <meta property="og:url" content="https://sikkalabs.com/run-node.html"/>
-  <meta property="og:image" content="https://sikkalabs.com/og.jpg"/>
-  <meta property="og:image:width" content="1376"/>
-  <meta property="og:image:height" content="752"/>
-  <meta property="og:image:alt" content="Run a SIKKA Node"/>
+const title = "Run a Node — SIKKA";
+const description = "Run a SIKKA node — 17 MB static binary, one Docker command, zero configuration. Full wallet, explorer, and node.";
+const path = "/run-node.html";
+const jsonLd = undefined;
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:site" content="@sikkalabs"/>
-  <meta name="twitter:title" content="Run a Node — SIKKA"/>
-  <meta name="twitter:description" content="One Docker command. Zero config. Full node, wallet, and explorer in 17 MB."/>
-  <meta name="twitter:image" content="https://sikkalabs.com/og.jpg"/>
+---
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="run-node">
 
-  <title>Run a Node — SIKKA</title>
-  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
-</head>
-<body>
-
-<!-- NAV -->
-<nav class="nav" id="main-nav">
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="features.html">Features</a></li>
-    <li><a href="run-node.html" class="active">Run a Node</a></li>
-    <li><a href="developers.html">Developers</a></li>
-    <li><a href="transfer.html">Bridge</a></li>
-  </ul>
-
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="nav-mobile" id="nav-mobile">
-  <a href="features.html">Features</a>
-  <a href="run-node.html">Run a Node</a>
-  <a href="developers.html">Developers</a>
-  <a href="transfer.html">Bridge</a>
-</div>
-
-<!-- PAGE HERO -->
 <section class="page-hero">
   <div class="container">
     <span class="label">Self-Sovereign Infrastructure</span>
     <h1>Run a <span class="gradient-text">SIKKA</span> Node</h1>
     <p>A single static binary. No dependencies. No configuration. Full node, wallet, and explorer — online in seconds.</p>
 
-    <!-- Stats strip -->
+    
     <div class="stats-strip" style="margin-top:3rem;">
       <div class="stat-item">
         <div class="stat-item-value">~17 MB</div>
@@ -83,9 +37,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     DOCKER COMMAND
-═══════════════════════════════════════════════════ -->
+
 <section class="section">
   <div class="container" style="max-width:860px;">
     <div class="section-header reveal">
@@ -129,9 +81,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     WHAT'S INCLUDED
-═══════════════════════════════════════════════════ -->
+
 <section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <div class="section-header reveal">
@@ -175,9 +125,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     3-STEP SETUP
-═══════════════════════════════════════════════════ -->
+
 <section class="section">
   <div class="container" style="max-width:760px;">
     <div class="section-header reveal">
@@ -223,9 +171,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     COMMUNITY CTA
-═══════════════════════════════════════════════════ -->
+
 <section class="cta-section" style="background:var(--bg-1);border-top:1px solid var(--border);">
   <div class="container">
     <div class="reveal">
@@ -266,51 +212,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <p>Digital currency for humans, AI agents, and machines.</p>
-      </div>
-      <div class="footer-col"><h4>Protocol</h4><ul>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="index.html#architecture">Architecture</a></li>
-        <li><a href="run-node.html">Run a Node</a></li>
-        <li><a href="developers.html">Developers</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Resources</h4><ul>
-        <li><a href="https://1.sikkalabs.com" target="_blank">Web Wallet</a></li>
-        <li><a href="transfer.html">Bridge SIKKA</a></li>
-        <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Community</h4><ul>
-        <li><a href="https://t.me/sikkalabs" target="_blank">Telegram</a></li>
-        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
-      </ul></div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2025 SIKKA Labs. 1.5%/year inflation. No premine.</span>
-      <div class="footer-social">
-        <a href="https://t.me/sikkalabs" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
-        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-      </div>
-    </div>
-  </div>
-</footer>
 
-<script src="js/main.js"></script>
-<script>
-  const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
-  const ham = document.getElementById('hamburger');
-  const mob = document.getElementById('nav-mobile');
-  ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+  <script>import '../scripts/main.js';</script>
+</BaseLayout>

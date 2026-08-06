@@ -1,60 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="SIKKA features — Zero fees, no transaction history, ML-DSA-87 post-quantum cryptography, native multisig, credit-based spam control."/>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:site_name" content="SIKKA"/>
-  <meta property="og:title" content="Features — SIKKA"/>
-  <meta property="og:description" content="Zero fees forever. No transaction history. ML-DSA-87 post-quantum cryptography. Native multisig. Spend-credit spam control."/>
-  <meta property="og:url" content="https://sikkalabs.com/features.html"/>
-  <meta property="og:image" content="https://sikkalabs.com/og.jpg"/>
-  <meta property="og:image:width" content="1376"/>
-  <meta property="og:image:height" content="752"/>
-  <meta property="og:image:alt" content="SIKKA Features"/>
+const title = "Features — SIKKA";
+const description = "SIKKA features — Zero fees, no transaction history, ML-DSA-87 post-quantum cryptography, native multisig, credit-based spam control.";
+const path = "/features.html";
+const jsonLd = undefined;
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:site" content="@sikkalabs"/>
-  <meta name="twitter:title" content="Features — SIKKA"/>
-  <meta name="twitter:description" content="Zero fees forever. No transaction history. ML-DSA-87 post-quantum. Native multisig."/>
-  <meta name="twitter:image" content="https://sikkalabs.com/og.jpg"/>
+---
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="features">
 
-  <title>Features — SIKKA</title>
-  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
-</head>
-<body>
-
-<!-- NAV -->
-<nav class="nav" id="main-nav">
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="features.html" class="active">Features</a></li>
-    <li><a href="run-node.html">Run a Node</a></li>
-    <li><a href="developers.html">Developers</a></li>
-    <li><a href="transfer.html">Bridge</a></li>
-  </ul>
-
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="nav-mobile" id="nav-mobile">
-  <a href="features.html">Features</a>
-  <a href="run-node.html">Run a Node</a>
-  <a href="developers.html">Developers</a>
-  <a href="transfer.html">Bridge</a>
-</div>
-
-<!-- PAGE HERO -->
 <section class="page-hero">
   <div class="container">
     <span class="label">Protocol Features</span>
@@ -63,14 +17,12 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     CORE FEATURES BENTO
-═══════════════════════════════════════════════════ -->
+
 <section class="section">
   <div class="container">
     <div class="bento">
 
-      <!-- Zero Fees — wide -->
+      
       <div class="bento-card bento-6 reveal">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
           <div class="bento-icon"><i class="fa-solid fa-bolt"></i></div>
@@ -84,7 +36,7 @@
         </div>
       </div>
 
-      <!-- No History / Private by Default -->
+      
       <div class="bento-card bento-6 reveal reveal-delay-1">
         <div class="bento-icon purple"><i class="fa-solid fa-user-secret"></i></div>
         <div class="bento-title">No Transaction History</div>
@@ -101,21 +53,21 @@
         </div>
       </div>
 
-      <!-- Checkpoint Consensus -->
+      
       <div class="bento-card bento-4 reveal">
         <div class="bento-icon cyan"><i class="fa-solid fa-circle-check"></i></div>
         <div class="bento-title">Checkpoint Consensus</div>
         <div class="bento-desc">Round-robin proposers batch transactions into a checkpoint. Validators vote and a checkpoint finalizes once ≥2/3 of the bonded stake agrees.</div>
       </div>
 
-      <!-- Exact Balance -->
+      
       <div class="bento-card bento-4 reveal reveal-delay-1">
         <div class="bento-icon green"><i class="fa-solid fa-scale-balanced"></i></div>
         <div class="bento-title">Atomic Account Balances</div>
         <div class="bento-desc">Transfers debit the sender and credit the recipient atomically in CHILLAR integer arithmetic. No gas, no change outputs, no rounding — the recipient gets exactly what you send.</div>
       </div>
 
-      <!-- Pure-Rust Storage / Account Based -->
+      
       <div class="bento-card bento-4 reveal reveal-delay-2">
         <div class="bento-icon"><i class="fa-solid fa-database"></i></div>
         <div class="bento-title">Account-Based, Pure-Rust</div>
@@ -126,9 +78,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     PROOF OF WORK SECTION
-═══════════════════════════════════════════════════ -->
+
 <section class="section" style="background:var(--bg-1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <div class="section-header reveal">
@@ -182,9 +132,7 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════
-     CRYPTOGRAPHY & SECURITY BENTO
-═══════════════════════════════════════════════════ -->
+
 <section class="section">
   <div class="container">
     <div class="section-header reveal">
@@ -195,7 +143,7 @@
 
     <div class="bento">
 
-      <!-- ML-DSA-87 large card -->
+      
       <div class="bento-card bento-8 reveal" style="background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.06));border-color:rgba(59,130,246,0.25);">
         <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
           <div>
@@ -226,7 +174,7 @@
         </div>
       </div>
 
-      <!-- Crypto pie chart -->
+      
       <div class="bento-card bento-4 reveal reveal-delay-1">
         <div class="bento-icon yellow"><i class="fa-solid fa-key"></i></div>
         <div class="bento-title">Cryptography Stack</div>
@@ -239,7 +187,7 @@
         </div>
       </div>
 
-      <!-- Multisig -->
+      
       <div class="bento-card bento-4 reveal reveal-delay-1">
         <div class="bento-icon purple"><i class="fa-solid fa-users"></i></div>
         <div class="bento-title">Native Multisig</div>
@@ -250,7 +198,7 @@
         </div>
       </div>
 
-      <!-- HTTP Federation -->
+      
       <div class="bento-card bento-4 reveal reveal-delay-2">
         <div class="bento-icon green"><i class="fa-solid fa-globe"></i></div>
         <div class="bento-title">HTTP Federation</div>
@@ -262,7 +210,7 @@
   </div>
 </section>
 
-<!-- CTA -->
+
 <section class="cta-section">
   <div class="container">
     <div class="reveal">
@@ -277,53 +225,9 @@
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <p>Digital currency for humans, AI agents, and machines.</p>
-      </div>
-      <div class="footer-col"><h4>Protocol</h4><ul>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="index.html#architecture">Architecture</a></li>
-        <li><a href="run-node.html">Run a Node</a></li>
-        <li><a href="developers.html">Developers</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Resources</h4><ul>
-        <li><a href="https://1.sikkalabs.com" target="_blank">Web Wallet</a></li>
-        <li><a href="transfer.html">Bridge SIKKA</a></li>
-        <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Community</h4><ul>
-        <li><a href="https://t.me/sikkalabs" target="_blank">Telegram</a></li>
-        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
-      </ul></div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2025 SIKKA Labs. 1.5%/year inflation. No premine.</span>
-      <div class="footer-social">
-        <a href="https://t.me/sikkalabs" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
-        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/main.js"></script>
-<script>
-  const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
-  const ham = document.getElementById('hamburger');
-  const mob = document.getElementById('nav-mobile');
-  ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+  <Fragment slot="head">
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/4.4.0/chart.umd.min.js"></script>
+  </Fragment>
+  <script>import '../scripts/charts.js';</script>
+  <script>import '../scripts/main.js';</script>
+</BaseLayout>

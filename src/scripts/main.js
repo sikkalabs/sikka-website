@@ -192,6 +192,9 @@ function copyDocker() {
   }, 2000);
 }
 
+// Exposed for inline onclick="copyDocker()" in run-node.html wiring.
+window.copyDocker = copyDocker;
+
 document.addEventListener("DOMContentLoaded", () => {
   initFeatureTickers();
 });

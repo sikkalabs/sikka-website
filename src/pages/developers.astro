@@ -1,60 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="SIKKA developer guide — build with SIKKA in minutes. One HTTP JSON-RPC endpoint, ML-DSA-87 post-quantum wallets, zero-fee transfers. Copy, paste, run."/>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:site_name" content="SIKKA"/>
-  <meta property="og:title" content="Developer Guide — SIKKA"/>
-  <meta property="og:description" content="Build on SIKKA in minutes. One HTTP JSON-RPC endpoint, ML-DSA-87 keys, and zero-fee transfers. Copy, paste, run."/>
-  <meta property="og:url" content="https://sikkalabs.com/developers.html"/>
-  <meta property="og:image" content="https://sikkalabs.com/og.jpg"/>
-  <meta property="og:image:width" content="1376"/>
-  <meta property="og:image:height" content="752"/>
-  <meta property="og:image:alt" content="SIKKA Developer Guide"/>
+const title = "Developer Guide — SIKKA";
+const description = "SIKKA developer guide — build with SIKKA in minutes. One HTTP JSON-RPC endpoint, ML-DSA-87 post-quantum wallets, zero-fee transfers. Copy, paste, run.";
+const path = "/developers.html";
+const jsonLd = undefined;
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:site" content="@sikkalabs"/>
-  <meta name="twitter:title" content="SIKKA — Developer Guide"/>
-  <meta name="twitter:description" content="Build on SIKKA in minutes. One JSON-RPC endpoint, ML-DSA-87 keys, zero-fee transfers."/>
-  <meta name="twitter:image" content="https://sikkalabs.com/og.jpg"/>
+---
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="developers">
 
-  <title>Developer Guide — SIKKA</title>
-  <link rel="icon" href="sikka.svg" type="image/svg+xml"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
-</head>
-<body>
-
-<!-- NAV -->
-<nav class="nav" id="main-nav">
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="features.html">Features</a></li>
-    <li><a href="run-node.html">Run a Node</a></li>
-    <li><a href="developers.html" class="active">Developers</a></li>
-    <li><a href="transfer.html">Bridge</a></li>
-  </ul>
-
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="nav-mobile" id="nav-mobile">
-  <a href="features.html">Features</a>
-  <a href="run-node.html">Run a Node</a>
-  <a href="developers.html">Developers</a>
-  <a href="transfer.html">Bridge</a>
-</div>
-
-<!-- PAGE HERO -->
 <section class="page-hero">
   <div class="container">
     <span class="label">Developer Guide</span>
@@ -72,7 +26,7 @@
 <div class="container" style="padding-top:clamp(3rem,6vw,5rem);padding-bottom:4rem;">
   <div class="dev-layout">
 
-    <!-- Sidebar -->
+    
     <aside class="dev-sidebar" id="dev-sidebar">
       <h4>On this page</h4>
       <a href="#overview">Overview</a>
@@ -83,10 +37,10 @@
       <a href="#demo">5 · Try it live</a>
     </aside>
 
-    <!-- Body -->
+    
     <div class="dev-body">
 
-      <!-- OVERVIEW -->
+      
       <section class="doc" id="overview">
         <h2><span class="step-badge"><i class="fa-solid fa-book-open"></i></span> Overview</h2>
         <p class="lead">
@@ -105,7 +59,7 @@
 
       <hr class="divider"/>
 
-      <!-- STEP 1: CONNECT -->
+      
       <section class="doc" id="connect">
         <h2><span class="step-badge">1</span> Connect to a node</h2>
         <p class="lead">
@@ -123,12 +77,12 @@
             <pre id="curl-connect"><span class="cmt"># One call to see the whole network — height, supply, validators</span>
 <span class="kw">curl</span> -s https://1.sikkalabs.com/api/rpc \
   -H <span class="str">'content-type: application/json'</span> \
-  -d <span class="str">'{
+  -d <span class="str">'&#123;
     "jsonrpc":"2.0",
     "id":1,
     "method":"chain.info",
     "params":null
-  }'</span></pre>
+  &#125;'</span></pre>
           </div>
         </div>
 
@@ -150,7 +104,7 @@
 
       <hr class="divider"/>
 
-      <!-- STEP 2: ACCOUNT -->
+      
       <section class="doc" id="account">
         <h2><span class="step-badge">2</span> Look up an account</h2>
         <p class="lead">
@@ -168,12 +122,12 @@
           <div class="terminal-body">
             <pre id="curl-account"><span class="kw">curl</span> -s https://1.sikkalabs.com/api/rpc \
   -H <span class="str">'content-type: application/json'</span> \
-  -d <span class="str">'{
+  -d <span class="str">'&#123;
     "jsonrpc":"2.0",
     "id":1,
     "method":"account.get",
-    "params":{ "address":"0x…" }
-  }'</span></pre>
+    "params":&#123; "address":"0x…" &#125;
+  &#125;'</span></pre>
           </div>
         </div>
 
@@ -211,26 +165,26 @@
             <button class="copy-btn" ><i class="fa-regular fa-copy"></i> Copy</button>
           </div>
           <div class="terminal-body">
-            <pre id="js-proof"><span class="kw">const</span> proof = <span class="kw">await</span> rpc(<span class="str">"account.proof"</span>, { address })
+            <pre id="js-proof"><span class="kw">const</span> proof = <span class="kw">await</span> rpc(<span class="str">"account.proof"</span>, &#123; address &#125;)
 <span class="cmt">// The checkpoint header is flattened onto checkpoints, so state_root</span>
 <span class="cmt">// lives on the checkpoint itself — not checkpoint.header.</span>
 <span class="kw">const</span> height = proof.checkpoint?.height
 <span class="kw">const</span> root    = String(proof.state_root || <span class="str">""</span>).toLowerCase()
 <span class="kw">const</span> committed = String(proof.checkpoint?.state_root || <span class="str">""</span>).toLowerCase()
 
-<span class="kw">if</span> (!root || !committed || root !== committed) {
+<span class="kw">if</span> (!root || !committed || root !== committed) &#123;
   <span class="kw">throw</span> <span class="kw">new</span> <span class="num">Error</span>(<span class="str">"state_root does not match the checkpoint"</span>)
-}
+&#125;
 <span class="kw">const</span> status = proof.account != <span class="num">null</span>
-  ? <span class="str">`included · height ${height}`</span>
-  : <span class="str">`absent · height ${height}`</span></pre>
+  ? <span class="str">`included · height $&#123;height&#125;`</span>
+  : <span class="str">`absent · height $&#123;height&#125;`</span></pre>
           </div>
         </div>
       </section>
 
       <hr class="divider"/>
 
-      <!-- STEP 3: WALLET -->
+      
       <section class="doc" id="wallet">
         <h2><span class="step-badge">3</span> Create a wallet</h2>
         <p class="lead">
@@ -246,18 +200,18 @@
             <button class="copy-btn" ><i class="fa-regular fa-copy"></i> Copy</button>
           </div>
           <div class="terminal-body">
-            <pre id="wallet-js"><span class="kw">import</span> { ml_dsa87 } from <span class="str">"https://esm.sh/@noble/post-quantum@0.6.1/ml-dsa.js"</span>
-<span class="kw">import</span> { sha3_256 } from <span class="str">"https://esm.sh/@noble/hashes@2.2.0/sha3.js"</span>
-<span class="kw">import</span> { randomBytes } from <span class="str">"https://esm.sh/@noble/post-quantum@0.6.1/utils.js"</span>
+            <pre id="wallet-js"><span class="kw">import</span> &#123; ml_dsa87 &#125; from <span class="str">"https://esm.sh/@noble/post-quantum@0.6.1/ml-dsa.js"</span>
+<span class="kw">import</span> &#123; sha3_256 &#125; from <span class="str">"https://esm.sh/@noble/hashes@2.2.0/sha3.js"</span>
+<span class="kw">import</span> &#123; randomBytes &#125; from <span class="str">"https://esm.sh/@noble/post-quantum@0.6.1/utils.js"</span>
 
 <span class="cmt">// 1. seed → keypair (secret 4896 B · public 2592 B)</span>
-<span class="kw">const</span> { secretKey, publicKey } = ml_dsa87.keygen(randomBytes(32))
+<span class="kw">const</span> &#123; secretKey, publicKey &#125; = ml_dsa87.keygen(randomBytes(32))
 
 <span class="cmt">// 2. Address = sha3-256(publicKey) as 0x-hex, 32 bytes</span>
 <span class="kw">const</span> hex = (b) => Array.from(b, x => x.toString(16).padStart(2, <span class="str">"0"</span>)).join(<span class="str">""</span>)
 <span class="kw">const</span> address = <span class="str">"0x"</span> + hex(sha3_256(publicKey))
 
-<span class="kw">console</span>.log({ address, scheme: <span class="str">"ML-DSA-87"</span> })</pre>
+<span class="kw">console</span>.log(&#123; address, scheme: <span class="str">"ML-DSA-87"</span> &#125;)</pre>
           </div>
         </div>
 
@@ -273,7 +227,7 @@
 
       <hr class="divider"/>
 
-      <!-- STEP 4: SEND -->
+      
       <section class="doc" id="send">
         <h2><span class="step-badge">4</span> Sign &amp; send</h2>
         <p class="lead">
@@ -307,15 +261,15 @@
   u64le(nonce), u64le(now),
   publicKey,
 )
-<span class="kw">const</span> signature = ml_dsa87.sign(msg, secretKey, { context: SIGNING_CONTEXT })
+<span class="kw">const</span> signature = ml_dsa87.sign(msg, secretKey, &#123; context: SIGNING_CONTEXT &#125;)
 
-<span class="kw">const</span> tx = {
+<span class="kw">const</span> tx = &#123;
   <span class="str">kind</span>: <span class="str">"transfer"</span>,
   <span class="str">from</span>: myAddress, <span class="str">to</span>: toAddr,
   <span class="str">amount</span>: amount, <span class="str">nonce</span>, <span class="str">chain_id</span>: chainId,
   <span class="str">public_key</span>: <span class="str">"0x"</span> + toHex(publicKey),
   <span class="str">signature</span>: toHex(signature),
-}</pre>
+&#125;</pre>
           </div>
         </div>
 
@@ -328,18 +282,18 @@
           <div class="terminal-body">
             <pre id="curl-tx"><span class="kw">curl</span> -s https://1.sikkalabs.com/api/rpc \
   -H <span class="str">'content-type: application/json'</span> \
-  -d <span class="str">'{
+  -d <span class="str">'&#123;
     "jsonrpc":"2.0","id":1,"method":"tx.submit",
-    "params":{ "transaction": { …signedTx } }
-  }'</span>
-<span class="cmt"># → { "result": { "accepted": true, "id": "…" } }</span></pre>
+    "params":&#123; "transaction": &#123; …signedTx &#125; &#125;
+  &#125;'</span>
+<span class="cmt"># → &#123; "result": &#123; "accepted": true, "id": "…" &#125; &#125;</span></pre>
           </div>
         </div>
       </section>
 
       <hr class="divider"/>
 
-      <!-- STEP 5: LIVE DEMO -->
+      
       <section class="doc" id="demo">
         <h2><span class="step-badge">5</span> Try it live</h2>
         <p class="lead">
@@ -367,91 +321,6 @@
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <p>Digital currency for humans, AI agents, and machines.</p>
-      </div>
-      <div class="footer-col"><h4>Protocol</h4><ul>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="index.html#architecture">Architecture</a></li>
-        <li><a href="run-node.html">Run a Node</a></li>
-        <li><a href="developers.html">Developers</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Resources</h4><ul>
-        <li><a href="https://1.sikkalabs.com" target="_blank">Web Wallet</a></li>
-        <li><a href="transfer.html">Bridge SIKKA</a></li>
-        <li><a href="https://github.com/sikkalabs" target="_blank">GitHub</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Community</h4><ul>
-        <li><a href="https://t.me/sikkalabs" target="_blank">Telegram</a></li>
-        <li><a href="https://x.com/sikkalabs" target="_blank">Twitter / X</a></li>
-      </ul></div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2025 SIKKA Labs. 1.5%/year inflation. No premine.</span>
-      <div class="footer-social">
-        <a href="https://t.me/sikkalabs" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
-        <a href="https://x.com/sikkalabs" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://github.com/sikkalabs" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-      </div>
-    </div>
-  </div>
-</footer>
 
-<script>
-  /* Nav scroll glass */
-  const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
-  const ham = document.getElementById('hamburger');
-  const mob = document.getElementById('nav-mobile');
-  ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
-
-  /* Copy to clipboard */
-  function flash(btn, okText) {
-    if (!btn) return;
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> ' + okText;
-    btn.style.color = '#22c55e';
-    setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1600);
-  }
-  function copyBlock(id, ev) {
-    if (!ev && window.event) ev = window.event;
-    const btn = ev && ev.currentTarget ? ev.currentTarget : null;
-    const text = (document.getElementById(id) || {}).textContent || '';
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => flash(btn, 'Copied')).catch(() => {});
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); flash(btn, 'Copied'); } catch (e) {}
-      document.body.removeChild(ta);
-    }
-  }
-
-  /* Sidebar active on scroll */
-  const links = document.querySelectorAll('#dev-sidebar a');
-  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
-      }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  sections.forEach(s => s && spy.observe(s));
-
-  /* Copy buttons pass the clicked element */
-  document.querySelectorAll('.copy-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      var block = this.closest('.terminal');
-      var pre = block ? block.querySelector('pre') : null;
-      var id = pre ? pre.id : null;
-      if (id) copyBlock(id, e);
-    });
-  });
-</script>
-</body>
-</html>
+  <script>import '../scripts/developers.js';</script>
+</BaseLayout>

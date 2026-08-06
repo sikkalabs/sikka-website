@@ -1,0 +1,16 @@
+{
+  "name": "sikka-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SIKKA — official website. Simple money for machines & humans.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.2.0"
+  }
+}

@@ -1,0 +1,58 @@
+---
+/**
+ * SEO — per-page head metadata.
+ * Every page passes its own title/description/image; the layout renders
+ * standard, Open Graph, and Twitter tags plus a canonical URL.
+ */
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute path of the page, e.g. "/features.html" */
+  path?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  /** JSON-LD structured data rendered as a <script type="application/ld+json"> */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  path = '/',
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = '/og.jpg',
+  ogImageAlt = 'SIKKA — Simple, Private, Zero-Fee Money',
+  jsonLd,
+} = Astro.props;
+
+const site = 'https://sikkalabs.com';
+const url = `${site}${path}`;
+const image = ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`;
+const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<meta name="description" content={description} />
+<link rel="canonical" href={url} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SIKKA" />
+<meta property="og:title" content={ogTitle} />
+<meta property="og:description" content={ogDescription} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1376" />
+<meta property="og:image:height" content="752" />
+<meta property="og:image:alt" content={ogImageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@sikkalabs" />
+<meta name="twitter:title" content={ogTitle} />
+<meta name="twitter:description" content={ogDescription} />
+<meta name="twitter:image" content={image} />
+
+{jsonLdBlocks.map((block) => (
+  <script type="application/ld+json" set:html={JSON.stringify(block)} />
+))}

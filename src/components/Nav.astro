@@ -1,0 +1,40 @@
+---
+interface Props {
+  /** Current page slug — matches the `key` of the active nav item */
+  active?: 'home' | 'features' | 'run-node' | 'developers' | 'transfer';
+}
+
+const { active } = Astro.props;
+
+const NAV_ITEMS = [
+  { key: 'home', label: 'Home', href: 'index.html' },
+  { key: 'features', label: 'Features', href: 'features.html' },
+  { key: 'run-node', label: 'Run a Node', href: 'run-node.html' },
+  { key: 'developers', label: 'Developers', href: 'developers.html' },
+  { key: 'transfer', label: 'Bridge', href: 'transfer.html' },
+] as const;
+
+const mobileItems = NAV_ITEMS.filter((item) => item.key !== 'home');
+---
+
+<nav class="nav" id="main-nav">
+  <ul class="nav-links">
+    {
+      NAV_ITEMS.map((item) => (
+        <li>
+          <a href={item.href} class:list={{ active: active === item.key }}>{item.label}</a>
+        </li>
+      ))
+    }
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  {
+    mobileItems.map((item) => (
+      <a href={item.href} class:list={{ active: active === item.key }}>{item.label}</a>
+    ))
+  }
+</div>
