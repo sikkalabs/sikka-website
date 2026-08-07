@@ -19,12 +19,52 @@ const jsonLd = {
   ],
 };
 
-const fmt = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-});
+const fmt = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 const date = (d: Date) => d.toISOString();
+
+// Reading time from raw markdown body (~200 wpm).
+const readTime = (post: { body?: string }) => {
+  const words = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+};
+
+// Category derived from a post's first tag, with color + icon to match the site language.
+const CATS: Record<string, { label: string; cls: string; icon: string }> = {
+  intro: { label: 'Intro', cls: 'cat-blue', icon: 'fa-solid fa-bolt' },
+  'zero-fee': { label: 'Zero Fees', cls: 'cat-yellow', icon: 'fa-solid fa-bolt' },
+  economics: { label: 'Economics', cls: 'cat-yellow', icon: 'fa-solid fa-chart-line' },
+  'spam-credits': { label: 'Spam Control', cls: 'cat-yellow', icon: 'fa-solid fa-gauge-high' },
+  privacy: { label: 'Privacy', cls: 'cat-green', icon: 'fa-solid fa-user-secret' },
+  design: { label: 'Design', cls: 'cat-green', icon: 'fa-solid fa-droplet' },
+  philosophy: { label: 'Philosophy', cls: 'cat-green', icon: 'fa-solid fa-droplet' },
+  multisig: { label: 'Multisig', cls: 'cat-green', icon: 'fa-solid fa-users-gear' },
+  daos: { label: 'DAOs', cls: 'cat-green', icon: 'fa-solid fa-landmark' },
+  'post-quantum': { label: 'Post-Quantum', cls: 'cat-purple', icon: 'fa-solid fa-lock' },
+  cryptography: { label: 'Cryptography', cls: 'cat-purple', icon: 'fa-solid fa-key' },
+  'ml-dsa': { label: 'ML-DSA', cls: 'cat-purple', icon: 'fa-solid fa-shield-halved' },
+  bitcoin: { label: 'Bitcoin', cls: 'cat-yellow', icon: 'fa-brands fa-bitcoin' },
+  consensus: { label: 'Consensus', cls: 'cat-blue', icon: 'fa-solid fa-scale-balanced' },
+  checkpoints: { label: 'Checkpoints', cls: 'cat-blue', icon: 'fa-solid fa-check-double' },
+  finality: { label: 'Finality', cls: 'cat-blue', icon: 'fa-solid fa-circle-check' },
+  validators: { label: 'Validators', cls: 'cat-blue', icon: 'fa-solid fa-users' },
+  stake: { label: 'Staking', cls: 'cat-cyan', icon: 'fa-solid fa-lines-leaning' },
+  determinism: { label: 'Determinism', cls: 'cat-cyan', icon: 'fa-solid fa-compass' },
+  internals: { label: 'Internals', cls: 'cat-cyan', icon: 'fa-solid fa-microchip' },
+  engineering: { label: 'Engineering', cls: 'cat-cyan', icon: 'fa-solid fa-code' },
+  explorers: { label: 'Explorers', cls: 'cat-cyan', icon: 'fa-solid fa-magnifying-glass' },
+};
+const DEFAULT_CAT = { label: 'SIKKA', cls: 'cat-blue', icon: 'fa-solid fa-circle' };
+const categorize = (tags: string[]) => CATS[tags[0] ?? ''] ?? DEFAULT_CAT;
+
+const withMeta = posts.map((post) => ({
+  post,
+  cat: categorize(post.data.tags),
+  minutes: readTime(post),
+}));
+
+const [featured, ...rest] = withMeta;
+const categories = [...new Set(withMeta.map((c) => c.cat.label))];
+const totalMinutes = withMeta.reduce((sum, c) => sum + c.minutes, 0);
 ---
 
 <BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="blog">
@@ -34,37 +74,88 @@ const date = (d: Date) => d.toISOString();
       <span class="label">The SIKKA Blog</span>
       <h1>News & <span class="gradient-text">Deep Dives</span></h1>
       <p>Post-quantum cryptography, zero-fee money, consensus, and everything we ship along the way.</p>
+
+      <div class="blog-stats">
+        <div class="blog-stat">
+          <div class="v gradient-text">{withMeta.length}</div>
+          <div class="l">Posts</div>
+        </div>
+        <div class="blog-stat">
+          <div class="v">{categories.length}</div>
+          <div class="l">Topics</div>
+        </div>
+        <div class="blog-stat">
+          <div class="v">{totalMinutes}</div>
+          <div class="l">Min of reading</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="section" style="padding-top:0;">
-    <div class="container" style="max-width:1000px;">
+    <div class="container" style="max-width:1080px;">
+
       {
-        posts.length > 0 ? (
-          <div class="posts-grid">
-            {posts.map((post) => (
-              <a class="post-card" href={`/blog/${post.id}.html`}>
-                <div class="post-meta">
-                  <time datetime={date(post.data.pubDate)}>{fmt.format(post.data.pubDate)}</time>
-                </div>
-                <div class="post-title">{post.data.title}</div>
-                <p class="post-desc">{post.data.description}</p>
-                <div class="post-footer">
-                  {post.data.tags.length > 0 && (
-                    <div class="post-tags">
-                      {post.data.tags.map((tag) => (
-                        <span class="tag tag-muted">{tag}</span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </a>
+        withMeta.length > 0 && (
+          <div class="blog-filters" role="group" aria-label="Filter posts by topic">
+            <button class="filter-chip active" data-filter="all">All</button>
+            {categories.map((label) => (
+              <button class="filter-chip" data-filter={label}>{label}</button>
             ))}
           </div>
-        ) : (
+        )
+      }
+
+      {
+        featured && (
+          <a class="post-featured reveal" href={`/blog/${featured.post.id}.html`} data-category={featured.cat.label}>
+            <div class="featured-content">
+              <span class="featured-kicker"><i class="fa-solid fa-star"></i> Latest</span>
+              <div class="post-card-top" style="margin-bottom:1.1rem;">
+                <span class="post-cat {featured.cat.cls}"><i class={featured.cat.icon}></i> {featured.cat.label}</span>
+                <span class="post-read"><i class="fa-regular fa-clock"></i> {featured.minutes} min read</span>
+              </div>
+              <h2 class="featured-title">{featured.post.data.title}</h2>
+              <p class="featured-desc">{featured.post.data.description}</p>
+              <span class="featured-cta">Read the post <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            <div class="featured-art" aria-hidden="true">
+              <i class={featured.cat.icon + ' art-icon'}></i>
+            </div>
+          </a>
+        )
+      }
+
+      <div class="posts-grid" style="margin-top:1.75rem;">
+        {rest.map(({ post, cat, minutes }, i) => (
+          <a class="post-card reveal reveal-delay-{1 + (i % 3)}" href={`/blog/${post.id}.html`} data-category={cat.label}>
+            <div class="post-card-top">
+              <span class="post-cat {cat.cls}"><i class={cat.icon}></i> {cat.label}</span>
+              <span class="post-read">{minutes} min</span>
+            </div>
+            <div class="post-card-body">
+              <h3 class="post-title">{post.data.title}</h3>
+              <p class="post-desc">{post.data.description}</p>
+            </div>
+            <div class="post-card-foot">
+              <time class="post-date" datetime={date(post.data.pubDate)}><i class="fa-regular fa-calendar"></i> {fmt.format(post.data.pubDate)}</time>
+              <span class="post-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {
+        withMeta.length === 0 && (
           <p style="text-align:center;color:var(--text-3);padding:4rem 0;">No posts yet. Check back soon.</p>
         )
       }
+
+      <p class="blog-no-results" id="blog-no-results" style="display:none;">
+        Nothing here yet — try another topic.
+      </p>
     </div>
   </section>
+
+  <script>import '../scripts/blog-filter.js';</script>
 </BaseLayout>
