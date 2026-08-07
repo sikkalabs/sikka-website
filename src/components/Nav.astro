@@ -14,11 +14,13 @@ const NAV_ITEMS = [
   { key: 'transfer', label: 'Bridge', href: 'transfer.html' },
   { key: 'blog', label: 'Blog', href: 'blog.html' },
 ] as const;
-
-const mobileItems = NAV_ITEMS.filter((item) => item.key !== 'home');
 ---
 
 <nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo" aria-label="SIKKA — home">
+    <img src="/sikka.svg" alt="SIKKA logo" width="32" height="32" />
+    <span>SIKKA</span>
+  </a>
   <ul class="nav-links">
     {
       NAV_ITEMS.map((item) => (
@@ -28,13 +30,19 @@ const mobileItems = NAV_ITEMS.filter((item) => item.key !== 'home');
       ))
     }
   </ul>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+  <button
+    class="nav-hamburger"
+    id="hamburger"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="nav-mobile"
+  >
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="nav-mobile" id="nav-mobile">
   {
-    mobileItems.map((item) => (
+    NAV_ITEMS.map((item) => (
       <a href={item.href} class:list={{ active: active === item.key }}>{item.label}</a>
     ))
   }

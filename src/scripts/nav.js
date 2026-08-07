@@ -11,6 +11,8 @@ if (ham && mob) {
     ham.classList.toggle('open', open);
     mob.classList.toggle('open', open);
     document.body.style.overflow = open ? 'hidden' : '';
+    ham.setAttribute('aria-expanded', String(open));
+    ham.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   };
 
   ham.addEventListener('click', () => setOpen(!mob.classList.contains('open')));
