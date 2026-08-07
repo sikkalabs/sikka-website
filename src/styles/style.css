@@ -1218,3 +1218,52 @@ footer {
 .changelog-item .cl-body { font-size: 0.95rem; color: var(--text-2); line-height: 1.7; }
 .changelog-item .cl-body ul { margin: 0.6rem 0 0.6rem 1.3rem; }
 .changelog-item .cl-body li { margin: 0.35rem 0; }
+
+/* 52. RESPONSIVE GRID UTILITIES */
+.rgrid { display: grid; }
+.rgrid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rgrid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media(max-width: 900px){ .rgrid-3 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media(max-width: 640px){ .rgrid-2, .rgrid-3 { grid-template-columns: minmax(0,1fr); } }
+
+/* 53. MOBILE UX POLISH */
+html { -webkit-tap-highlight-color: transparent; }
+body { overscroll-behavior-y: none; }
+.hero { min-height: 100vh; min-height: 100dvh; }
+h1, h2, h3, .post-title, .featured-title { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+@media(max-width: 480px){
+  .hero { padding: calc(64px + 2rem) 0 3rem; }
+  .hero-content { padding: 0 1rem; }
+  .hero-badge { margin-bottom: 1.5rem; }
+  .hero-actions, .hero-socials { gap: 0.6rem; }
+  .hero-actions .btn-lg, .hero-socials .btn-lg, .cta-actions .btn-lg { width: 100%; justify-content: center; }
+  .hero-socials { margin-top: 0.75rem; }
+  .section-header p { font-size: 0.95rem; }
+  .page-hero p { font-size: 1rem; }
+  .page-hero { padding-bottom: 3rem; }
+  .terminal-body { padding: 1rem; }
+  .terminal-body pre { font-size: 0.78rem; }
+  .bento-card { padding: 1.4rem; }
+  .result-row { flex-direction: column; }
+  .result-row .v { text-align: left; word-break: break-all; }
+  .blog-stat { padding: 0 0.9rem; }
+  .flow-step { padding: 1.1rem 0.9rem; }
+  .bridge-card { padding: 1.5rem; }
+  .bridge-stat-grid { grid-template-columns: 1fr; }
+  .usecase-card { padding: 1.5rem; }
+}
+
+@media(max-width: 640px){
+  .nav-logo { font-size: 1.05rem; }
+  .live-stat { padding: 1rem 1.1rem; }
+  .live-stat-value { font-size: 1.4rem; }
+  .finality-step { flex-wrap: wrap; row-gap: 0.5rem; }
+  .finality-step-label { min-width: 0; flex: 0 0 100%; }
+  .step { gap: 1rem; }
+  .stat-item { padding: 1.2rem; }
+  .stat-item-value { font-size: 1.5rem; }
+  .dash-value { font-size: 1.6rem; }
+  .posts-grid { grid-template-columns: 1fr; }
+}

@@ -96,7 +96,7 @@ const jsonLd = [
         <div class="bento-icon purple"><i class="fa-solid fa-user-secret"></i></div>
         <div class="bento-title">No Transaction History</div>
         <div class="bento-desc">SIKKA keeps balances, not a public ledger of every payment. Transactions are batched into checkpoints, consensus signs the state root, and the transactions are then discarded. Past payments are not reconstructable — private by default.</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.5rem;">
+        <div class="rgrid rgrid-2" style="gap:0.75rem;margin-top:0.5rem;">
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.75rem;text-align:center;">
             <div style="font-size:1.4rem;font-weight:800;color:var(--purple-2);">0</div>
             <div style="font-size:0.72rem;color:var(--text-3);">Public tx logs</div>
@@ -142,7 +142,7 @@ const jsonLd = [
       <p>No useless proof-of-work. Instead every account earns spend credits that regenerate over time — enough for daily use, too slow for abuse.</p>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;" class="reveal">
+    <div class="rgrid rgrid-2 reveal" style="gap:2rem;align-items:start;">
       <div>
         <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
           <table class="pow-table">
@@ -213,7 +213,7 @@ const jsonLd = [
             <div class="bento-desc">SIKKA uses Module-Lattice-Based Digital Signature Algorithm at the highest security level (87 = NIST Level 5). This is the strongest post-quantum signature standard published by NIST. There are no classical ECDSA or Ed25519 fallbacks — every signature in SIKKA is quantum-resistant by default.</div>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:1rem;">
+        <div class="rgrid rgrid-3" style="gap:0.75rem;margin-top:1rem;">
           <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
             <div style="font-size:1.1rem;font-weight:800;color:var(--blue-2);">Level 5</div>
             <div style="font-size:0.72rem;color:var(--text-3);">NIST Security</div>
