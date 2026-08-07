@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const title = 'Blog — SIKKA';
+const description =
+  'News and deep dives from SIKKA Labs — post-quantum cryptography, zero-fee money, consensus, and what we are building next.';
+const path = '/blog.html';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sikkalabs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://sikkalabs.com/blog.html' },
+  ],
+};
+
+const fmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+const date = (d: Date) => d.toISOString();
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="blog">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="label">The SIKKA Blog</span>
+      <h1>News & <span class="gradient-text">Deep Dives</span></h1>
+      <p>Post-quantum cryptography, zero-fee money, consensus, and everything we ship along the way.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container" style="max-width:1000px;">
+      {
+        posts.length > 0 ? (
+          <div class="posts-grid">
+            {posts.map((post) => (
+              <a class="post-card" href={`/blog/${post.id}.html`}>
+                <div class="post-meta">
+                  <time datetime={date(post.data.pubDate)}>{fmt.format(post.data.pubDate)}</time>
+                </div>
+                <div class="post-title">{post.data.title}</div>
+                <p class="post-desc">{post.data.description}</p>
+                <div class="post-footer">
+                  {post.data.tags.length > 0 && (
+                    <div class="post-tags">
+                      {post.data.tags.map((tag) => (
+                        <span class="tag tag-muted">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p style="text-align:center;color:var(--text-3);padding:4rem 0;">No posts yet. Check back soon.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

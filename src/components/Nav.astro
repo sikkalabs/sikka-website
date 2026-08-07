@@ -1,7 +1,7 @@
 ---
 interface Props {
   /** Current page slug — matches the `key` of the active nav item */
-  active?: 'home' | 'features' | 'run-node' | 'developers' | 'transfer';
+  active?: 'home' | 'features' | 'run-node' | 'developers' | 'transfer' | 'blog';
 }
 
 const { active } = Astro.props;
@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { key: 'run-node', label: 'Run a Node', href: 'run-node.html' },
   { key: 'developers', label: 'Developers', href: 'developers.html' },
   { key: 'transfer', label: 'Bridge', href: 'transfer.html' },
+  { key: 'blog', label: 'Blog', href: 'blog.html' },
 ] as const;
 
 const mobileItems = NAV_ITEMS.filter((item) => item.key !== 'home');

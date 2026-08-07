@@ -31,7 +31,35 @@ const {
 const site = 'https://sikkalabs.com';
 const url = `${site}${path}`;
 const image = ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`;
-const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const customBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+// Site-level structured data injected on every page so rich results always
+// carry our brand (logo + social profiles) regardless of page-specific blocks.
+const siteOrg = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${site}/#organization`,
+  name: 'SIKKA',
+  url: site,
+  description:
+    'Simple, private, zero-fee digital currency for humans, AI agents, and machines. Post-quantum ML-DSA-87. Live on mainnet.',
+  logo: `${site}/sikka.svg`,
+  sameAs: [
+    'https://github.com/sikkalabs',
+    'https://x.com/sikkalabs',
+    'https://t.me/sikkalabs',
+  ],
+};
+const siteWebSite = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site}/#website`,
+  name: 'SIKKA',
+  url: `${site}/`,
+  publisher: { '@id': `${site}/#organization` },
+};
+
+const jsonLdBlocks = [siteOrg, siteWebSite, ...customBlocks];
 ---
 
 <meta name="description" content={description} />

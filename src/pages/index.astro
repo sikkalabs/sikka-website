@@ -4,23 +4,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "SIKKA — Simple, Private, Zero-Fee Money";
 const description = "SIKKA — the simplest digital currency for humans, AI agents, and machines. Zero fees, no transaction history, private by default, post-quantum ML-DSA-87. Live on mainnet.";
 const path = "/";
-const jsonLd = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'SIKKA',
-    url: 'https://sikkalabs.com',
-    description: 'Simple, private, zero-fee digital currency for humans, AI agents, and machines. Post-quantum ML-DSA-87.',
-    logo: 'https://sikkalabs.com/sikka.svg',
-    sameAs: ['https://t.me/sikkalabs', 'https://x.com/sikkalabs', 'https://github.com/sikkalabs']
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'SIKKA',
-    url: 'https://sikkalabs.com/'
-  }
-];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': 'https://sikkalabs.com/#webpage',
+  url: 'https://sikkalabs.com/',
+  name: 'SIKKA — Simple, Private, Zero-Fee Money',
+  isPartOf: { '@id': 'https://sikkalabs.com/#website' },
+  about: { '@id': 'https://sikkalabs.com/#organization' },
+};
 
 ---
 <BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="home">
@@ -66,6 +58,42 @@ const jsonLd = [
     </div>
   </div>
 </section>
+
+
+<div class="live-stats-strip">
+  <div class="container">
+    <div class="live-stats-head">
+      <span class="label"><span class="live-dot" data-live-status></span> Live from the SIKKA mainnet</span>
+      <span class="live-stats-note">Polled from the mainnet node every 5s</span>
+    </div>
+    <div class="live-stats-grid">
+      <div class="live-stat" data-live-stat-card>
+        <div class="live-stat-label">Chain</div>
+        <div class="live-stat-value mono"><span data-live-stat="chain">—</span></div>
+      </div>
+      <div class="live-stat" data-live-stat-card>
+        <div class="live-stat-label">Checkpoint Height</div>
+        <div class="live-stat-value"><span data-live-stat="height">—</span></div>
+      </div>
+      <div class="live-stat" data-live-stat-card>
+        <div class="live-stat-label">Connected Peers</div>
+        <div class="live-stat-value"><span data-live-stat="peers">—</span></div>
+      </div>
+      <div class="live-stat" data-live-stat-card>
+        <div class="live-stat-label">Pending Mempool</div>
+        <div class="live-stat-value"><span data-live-stat="mempool">—</span></div>
+      </div>
+      <div class="live-stat" data-live-stat-card>
+        <div class="live-stat-label">Total Stake</div>
+        <div class="live-stat-value"><span data-live-stat="total_stake">—</span><div class="live-stat-sub">bonded CHILLAR</div></div>
+      </div>
+      <div class="live-stat" data-live-stat-card>
+        <div class="live-stat-label">Delegators</div>
+        <div class="live-stat-value"><span data-live-stat="delegators">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <div class="marquee-section">
@@ -491,6 +519,7 @@ const jsonLd = [
   </Fragment>
   <script>import '../scripts/charts.js';</script>
   <script>import '../scripts/dag.js';</script>
+  <script>import '../scripts/network-stats.js';</script>
   <script>import '../scripts/live-network-3d.js';</script>
   <script>import '../scripts/main.js';</script>
   <script>import '../scripts/vesting.js';</script>

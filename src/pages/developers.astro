@@ -4,7 +4,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Developer Guide — SIKKA";
 const description = "SIKKA developer guide — build with SIKKA in minutes. One HTTP JSON-RPC endpoint, ML-DSA-87 post-quantum wallets, zero-fee transfers. Copy, paste, run.";
 const path = "/developers.html";
-const jsonLd = undefined;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sikkalabs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Developers', item: 'https://sikkalabs.com/developers.html' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareSourceCode',
+    name: 'SIKKA',
+    codeRepository: 'https://github.com/sikkalabs/sikka',
+    programmingLanguage: 'Rust',
+    codeSampleType: 'codeRepository',
+    url: 'https://github.com/sikkalabs/sikka',
+  },
+];
 
 ---
 <BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="developers">

@@ -4,7 +4,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Bridge SIKKA — Ethereum to the Sikka Chain";
 const description = "Bridge SIKKA from Ethereum to the Sikka chain — burn your SIKKA token, name your Sikka address, and receive native SIKKA 1:1 from escrow.";
 const path = "/transfer.html";
-const jsonLd = undefined;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sikkalabs.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Bridge', item: 'https://sikkalabs.com/transfer.html' },
+  ],
+};
 
 ---
 <BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="transfer">

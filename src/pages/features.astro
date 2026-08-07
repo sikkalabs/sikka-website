@@ -4,7 +4,62 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Features — SIKKA";
 const description = "SIKKA features — Zero fees, no transaction history, ML-DSA-87 post-quantum cryptography, native multisig, credit-based spam control.";
 const path = "/features.html";
-const jsonLd = undefined;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sikkalabs.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Features', item: 'https://sikkalabs.com/features.html' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Does SIKKA really have zero fees?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. When you send SIKKA the exact amount arrives in full — no gas fees, priority fees, miner tips, or protocol cuts. Zero is enforced by the protocol, not the market.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How is SIKKA private by default?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'SIKKA stores account balances, not a public ledger of every payment. Transactions are batched into checkpoints, consensus signs the state root, and the raw transactions are then discarded so past payments are not reconstructable.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What makes SIKKA post-quantum?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Every key and signature uses ML-DSA-87 (NIST FIPS 204, Level 5), the strongest NIST-standard post-quantum signature scheme. There are no classical ECDSA or Ed25519 fallbacks anywhere.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How does SIKKA stop spam without proof-of-work?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Each account earns one spend credit per minute (capped at 100) and burns one credit per transaction. Normal use stays free, while sustained spam becomes impossible.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does SIKKA support multisig?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Native m-of-n multisig at the protocol layer supports up to 16 co-signers building and signing a single transaction — no smart contracts required.',
+        },
+      },
+    ],
+  },
+];
 
 ---
 <BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} active="features">
